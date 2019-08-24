@@ -24,6 +24,6 @@
         <property name="hibernate.current_session_context_class">thread</property>
         <!-- 引入ORM 映射文件 填写src之后的路径 -->
         <!-- <mapping resource="com/itheima/a_hello/User.hbm.xml"/>-->
-        <mapping resource="cn/edu/zucc/personplan/model/booklib.hbm.xml"/>
+        <mapping resource="kitchen/model/kitchen.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

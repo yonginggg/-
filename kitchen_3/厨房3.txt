@@ -106,8 +106,8 @@ CREATE TABLE `tbl_order_detail` (
 
 CREATE TABLE `tbl_administrator_information` (
   `administrator_number` int(11) NOT NULL AUTO_INCREMENT COMMENT '员工编号',
-  `administrator_name` int(11) NOT NULL COMMENT '员工姓名',
-  `administrator_password` int(50) NOT NULL COMMENT '密码',
+  `administrator_name` varchar(50) NOT NULL COMMENT '员工姓名',
+  `administrator_password` varchar(50) NOT NULL COMMENT '密码',
   PRIMARY KEY (administrator_number)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -116,8 +116,8 @@ CREATE TABLE `tbl_ingredients_procurement` (
   `ingredients_number` int(11) NOT NULL COMMENT '食材编号',
   `quantity` int(50) NOT NULL COMMENT '数量',
   `procurement_status` varchar(50) NOT NULL COMMENT '状态',
-  PRIMARY KEY (procurement_number),
   `administrator_number` int(11) NOT NULL COMMENT '员工编号',
+  PRIMARY KEY (procurement_number),
   FOREIGN KEY (administrator_number) REFERENCES tbl_administrator_information(administrator_number),
   FOREIGN KEY (ingredients_number) REFERENCES tbl_ingredients_information(ingredients_number)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

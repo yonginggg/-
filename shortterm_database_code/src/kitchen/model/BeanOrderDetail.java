@@ -15,5 +15,43 @@ public class BeanOrderDetail {
 	private double price;
 	private double order_discount;
 	
+	public int getOrder_detail_number() {
+		return order_detail_number;
+	}
+	public void setOrder_detail_number(int order_detail_number) {
+		this.order_detail_number = order_detail_number;
+	}
+	public int getOrder_number() {
+		return order_number;
+	}
+	public void setOrder_number(int order_number) {
+		this.order_number = order_number;
+	}
+	public int getIngredients_number() {
+		return ingredients_number;
+	}
+	public void setIngredients_number(int ingredients_number) {
+		this.ingredients_number = ingredients_number;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public double getOrder_discount() {
+		return order_discount;
+	}
+	public void setOrder_discount(double order_discount) {
+		this.order_discount = order_discount;
+	}
+
+	
 	
 }
