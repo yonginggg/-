@@ -2,6 +2,7 @@ package kitchen.model;
 
 import java.sql.Timestamp;
 public class BeanUser {
+	private String user_id;
 	private int user_number;
 	private String user_name;
 	private String user_sex;
@@ -11,6 +12,12 @@ public class BeanUser {
 	private String user_city;
 	private Timestamp user_register;
 	
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
 	public int getUser_number() {
 		return user_number;
 	}

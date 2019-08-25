@@ -10,6 +10,7 @@
             <generator class="assigned"/>  
         </id>  
         <!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->  
+        <property name="user_id" type="string" column="user_id" />  
         <property name="user_name" type="string" column="user_name" />  
         <property name="user_sex" type="string" column="user_sex" />  
         <property name="user_password" type="string" column="user_password" /> 

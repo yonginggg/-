@@ -1,5 +1,6 @@
 CREATE TABLE `tbl_user_information` (
   `user_number` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户编号',
+  `user_id` varchar(50) NOT NULL COMMENT '用户名',
   `user_name` varchar(50) NOT NULL COMMENT '姓名',
   `user_sex` varchar(50) NOT NULL COMMENT '性别',
   `user_password` varchar(50) NOT NULL COMMENT '密码',
