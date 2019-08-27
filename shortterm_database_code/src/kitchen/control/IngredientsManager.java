@@ -56,9 +56,17 @@ public class IngredientsManager {
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		
 		try {
-					
-			String hql = "delete BeanIngredientsCategory i where i.category_number =:category_number";
+			List <BeanIngredientsInformation> informations = new ArrayList<BeanIngredientsInformation>();
+			String hql="from BeanIngredientsInformation  where category_number=:num";
 			Query query = session.createQuery(hql);
+			query.setInteger("num", ingredientsCategory.getCategory_number());
+			informations = query.getResultList();
+			if(informations!=null && !informations.isEmpty()) {
+				throw new BusinessException("该食材类别下有食材信息存在,无法删除");
+			}
+			
+			hql = "delete BeanIngredientsCategory i where i.category_number =:category_number";
+			query = session.createQuery(hql);
 			query.setInteger("category_number", ingredientsCategory.getCategory_number());
 			query.executeUpdate();
 			

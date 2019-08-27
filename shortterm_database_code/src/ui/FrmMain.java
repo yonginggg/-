@@ -219,10 +219,20 @@ public class FrmMain extends JFrame implements ActionListener {
 			addCategory.setVisible(true);
 			this.reloadCategoryTable();
 		}
-//		if(e.getSource()==this.menuItem_UserManager){
-//			FrmUserManager dlg=new FrmUserManager(this,"用户管理",true);
-//			dlg.setVisible(true);
-//		}
+		if(e.getSource()==this.menuItem_DeleteIngredientsCategories){
+			if (this.curCategory == null) {
+				JOptionPane.showMessageDialog(null, "请选择食材类别", "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			try {
+				IngredientsManager ingredientsManager = new IngredientsManager();
+				ingredientsManager.deleteIngredientsCategory(this.curCategory);
+				this.reloadCategoryTable();
+			} catch (BaseException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		}
 //		else if(e.getSource()==this.menuItem_ReaderTypeManager){
 //			FrmReaderTypeManager dlg=new FrmReaderTypeManager(this,"读者类别管理",true);
 //			dlg.setVisible(true);
