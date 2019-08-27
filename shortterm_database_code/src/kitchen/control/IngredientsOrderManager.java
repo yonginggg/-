@@ -56,4 +56,62 @@ public class IngredientsOrderManager {
 	
 		return ingredientsOrder;
 	}
+	
+	public void changeIngredientsOrderStatus(BeanIngredientsOrder ingredientsOrder, 
+			String newStatus) throws BaseException {
+		// TODO Auto-generated method stub
+		if(newStatus==null || "".equals(newStatus)) throw new BusinessException("新的状态不能为空");
+		
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		BeanIngredientsOrder newOrder = new BeanIngredientsOrder();
+		try {
+			newOrder = session.get(BeanIngredientsOrder.class, ingredientsOrder.getOrder_number());
+			if(newOrder==null) {
+				throw new BusinessException("订单不存在");
+			}
+
+			newOrder.setOrder_status(newStatus);
+			session.update(newOrder);
+			transaction.commit();
+			
+		} catch (SessionException e) {
+			e.printStackTrace();
+			throw new BaseException("修改失败");
+		}
+		finally{
+			if(session!=null)
+				try {
+					session.close();
+				} catch (SessionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
+	
+	public List<BeanIngredientsOrder> loadAll()throws BaseException{
+		List<BeanIngredientsOrder> ingredientsOrders=new ArrayList<BeanIngredientsOrder>();
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		try {
+			String hql ="from BeanIngredientsOrder";
+			org.hibernate.query.Query query = session.createQuery(hql);
+			ingredientsOrders = query.list();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return ingredientsOrders;
+	}
 }

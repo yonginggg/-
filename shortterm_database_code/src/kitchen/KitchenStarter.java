@@ -1,5 +1,7 @@
 package kitchen;
 
+import ui.FrmMain;
+
 public class KitchenStarter {
 
 	/**

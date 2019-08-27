@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 
 import kitchen.model.BeanIngredientsCategory;
 import kitchen.model.BeanIngredientsInformation;
+import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
 import kitchen.util.BusinessException;
 import kitchen.util.HibernateUtil;
@@ -50,7 +51,7 @@ public class IngredientsManager {
 		return ingredientsCategory;
 	}
 	
-	public void deleIngredientsCategory(BeanIngredientsCategory ingredientsCategory) throws BaseException {
+	public void deleteIngredientsCategory(BeanIngredientsCategory ingredientsCategory) throws BaseException {
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		
@@ -109,13 +110,14 @@ public class IngredientsManager {
 		return ingredientsInformation;
 	}
 	
-	public List<BeanIngredientsInformation> loadAll()throws BaseException{
+	public List<BeanIngredientsInformation> loadAllIngredients(BeanIngredientsCategory ingredientsCategory)throws BaseException{
 		List<BeanIngredientsInformation> ingredientsInformations=new ArrayList<BeanIngredientsInformation>();
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
-			String hql ="from BeanIngredientsInformation";
+			String hql ="from BeanIngredientsInformation where category_number=:num";
 			org.hibernate.query.Query query = session.createQuery(hql);
+			query.setInteger("num", ingredientsCategory.getCategory_number());
 			ingredientsInformations = query.list();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -130,5 +132,55 @@ public class IngredientsManager {
 			}
 		}
 		return ingredientsInformations;
+	}
+	
+	public List<BeanIngredientsCategory> loadAllCategory()throws BaseException{
+		List<BeanIngredientsCategory> ingredientsCategories=new ArrayList<BeanIngredientsCategory>();
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			String hql ="from BeanIngredientsCategory";
+			org.hibernate.query.Query query = session.createQuery(hql);
+			ingredientsCategories = query.list();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return ingredientsCategories;
+	}
+	
+	public BeanIngredientsCategory loadCategory(int category_number) throws BaseException{
+		BeanIngredientsCategory ingredientsCategory = new BeanIngredientsCategory();
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			String hql = "from BeanIngredientsCategory where category_number =:num";
+			Query query = session.createQuery(hql);
+			query.setInteger("num", category_number);
+			if(query.uniqueResult()!=null) {
+				ingredientsCategory = (BeanIngredientsCategory) query.uniqueResult();
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return ingredientsCategory;
+		
 	}
 }

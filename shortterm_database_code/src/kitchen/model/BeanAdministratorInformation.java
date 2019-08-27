@@ -4,6 +4,7 @@ public class BeanAdministratorInformation {
 //	  `administrator_number` int(11) NOT NULL AUTO_INCREMENT COMMENT '员工编号',
 //	  `administrator_name` int(11) NOT NULL COMMENT '员工姓名',
 //	  `administrator_password` int(50) NOT NULL COMMENT '密码',
+	public static BeanAdministratorInformation currentAdministrator=null;
 	
 	private int administrator_number;
 	private String administrator_name;

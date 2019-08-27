@@ -1,6 +1,17 @@
 package kitchen.model;
 
 public class BeanIngredientsCategory {
+	public static BeanIngredientsCategory currentCategory = null;
+	public static final String[] tblCategoryTitle = { "类别名称", "类别描述"};
+	public String getCell(int col) {
+		if (col == 0)
+			return getCategory_name();
+		else if (col == 1)
+			return getCategory_description();
+		else
+			return "";
+	}
+	
 	private int category_number;
 	private String category_name;
 	private String category_description;

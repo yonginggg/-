@@ -11,6 +11,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import kitchen.model.BeanRecipeInformation;
+import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
 import kitchen.util.BusinessException;
@@ -82,18 +83,16 @@ public class RecipeManager {
 		}
 	}
 	
-	public BeanRecipeInformation searchRecipe(String recipe_name) throws BaseException {
+	public List<BeanRecipeInformation> searchRecipe(String recipe_name) throws BaseException {
 		Session session = HibernateUtil.getSession();
 		Transaction transaction = session.beginTransaction();
 		
-		BeanRecipeInformation recipeInformation = new BeanRecipeInformation();
+		List<BeanRecipeInformation> recipeInformations = new ArrayList<BeanRecipeInformation>();
 		try {
-			String hql = "from BeanRecipeInformation r where r.recipe_name=:recipe_name";
+			String hql = "from BeanRecipeInformation r where r.recipe_name like '%"+recipe_name+"%'";
 			Query query = session.createQuery(hql);
-			query.setString("recipe_name","%"+recipe_name+"%");
-			if(query.uniqueResult() != null) {
-				recipeInformation = (BeanRecipeInformation)query.uniqueResult();
-			}
+//			query.setString("recipe_name","'%"+recipe_name+"%'");
+			recipeInformations = query.list();
 		}catch (SessionException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -101,10 +100,10 @@ public class RecipeManager {
 			session.close();
 		}
 		
-		return recipeInformation;
+		return recipeInformations;
 	}
 	
-	public List<BeanRecipeInformation> loadAll()throws BaseException{
+	public List<BeanRecipeInformation> loadAllRecipe()throws BaseException{
 		List<BeanRecipeInformation> recipeInformations=new ArrayList<BeanRecipeInformation>();
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -125,5 +124,36 @@ public class RecipeManager {
 			}
 		}
 		return recipeInformations;
+	}
+	
+	public BeanRecipeMaterial addRecipeMaterial(BeanRecipeInformation recipeInformation, 
+			int ingredients_number, int quantity, String unit) throws BaseException {
+
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		BeanRecipeMaterial recipeMaterial = new BeanRecipeMaterial();
+		try {
+			recipeMaterial.setRecipe_number(recipeInformation.getRecipe_number());
+			recipeMaterial.setIngredients_number(ingredients_number);
+			recipeMaterial.setQuantity(quantity);
+			recipeMaterial.setUnit(unit);
+			
+			session.save(recipeMaterial);
+			transaction.commit();
+		}catch (SessionException e) {
+			throw new BusinessException("添加菜谱食材失败");
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+	
+		return recipeMaterial;
 	}
 }

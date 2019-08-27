@@ -1,7 +1,32 @@
 package kitchen.model;
 
 import java.sql.Timestamp;
+
 public class BeanUser {
+	
+	public static BeanUser currentUser = null;
+	public static final String[] tblUserTitle = { "用户id", "用户密码", "用户姓名", "用户性别", "用户手机","用户邮箱", "用户城市","注册时间"};
+	public String getCell(int col) {
+		if (col == 0)
+			return getUser_id();
+		else if (col == 1)
+			return getUser_password();
+		else if (col == 2)
+			return getUser_name();
+		else if(col == 3)
+			return getUser_sex();
+		else if(col == 4)
+			return String.valueOf(getUser_phone_number());
+		else if(col == 5)
+			return getUser_email();
+		else if(col == 6)
+			return getUser_city();
+		else if(col == 7)
+			return String.valueOf(getUser_register());
+		else
+			return "";
+	}
+	
 	private String user_id;
 	private int user_number;
 	private String user_name;

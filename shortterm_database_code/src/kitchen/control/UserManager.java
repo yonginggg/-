@@ -15,6 +15,7 @@ import kitchen.util.BaseException;
 import kitchen.util.BusinessException;
 import kitchen.util.HibernateUtil;
 public class UserManager {
+	public static BeanUser currentUser=null;
 	private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 	public static Session getSession(){
 		Session session = sessionFactory.openSession();
@@ -70,7 +71,7 @@ public class UserManager {
 		
 	}
 	
-	public BeanUser login(String user_id, String user_password) throws BaseException {
+	public static BeanUser login(String user_id, String user_password) throws BaseException {
 		if (user_password==null||"".equals(user_password)) {
 			throw new BusinessException("密码不能为空");
 		}
@@ -199,5 +200,31 @@ public class UserManager {
 			}
 		}
 		return users;
+	}
+	
+	public BeanUser loadUser(String user_id) throws BaseException{
+		BeanUser user = new BeanUser();
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			String hql = "from BeanUser where user_id =:"+user_id;
+			Query query = session.createQuery(hql);
+			if(query.uniqueResult()!=null) {
+				user = (BeanUser) query.uniqueResult();
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return user;
+		
 	}
 }

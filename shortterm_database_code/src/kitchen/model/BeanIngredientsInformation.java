@@ -1,6 +1,24 @@
 package kitchen.model;
 
 public class BeanIngredientsInformation {
+	public static BeanIngredientsInformation currentIngredients = null;
+	public static final String[] tblIngredientsTitle = { "食材编号", "食材名称", "食材价格", "数量", "食材描述", "单位"};
+	public String getCell(int col) {
+		if (col == 0)
+			return String.valueOf(getIngredients_number());
+		else if (col == 1)
+			return getIngredients_name();
+		else if (col == 2)
+			return String.valueOf(getIngredients_price());
+		else if(col == 3)
+			return String.valueOf(getIngredients_quantity());
+		else if(col == 4)
+			return getIngredients_description();
+		else if(col == 5)
+			return getIngredients_specification();
+		else
+			return "";
+	}
 	
 	private int ingredients_number;
 	private String ingredients_name;
