@@ -214,6 +214,11 @@ public class FrmMain extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		if(e.getSource() == this.menuItem_AddIngredientsCategories) {
+			FrmAddCategory addCategory = new FrmAddCategory(this,"添加食材类别",true);
+			addCategory.setVisible(true);
+			this.reloadCategoryTable();
+		}
 //		if(e.getSource()==this.menuItem_UserManager){
 //			FrmUserManager dlg=new FrmUserManager(this,"用户管理",true);
 //			dlg.setVisible(true);
