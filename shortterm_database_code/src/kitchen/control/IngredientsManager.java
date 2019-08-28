@@ -87,7 +87,7 @@ public class IngredientsManager {
 	}
 	
 	public BeanIngredientsInformation addIngredientsInformation(String ingredients_name,double ingredients_price,
-			String ingredients_description, String ingredients_specification, int category_number) throws BaseException {
+			String ingredients_description, String ingredients_specification, BeanIngredientsCategory ingredientsCategory) throws BaseException {
 
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -99,7 +99,7 @@ public class IngredientsManager {
 			ingredientsInformation.setIngredients_quantity(0);
 			ingredientsInformation.setIngredients_description(ingredients_description);
 			ingredientsInformation.setIngredients_specification(ingredients_specification);
-			ingredientsInformation.setCategory_number(category_number);
+			ingredientsInformation.setCategory_number(ingredientsCategory.getCategory_number());
 			session.save(ingredientsInformation);
 			transaction.commit();
 		}catch (SessionException e) {
@@ -117,6 +117,34 @@ public class IngredientsManager {
 	
 		return ingredientsInformation;
 	}
+	
+	public void deleteIngredientsInformation(BeanIngredientsInformation ingredientsInformation) throws BaseException {
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		try {
+			if(ingredientsInformation.getIngredients_quantity()!=0) {
+				throw new BusinessException("该食材还有余量,无法删除");
+			}
+			
+			session.delete(ingredientsInformation);
+			
+			transaction.commit();
+		} catch (SessionException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	
 	public List<BeanIngredientsInformation> loadAllIngredients(BeanIngredientsCategory ingredientsCategory)throws BaseException{
 		List<BeanIngredientsInformation> ingredientsInformations=new ArrayList<BeanIngredientsInformation>();

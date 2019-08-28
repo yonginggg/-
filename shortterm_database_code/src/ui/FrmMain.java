@@ -44,6 +44,7 @@ public class FrmMain extends JFrame implements ActionListener {
 	private JMenuItem menuItem_AddIngredientsCategories = new JMenuItem("添加食材类别");
 	private JMenuItem menuItem_DeleteIngredientsCategories = new JMenuItem("删除食材类别");
 	private JMenuItem menuItem_AddIngredientsInformation = new JMenuItem("增加食材信息");
+	private JMenuItem menuItem_DeleteIngredientsInformation = new JMenuItem("删除食材信息");
 	private JMenuItem menuItem_AddProcurement = new JMenuItem("采购食材");
 
 	private JMenuItem menuItem_AddUser = new JMenuItem("添加用户");
@@ -119,7 +120,7 @@ public class FrmMain extends JFrame implements ActionListener {
 	private void reloadIngredientsTable(int category_number) {// 这是测试数据，需要用实际数替换
 		IngredientsManager ingredientsManager = new IngredientsManager();
 		curCategory = allCategorys.get(category_number);
-
+		
 		try {
 			allIngredients = ingredientsManager.loadAllIngredients(curCategory);
 		} catch (BaseException e) {
@@ -156,6 +157,8 @@ public class FrmMain extends JFrame implements ActionListener {
 			menuItem_DeleteIngredientsCategories.addActionListener(this);
 			menu_Ingredients.add(menuItem_AddIngredientsInformation);
 			menuItem_AddIngredientsInformation.addActionListener(this);
+			menu_Ingredients.add(menuItem_DeleteIngredientsInformation);
+			menuItem_DeleteIngredientsInformation.addActionListener(this);
 			menu_Ingredients.add(menuItem_AddProcurement);
 			menuItem_AddProcurement.addActionListener(this);
 
@@ -233,14 +236,27 @@ public class FrmMain extends JFrame implements ActionListener {
 				return;
 			}
 		}
-//		else if(e.getSource()==this.menuItem_ReaderTypeManager){
-//			FrmReaderTypeManager dlg=new FrmReaderTypeManager(this,"读者类别管理",true);
-//			dlg.setVisible(true);
-//		}
-//		else if(e.getSource()==this.menuItem_ReaderManager){
-//			FrmReaderManager dlg=new FrmReaderManager(this,"读者管理",true);
-//			dlg.setVisible(true);
-//		}
+		else if(e.getSource()==this.menuItem_AddIngredientsInformation){
+			FrmAddIngredientsInformation addIngredients=new FrmAddIngredientsInformation(this,"添加食材信息",true);
+			addIngredients.ingredientsCategory = this.curCategory;
+			addIngredients.setVisible(true);
+			this.reloadIngredientsTable(this.curCategory.getCategory_number()-1);
+		}
+		else if(e.getSource()==this.menuItem_DeleteIngredientsInformation){
+			int i = FrmMain.this.dataTableIngredients.getSelectedRow();
+			if (i < 0) {
+				JOptionPane.showMessageDialog(null, "请选择食材", "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			try {
+				IngredientsManager ingredientsManager = new IngredientsManager();
+				ingredientsManager.deleteIngredientsInformation(this.allIngredients.get(i));
+				this.reloadIngredientsTable(this.curCategory.getCategory_number()-1);
+			} catch (BaseException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		}
 //		else if(e.getSource()==this.menuItem_PublisherManager){
 //			FrmPublisherManager dlg=new FrmPublisherManager(this,"出版社管理",true);
 //			dlg.setVisible(true);

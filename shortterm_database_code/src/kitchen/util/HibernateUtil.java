@@ -81,6 +81,10 @@ public class HibernateUtil {
 //		ingredientsCategory = ingredientsManager.loadCategory(2);
 //		BeanIngredientsInformation information = ingredientsManager.loadAllIngredients(ingredientsCategory).get(0);
 //		System.out.println(information);
+
+		ingredientsCategory.setCategory_number(1);
+		BeanIngredientsInformation ingredientsInformation = ingredientsManager.addIngredientsInformation("2", 2.0, "2", "2", ingredientsCategory);
+		
 	}
 	
 
