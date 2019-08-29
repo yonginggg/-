@@ -126,6 +126,30 @@ public class RecipeManager {
 		return recipeInformations;
 	}
 	
+	public List<BeanRecipeInformation> loadAllRecipe(BeanUser user)throws BaseException{
+		List<BeanRecipeInformation> recipeInformations=new ArrayList<BeanRecipeInformation>();
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			String hql ="from BeanRecipeInformation where user_number=:num";
+			org.hibernate.query.Query query = session.createQuery(hql);
+			query.setInteger("num", user.getUser_number());
+			recipeInformations = query.list();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return recipeInformations;
+	}
+	
 	public BeanRecipeMaterial addRecipeMaterial(BeanRecipeInformation recipeInformation, 
 			int ingredients_number, int quantity, String unit) throws BaseException {
 

@@ -9,6 +9,27 @@ public class BeanRecipeInformation {
 //	  `recipe_collection_number` int(11) NOT NULL COMMENT '收藏数量',
 //	  `recipe_views_number` int(11) NOT NULL COMMENT '浏览次数',
 	
+	public static BeanRecipeInformation currentRecipe= null;
+	public static final String[] tblRecipeTitle = { "类别编号", "菜谱名称", "菜谱描述",
+			"综合评分","收藏数量","浏览次数"};
+	public String getCell(int col) {
+		if (col == 0)
+			return String.valueOf(getRecipe_number());
+		else if (col == 1)
+			return getRecipe_name();
+		else if (col == 2)
+			return getRecipe_description();
+		else if (col == 3)
+			return String.valueOf(getRecipe_overall_rating());
+		else if (col == 4)
+			return String.valueOf(getRecipe_collection_number());
+		else if (col == 5)
+			return String.valueOf(getRecipe_views_number());
+		else
+			return "";
+		
+	}
+	
 	private int recipe_number;
 	private String recipe_name;
 	private int user_number;
