@@ -15,7 +15,7 @@ import kitchen.util.BaseException;
 import kitchen.util.BusinessException;
 import kitchen.util.HibernateUtil;
 public class UserManager {
-	public static BeanUser currentUser=null;
+//	public static BeanUser currentUser=null;
 	private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 	public static Session getSession(){
 		Session session = sessionFactory.openSession();
@@ -226,5 +226,33 @@ public class UserManager {
 		}
 		return user;
 		
+	}
+	
+	public void reloadUserPassword() throws BaseException {
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try{
+			UserManager userManager = new UserManager();
+			List<BeanUser> users = new ArrayList<BeanUser>();
+			users = userManager.loadAll();
+			BeanUser user = new BeanUser();
+			for(int i=0; i<users.size();i++) {
+				user=users.get(i);
+				user.setUser_password("1");
+				session.update(user);
+			}
+			transaction.commit();
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
 	}
 }

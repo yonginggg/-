@@ -32,6 +32,7 @@ import kitchen.util.*;
 
 public class FrmLogin extends JDialog implements ActionListener {
 	static String userType = "用户属性";// 用户/ 管理员
+	static String id="id";
 	
 	private BeanUser user = null;
 	private JPanel toolBar = new JPanel();
@@ -101,17 +102,20 @@ public class FrmLogin extends JDialog implements ActionListener {
 				return;
 			}
 			String userid = this.edtUserId.getText();
+			id = userid;
 			String pwd = this.edtPwd.getText();
 			String usertype = this.cmbUsertype.getSelectedItem().toString();
 			userType = usertype;
 			try {
 				if (usertype == "用户") {
 					BeanUser user = userManager.login(userid, pwd);
-					userManager.currentUser = user;
+//					userManager.currentUser = user;
+					BeanUser.currentUser = user;
 					setVisible(false);
 				} else if (usertype == "管理员") {
 					BeanAdministratorInformation administratorInformation = administratorManager.login(Integer.parseInt(userid), pwd);
-					administratorManager.currentAdministrator = administratorInformation;
+//					administratorManager.currentAdministrator = administratorInformation;
+					BeanAdministratorInformation.currentAdministrator = administratorInformation;
 					setVisible(false);
 				}
 			} catch (BaseException e1) {

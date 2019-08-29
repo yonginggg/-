@@ -6,7 +6,7 @@ public class BeanIngredientsProcurement {
 //	  `quantity` int(50) NOT NULL COMMENT '数量',
 //	  `procurement_status` varchar(50) NOT NULL COMMENT '状态',
 //	  `administrator_number` int(11) NOT NULL COMMENT '员工编号',
-	
+	public static BeanIngredientsProcurement currentProcurement = null;
 	private int procurement_number;
 	private int ingredients_number;
 	private int quantity;

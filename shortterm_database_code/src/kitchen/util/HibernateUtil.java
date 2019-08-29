@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import kitchen.*;
+import kitchen.control.AdministratorManager;
 import kitchen.control.IngredientsManager;
 import kitchen.control.IngredientsOrderManager;
 import kitchen.control.RecipeManager;
@@ -82,9 +83,18 @@ public class HibernateUtil {
 //		BeanIngredientsInformation information = ingredientsManager.loadAllIngredients(ingredientsCategory).get(0);
 //		System.out.println(information);
 
-		ingredientsCategory.setCategory_number(1);
-		BeanIngredientsInformation ingredientsInformation = ingredientsManager.addIngredientsInformation("2", 2.0, "2", "2", ingredientsCategory);
+//		ingredientsCategory.setCategory_number(1);
+//		BeanIngredientsInformation ingredientsInformation = ingredientsManager.addIngredientsInformation("2", 2.0, "2", "2", ingredientsCategory);
 		
+//		ingredientsCategory.setCategory_number(1);
+//		BeanIngredientsInformation information = ingredientsManager.loadAllIngredients(ingredientsCategory).get(0);
+//		ingredientsManager.addBeanIngredientsQuantity(information, 3);
+//		System.out.println(information.getIngredients_quantity());
+		
+//		AdministratorManager administratorManager = new AdministratorManager();
+//		System.out.println(administratorManager.loadAll());
+		
+		userManager.reloadUserPassword();
 	}
 	
 
