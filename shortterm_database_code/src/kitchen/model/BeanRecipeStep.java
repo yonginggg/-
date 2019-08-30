@@ -2,6 +2,19 @@ package kitchen.model;
 
 public class BeanRecipeStep {
 	
+	public static BeanRecipeInformation currentRecipe= null;
+	public static final String[] tblStepsTitle = { "步骤序号", "步骤描述"};
+	public String getCell(int col) {
+		if (col == 0)
+			return String.valueOf(getStep_number());
+		else if (col == 1)
+			return getStep_description();
+		else
+			return "";
+		
+	}
+	
+	
 	private int recipe_step_number;
 	private int recipe_number;
 	private int step_number;

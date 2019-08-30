@@ -12,6 +12,7 @@ import org.hibernate.query.Query;
 
 import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeMaterial;
+import kitchen.model.BeanRecipeStep;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
 import kitchen.util.BusinessException;
@@ -179,5 +180,63 @@ public class RecipeManager {
 		}
 	
 		return recipeMaterial;
+	}
+	
+	public List<BeanRecipeStep> loadAllSteps(BeanRecipeInformation recipeInformation) throws BaseException{
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		List<BeanRecipeStep> steps = new ArrayList<BeanRecipeStep>();
+		try {
+			String hql ="from BeanRecipeStep where recipe_number=:num";
+			Query query = session.createQuery(hql);
+			query.setInteger("num", recipeInformation.getRecipe_number());
+			
+			steps = query.getResultList();
+			transaction.commit();
+			
+		}catch (SessionException e) {
+			throw new BusinessException("查找步骤失败");
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		
+		return steps;
+	}
+	
+	public List<BeanRecipeMaterial> loadAllMaterials(BeanRecipeInformation recipeInformation) throws BaseException{
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		List<BeanRecipeMaterial> materials = new ArrayList<BeanRecipeMaterial>();
+		try {
+			String hql ="from BeanRecipeMaterial where recipe_number=:num";
+			Query query = session.createQuery(hql);
+			query.setInteger("num", recipeInformation.getRecipe_number());
+			
+			materials = query.getResultList();
+			transaction.commit();
+			
+		}catch (SessionException e) {
+			throw new BusinessException("查找步骤失败");
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		
+		return materials;
 	}
 }

@@ -34,6 +34,8 @@ import kitchen.model.BeanAdministratorInformation;
 import kitchen.model.BeanIngredientsCategory;
 import kitchen.model.BeanIngredientsInformation;
 import kitchen.model.BeanRecipeInformation;
+import kitchen.model.BeanRecipeMaterial;
+import kitchen.model.BeanRecipeStep;
 import kitchen.model.BeanUser;
 import kitchen.util.*;
 
@@ -117,6 +119,22 @@ public class FrmMain extends JFrame implements ActionListener {
 	private BeanRecipeInformation curRecipes = null;
 	List<BeanRecipeInformation> allRecipes = null;
 
+//	步骤
+	private Object tblStepsTitle[] = BeanRecipeStep.tblStepsTitle;
+	private Object tblStepsData[][];
+	DefaultTableModel tabStepsModel = new DefaultTableModel();
+	private JTable dataTableSteps = new JTable(tabStepsModel);
+	private BeanRecipeStep curStep = null;
+	List<BeanRecipeStep> allSteps = null;
+	
+//	菜谱用料
+	private Object tblMaterialsTitle[] = BeanRecipeMaterial.tblMaterialsTitle;
+	private Object tblMaterialsData[][];
+	DefaultTableModel tabMaterialsModel = new DefaultTableModel();
+	private JTable dataTableMaterials = new JTable(tabMaterialsModel);
+	private BeanRecipeMaterial curMaterial = null;
+	List<BeanRecipeMaterial> allMaterials = null;
+
 //	刷新用户
 	private void reloadUserTable() {// 这是测试数据，需要用实际数替换
 		UserManager userManager = new UserManager();
@@ -176,7 +194,7 @@ public class FrmMain extends JFrame implements ActionListener {
 		this.dataTableIngredients.repaint();
 	}
 
-//	刷新菜谱信息
+//	刷新菜谱信息-用户
 	private void reloadRecipesTable() {// 这是测试数据，需要用实际数替换
 		RecipeManager recipeManager = new RecipeManager();
 //		curUser = allUsers.get(user_number);
@@ -197,7 +215,49 @@ public class FrmMain extends JFrame implements ActionListener {
 		this.dataTableRecipes.validate();
 		this.dataTableRecipes.repaint();
 	}
+
+//	刷新步骤信息-用户
+	private void reloadStepsTable(int recipe_number) {// 这是测试数据，需要用实际数替换
+		RecipeManager recipeManager = new RecipeManager();
+		curRecipes = allRecipes.get(recipe_number);
+
+		try {
+			allSteps = recipeManager.loadAllSteps(curRecipes);
+		} catch (BaseException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		tblStepsData = new Object[allSteps.size()][BeanRecipeStep.tblStepsTitle.length];
+		for (int i = 0; i < allSteps.size(); i++) {
+			for (int j = 0; j < BeanRecipeStep.tblStepsTitle.length; j++)
+				tblStepsData[i][j] = allSteps.get(i).getCell(j);
+		}
+		tabStepsModel.setDataVector(tblStepsData, tblStepsTitle);
+		this.dataTableSteps.validate();
+		this.dataTableSteps.repaint();
+	}
 	
+//	刷新菜谱用料信息-用户
+	private void reloadMaterialsTable(int recipe_number) {// 这是测试数据，需要用实际数替换
+		RecipeManager recipeManager = new RecipeManager();
+		curRecipes = allRecipes.get(recipe_number);
+
+		try {
+			allMaterials = recipeManager.loadAllMaterials(curRecipes);
+		} catch (BaseException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		tblMaterialsData = new Object[allMaterials.size()][BeanRecipeMaterial.tblMaterialsTitle.length];
+		for (int i = 0; i < allSteps.size(); i++) {
+			for (int j = 0; j < BeanRecipeMaterial.tblMaterialsTitle.length; j++)
+				tblMaterialsData[i][j] = allMaterials.get(i).getCell(j);
+		}
+		tabMaterialsModel.setDataVector(tblMaterialsData, tblMaterialsTitle);
+		this.dataTableMaterials.validate();
+		this.dataTableMaterials.repaint();
+	}
+
 //	主函数
 	public FrmMain() {
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -275,7 +335,7 @@ public class FrmMain extends JFrame implements ActionListener {
 			this.getContentPane().add(paneUser, BorderLayout.WEST);
 //			this.getContentPane().add(new JScrollPane(this.dataTableUser), BorderLayout.WEST);
 
-//			鼠标点击 刷新界面
+//			鼠标点击 刷新界面 用户
 			this.dataTableUser.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -331,7 +391,7 @@ public class FrmMain extends JFrame implements ActionListener {
 			paneRecipe.setPreferredSize(new Dimension(1100, 10));
 			this.getContentPane().add(paneRecipe, BorderLayout.WEST);
 
-//						鼠标点击 刷新界面
+//			鼠标点击 刷新界面 菜谱
 			this.dataTableRecipes.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -339,12 +399,26 @@ public class FrmMain extends JFrame implements ActionListener {
 					if (i < 0) {
 						return;
 					}
-//								FrmMain.this.reloadUserTable();
+					FrmMain.this.reloadStepsTable(i);
+					FrmMain.this.reloadMaterialsTable(i);
 				}
 
 			});
 			this.reloadRecipesTable();
+
+//			步骤
+			JScrollPane paneSteps = new JScrollPane(this.dataTableSteps);
+			paneSteps.setPreferredSize(new Dimension(60, 0));
+			this.getContentPane().add(paneSteps, BorderLayout.CENTER);
+
+//			食材
+			JScrollPane paneMaterial = new JScrollPane(this.dataTableMaterials);
+//			paneMaterial.setPreferredSize(new Dimension(0, 0));
+			this.getContentPane().add(paneMaterial, BorderLayout.EAST);
 			
+//			// 状态栏
+			this.setJMenuBar(menubar);
+
 			statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 			JLabel label = new JLabel("您好!" + FrmLogin.userType);
 			statusBar.add(label);
@@ -356,19 +430,6 @@ public class FrmMain extends JFrame implements ActionListener {
 			});
 			this.setVisible(true);
 		}
-//		// 状态栏
-		this.setJMenuBar(menubar);
-
-//		statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-//		JLabel label = new JLabel("您好!" + FrmLogin.userType);
-//		statusBar.add(label);
-//		this.getContentPane().add(statusBar, BorderLayout.SOUTH);
-//		this.addWindowListener(new WindowAdapter() {
-//			public void windowClosing(WindowEvent e) {
-//				System.exit(0);
-//			}
-//		});
-//		this.setVisible(true);
 
 	}
 
