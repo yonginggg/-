@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+import kitchen.model.BeanRecipeEvaluation;
 import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanRecipeStep;
@@ -225,7 +226,7 @@ public class RecipeManager {
 			transaction.commit();
 			
 		}catch (SessionException e) {
-			throw new BusinessException("查找步骤失败");
+			throw new BusinessException("查找原料失败");
 		}finally {
 			if(session!=null) {
 				try {
@@ -238,5 +239,34 @@ public class RecipeManager {
 		}
 		
 		return materials;
+	}
+	
+	public List<BeanRecipeEvaluation> loadAllEvaluations(BeanRecipeInformation recipeInformation) throws BaseException{
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		List<BeanRecipeEvaluation> evaluations = new ArrayList<BeanRecipeEvaluation>();
+		try {
+			String hql ="from BeanRecipeEvaluation where recipe_number=:num";
+			Query query = session.createQuery(hql);
+			query.setInteger("num", recipeInformation.getRecipe_number());
+			
+			evaluations = query.getResultList();
+			transaction.commit();
+			
+		}catch (SessionException e) {
+			throw new BusinessException("查找评价失败");
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		
+		return evaluations;
 	}
 }

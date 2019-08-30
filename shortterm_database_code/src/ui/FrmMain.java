@@ -33,6 +33,7 @@ import kitchen.control.UserManager;
 import kitchen.model.BeanAdministratorInformation;
 import kitchen.model.BeanIngredientsCategory;
 import kitchen.model.BeanIngredientsInformation;
+import kitchen.model.BeanRecipeEvaluation;
 import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanRecipeStep;
@@ -135,6 +136,14 @@ public class FrmMain extends JFrame implements ActionListener {
 	private BeanRecipeMaterial curMaterial = null;
 	List<BeanRecipeMaterial> allMaterials = null;
 
+//	菜谱评价
+	private Object tblEvaluationsTitle[] = BeanRecipeEvaluation.tblEvaluationsTitle;
+	private Object tblEvaluationsData[][];
+	DefaultTableModel tabEvaluationsModel = new DefaultTableModel();
+	private JTable dataTableEvaluations = new JTable(tabEvaluationsModel);
+	private BeanRecipeEvaluation curEvaluation = null;
+	List<BeanRecipeEvaluation> allEvaluations = null;
+	
 //	刷新用户
 	private void reloadUserTable() {// 这是测试数据，需要用实际数替换
 		UserManager userManager = new UserManager();
@@ -257,7 +266,28 @@ public class FrmMain extends JFrame implements ActionListener {
 		this.dataTableMaterials.validate();
 		this.dataTableMaterials.repaint();
 	}
+	
+//	刷新菜谱评价信息-用户
+	private void reloadEvaluationsTable(int recipe_number) {// 这是测试数据，需要用实际数替换
+		RecipeManager recipeManager = new RecipeManager();
+		curRecipes = allRecipes.get(recipe_number);
 
+		try {
+			allEvaluations = recipeManager.loadAllEvaluations(curRecipes);
+		} catch (BaseException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		tblEvaluationsData = new Object[allEvaluations.size()][BeanRecipeEvaluation.tblEvaluationsTitle.length];
+		for (int i = 0; i < allEvaluations.size(); i++) {
+			for (int j = 0; j < BeanRecipeEvaluation.tblEvaluationsTitle.length; j++)
+				tblEvaluationsData[i][j] = allEvaluations.get(i).getCell(j);
+		}
+		tabEvaluationsModel.setDataVector(tblEvaluationsData, tblEvaluationsTitle);
+		this.dataTableEvaluations.validate();
+		this.dataTableEvaluations.repaint();
+	}
+	
 //	主函数
 	public FrmMain() {
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -401,6 +431,7 @@ public class FrmMain extends JFrame implements ActionListener {
 					}
 					FrmMain.this.reloadStepsTable(i);
 					FrmMain.this.reloadMaterialsTable(i);
+					FrmMain.this.reloadEvaluationsTable(i);
 				}
 
 			});
@@ -416,13 +447,19 @@ public class FrmMain extends JFrame implements ActionListener {
 //			paneMaterial.setPreferredSize(new Dimension(0, 0));
 			this.getContentPane().add(paneMaterial, BorderLayout.EAST);
 			
+//			评价
+			JScrollPane paneEvaluations = new JScrollPane(this.dataTableEvaluations);
+			paneEvaluations.setPreferredSize(new Dimension(1920, 300));
+			this.getContentPane().add(paneEvaluations, BorderLayout.SOUTH);
+			
 //			// 状态栏
 			this.setJMenuBar(menubar);
 
-			statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-			JLabel label = new JLabel("您好!" + FrmLogin.userType);
-			statusBar.add(label);
-			this.getContentPane().add(statusBar, BorderLayout.SOUTH);
+//			statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+//			JLabel label = new JLabel("您好!" + FrmLogin.userType);
+//			statusBar.add(label);
+//			this.getContentPane().add(statusBar, BorderLayout.SOUTH);
+
 			this.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
 					System.exit(0);

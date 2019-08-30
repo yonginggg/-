@@ -9,6 +9,25 @@ public class BeanRecipeEvaluation {
 //	  `evaluation_collection_sign` int(11) NOT NULL COMMENT '收藏标志',
 //	  `evaluation_grade` double NOT NULL COMMENT '评分',
 	
+	public static BeanRecipeEvaluation currentEvaluation = null;
+	public static final String[] tblEvaluationsTitle = { "评价用户编号", "评价内容", "浏览标志",
+			"收藏标志","评分"};
+	public String getCell(int col) {
+		if (col == 0)
+			return String.valueOf(getUser_number());
+		else if (col == 1)
+			return getEvaluation_conten();
+		else if (col == 2)
+			return String.valueOf(getEvaluation_browse_sign());
+		else if(col == 3)
+			return String.valueOf(getEvaluation_collection_sign());
+		else if (col == 4) {
+			return String.valueOf(getEvaluation_grade());
+		}
+		else
+			return "";
+	}
+	
 	private int recipe_evaluation_number;
 	private int recipe_number;
 	private int user_number;
