@@ -1,16 +1,24 @@
 package kitchen.model;
 
+import org.hibernate.Session;
+
+import kitchen.control.IngredientsManager;
+import kitchen.util.BaseException;
+import kitchen.util.HibernateUtil;
+
 public class BeanRecipeMaterial { 
+	Session session = HibernateUtil.getSession();
+	
 	public static BeanIngredientsInformation currentIngredients = null;
-	public static final String[] tblMaterialsTitle = { "食材编号", "数量", "单位"};
+	public static final String[] tblMaterialsTitle = { "食材", "数量", "单位"};
 	public String getCell(int col) {
+		BeanIngredientsInformation information = (BeanIngredientsInformation)session.get(BeanIngredientsInformation.class, getIngredients_number());
 		if (col == 0)
-			return String.valueOf(getIngredients_number());
+			return information.getIngredients_name();
+//			return String.valueOf(getIngredients_number());
 		else if (col == 1)
 			return String.valueOf(getQuantity());
 		else if (col == 2)
-			return getUnit();
-		else if(col == 3)
 			return getUnit();
 		else
 			return "";

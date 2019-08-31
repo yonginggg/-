@@ -258,7 +258,7 @@ public class FrmMain extends JFrame implements ActionListener {
 			return;
 		}
 		tblMaterialsData = new Object[allMaterials.size()][BeanRecipeMaterial.tblMaterialsTitle.length];
-		for (int i = 0; i < allSteps.size(); i++) {
+		for (int i = 0; i < allMaterials.size(); i++) {
 			for (int j = 0; j < BeanRecipeMaterial.tblMaterialsTitle.length; j++)
 				tblMaterialsData[i][j] = allMaterials.get(i).getCell(j);
 		}
@@ -633,7 +633,7 @@ public class FrmMain extends JFrame implements ActionListener {
 		}
 //		添加步骤
 		else if (e.getSource() == this.menuItem_AddStep) {
-			FrmAddStep addStep = new FrmAddStep(this, "添加食材信息", true);
+			FrmAddStep addStep = new FrmAddStep(this, "添加步骤信息", true);
 			addStep.curRecipe = this.curRecipes;
 			addStep.setVisible(true);
 			this.reloadStepsTable(this.curRecipes.getRecipe_number()-1);
@@ -653,6 +653,13 @@ public class FrmMain extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+		}
+//		添加菜谱用料
+		else if (e.getSource() == this.menuItem_AddMaterial) {
+			FrmAddMaterial addMaterial = new FrmAddMaterial(this, "添加食材信息", true);
+			addMaterial.curRecipe = this.curRecipes;
+			addMaterial.setVisible(true);
+			this.reloadMaterialsTable(this.curRecipes.getRecipe_number()-1);
 		}
 	}
 }

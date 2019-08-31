@@ -16,6 +16,7 @@ import kitchen.model.BeanIngredientsCategory;
 import kitchen.model.BeanIngredientsInformation;
 import kitchen.model.BeanIngredientsOrder;
 import kitchen.model.BeanRecipeInformation;
+import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanUser;
 
 
@@ -99,6 +100,20 @@ public class HibernateUtil {
 //		BeanRecipeInformation recipeInformation =recipeManager.searchRecipe("炒蛋").get(0);
 ////		System.out.println(recipeInformation.getRecipe_name());
 //		recipeManager.addRecipeStep(recipeInformation, 2, "2");
+		
+//		List<String> ingredientsInformations = new IngredientsManager().loadAllIngredients();
+////		String[] ingredientName =(String[])ingredientsInformations.toArray(new String[ingredientsInformations.size()]);
+//		String[] ingredientName =ingredientsInformations.toArray(new String[ingredientsInformations.size()]);
+//		System.out.println(ingredientName);
+		
+		BeanIngredientsInformation information = new IngredientsManager().loadIngredient("1");
+//		System.out.println(information.getIngredients_number());
+//		BeanRecipeInformation recipeInformation = recipeManager.loadAllRecipe().get(0);
+//		System.out.println(recipeInformation.getRecipe_number());
+//		recipeManager.addRecipeMaterial(recipeInformation, information.getIngredients_number(), 2, "2");
+		
+		BeanIngredientsInformation information2 = (BeanIngredientsInformation)session.get(BeanIngredientsInformation.class, information.getIngredients_number());
+		System.out.println(information2.getIngredients_name());
 	}
 	
 

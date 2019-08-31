@@ -178,6 +178,7 @@ public class RecipeManager {
 		return recipeMaterial;
 	}
 
+	
 	public List<BeanRecipeMaterial> loadAllMaterials(BeanRecipeInformation recipeInformation) throws BaseException{
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();

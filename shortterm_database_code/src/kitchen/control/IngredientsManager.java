@@ -18,7 +18,7 @@ import kitchen.util.BusinessException;
 import kitchen.util.HibernateUtil;
 
 public class IngredientsManager {
-	
+
 	private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
 	public static Session getSession() {
@@ -92,7 +92,80 @@ public class IngredientsManager {
 		}
 	}
 
-//	添加食材信息
+	public BeanIngredientsCategory changIngredientsCategory(BeanIngredientsCategory ingredientsCategory,
+			String newDescription) {
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			ingredientsCategory.setCategory_description(newDescription);
+			session.update(ingredientsCategory);
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return ingredientsCategory;
+	}
+
+	public BeanIngredientsCategory loadCategory(int category_number) throws BaseException {
+		BeanIngredientsCategory ingredientsCategory = new BeanIngredientsCategory();
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			String hql = "from BeanIngredientsCategory where category_number =:num";
+			Query query = session.createQuery(hql);
+			query.setInteger("num", category_number);
+			if (query.uniqueResult() != null) {
+				ingredientsCategory = (BeanIngredientsCategory) query.uniqueResult();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return ingredientsCategory;
+
+	}
+
+	public List<BeanIngredientsCategory> loadAllCategory() throws BaseException {
+		List<BeanIngredientsCategory> ingredientsCategories = new ArrayList<BeanIngredientsCategory>();
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			String hql = "from BeanIngredientsCategory";
+			org.hibernate.query.Query query = session.createQuery(hql);
+			ingredientsCategories = query.list();
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return ingredientsCategories;
+	}
+
+	// 添加食材信息
 	public BeanIngredientsInformation addIngredientsInformation(String ingredients_name, double ingredients_price,
 			String ingredients_description, String ingredients_specification,
 			BeanIngredientsCategory ingredientsCategory) throws BaseException {
@@ -153,17 +226,41 @@ public class IngredientsManager {
 		}
 	}
 
-	public List<BeanIngredientsInformation> loadAllIngredients(BeanIngredientsCategory ingredientsCategory)
-			throws BaseException {
-		List<BeanIngredientsInformation> ingredientsInformations = new ArrayList<BeanIngredientsInformation>();
+	public BeanIngredientsInformation changIngredients(BeanIngredientsInformation information, String newDescription) {
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
-			String hql = "from BeanIngredientsInformation where category_number=:num";
+			information.setIngredients_description(newDescription);
+			session.update(information);
+			transaction.commit();
+		} catch (SessionException e) {
+			// TODO: handle exception
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return information;
+	}
+
+//	通过名字找食材
+	public BeanIngredientsInformation loadIngredient(String name) throws BaseException {
+		BeanIngredientsInformation ingredientsInformations = new BeanIngredientsInformation();
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			String hql = "from BeanIngredientsInformation where ingredients_name=:name";
 			org.hibernate.query.Query query = session.createQuery(hql);
-			query.setInteger("num", ingredientsCategory.getCategory_number());
-			ingredientsInformations = query.list();
-		} catch (Exception e) {
+			query.setString("name", name);
+			if (query.uniqueResult() != null) {
+				ingredientsInformations = (BeanIngredientsInformation) query.uniqueResult();
+			}
+		} catch (SessionException e) {
 			// TODO: handle exception
 		} finally {
 			if (session != null) {
@@ -178,15 +275,19 @@ public class IngredientsManager {
 		return ingredientsInformations;
 	}
 
-	public List<BeanIngredientsCategory> loadAllCategory() throws BaseException {
-		List<BeanIngredientsCategory> ingredientsCategories = new ArrayList<BeanIngredientsCategory>();
+//	通过编号找食材
+	public BeanIngredientsInformation loadIngredient(int number) throws BaseException {
+		BeanIngredientsInformation ingredientsInformations = new BeanIngredientsInformation();
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
-			String hql = "from BeanIngredientsCategory";
+			String hql = "from BeanIngredientsInformation where ingredients_number=:number";
 			org.hibernate.query.Query query = session.createQuery(hql);
-			ingredientsCategories = query.list();
-		} catch (Exception e) {
+			query.setInteger("number", number);
+			if (query.uniqueResult() != null) {
+				ingredientsInformations = (BeanIngredientsInformation) query.uniqueResult();
+			}
+		} catch (SessionException e) {
 			// TODO: handle exception
 		} finally {
 			if (session != null) {
@@ -198,21 +299,18 @@ public class IngredientsManager {
 				}
 			}
 		}
-		return ingredientsCategories;
+		return ingredientsInformations;
 	}
 
-	public BeanIngredientsCategory loadCategory(int category_number) throws BaseException {
-		BeanIngredientsCategory ingredientsCategory = new BeanIngredientsCategory();
+	public List<String> loadAllIngredientsName() {
+		List<String> ingredientsInformations = new ArrayList<String>();
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
-			String hql = "from BeanIngredientsCategory where category_number =:num";
-			Query query = session.createQuery(hql);
-			query.setInteger("num", category_number);
-			if (query.uniqueResult() != null) {
-				ingredientsCategory = (BeanIngredientsCategory) query.uniqueResult();
-			}
-		} catch (Exception e) {
+			String hql = "select ingredients_name from BeanIngredientsInformation";
+			org.hibernate.query.Query query = session.createQuery(hql);
+			ingredientsInformations = query.list();
+		} catch (SessionException e) {
 			// TODO: handle exception
 		} finally {
 			if (session != null) {
@@ -224,8 +322,32 @@ public class IngredientsManager {
 				}
 			}
 		}
-		return ingredientsCategory;
+		return ingredientsInformations;
+	}
 
+	public List<BeanIngredientsInformation> loadAllIngredients(BeanIngredientsCategory ingredientsCategory)
+			throws BaseException {
+		List<BeanIngredientsInformation> ingredientsInformations = new ArrayList<BeanIngredientsInformation>();
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			String hql = "from BeanIngredientsInformation where category_number=:num";
+			org.hibernate.query.Query query = session.createQuery(hql);
+			query.setInteger("num", ingredientsCategory.getCategory_number());
+			ingredientsInformations = query.list();
+		} catch (SessionException e) {
+			// TODO: handle exception
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return ingredientsInformations;
 	}
 
 	public BeanIngredientsInformation addBeanIngredientsQuantity(BeanIngredientsInformation ingredientsInformation,
@@ -237,7 +359,7 @@ public class IngredientsManager {
 			ingredientsInformation.setIngredients_quantity(quantity);
 			session.saveOrUpdate(ingredientsInformation);
 			transaction.commit();
-		} catch (Exception e) {
+		} catch (SessionException e) {
 			// TODO: handle exception
 		} finally {
 			if (session != null) {
@@ -250,51 +372,5 @@ public class IngredientsManager {
 			}
 		}
 		return ingredientsInformation;
-	}
-	
-	public BeanIngredientsCategory changIngredientsCategory(BeanIngredientsCategory ingredientsCategory,
-			String newDescription) {
-		Session session = HibernateUtil.getSession();
-		org.hibernate.Transaction transaction = session.beginTransaction();
-		try {
-			ingredientsCategory.setCategory_description(newDescription);
-			session.update(ingredientsCategory);
-			transaction.commit();
-		} catch (Exception e) {
-			// TODO: handle exception
-		} finally {
-			if (session != null) {
-				try {
-					session.close();
-				} catch (Exception e2) {
-					// TODO: handle exception
-					e2.printStackTrace();
-				}
-			}
-		}
-		return ingredientsCategory;
-	}
-	
-	public BeanIngredientsInformation changIngredients(BeanIngredientsInformation information,
-			String newDescription) {
-		Session session = HibernateUtil.getSession();
-		org.hibernate.Transaction transaction = session.beginTransaction();
-		try {
-			information.setIngredients_description(newDescription);
-			session.update(information);
-			transaction.commit();
-		} catch (Exception e) {
-			// TODO: handle exception
-		} finally {
-			if (session != null) {
-				try {
-					session.close();
-				} catch (Exception e2) {
-					// TODO: handle exception
-					e2.printStackTrace();
-				}
-			}
-		}
-		return information;
 	}
 }
