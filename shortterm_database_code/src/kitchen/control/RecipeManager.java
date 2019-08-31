@@ -63,12 +63,7 @@ public class RecipeManager {
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
-					
-			String hql = "delete BeanRecipeInformation r where r.recipe_number =:recipe_number";
-			Query query = session.createQuery(hql);
-			query.setInteger("recipe_number", recipeInformation.getRecipe_number());
-			query.executeUpdate();
-			
+			session.delete(recipeInformation);
 			transaction.commit();
 		} catch (SessionException e) {
 			// TODO: handle exception
@@ -212,6 +207,57 @@ public class RecipeManager {
 		return materials;
 	}
 
+	public BeanRecipeStep addRecipeStep(BeanRecipeInformation recipeInformation,
+			int step_number, String description) throws BaseException {
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		BeanRecipeStep step = new BeanRecipeStep();
+		try {
+			step.setRecipe_number(recipeInformation.getRecipe_number());
+			step.setStep_number(step_number);
+			step.setStep_description(description);
+			
+			session.save(step);
+			transaction.commit();
+		}catch (SessionException e) {
+			throw new BusinessException("添加菜谱步骤失败");
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+	
+		return step;
+		
+	}
+
+	public void deleteStep(BeanRecipeStep step) throws BaseException {
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			session.delete(step);
+			transaction.commit();
+		} catch (SessionException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+	} 
+	
 	public List<BeanRecipeStep> loadAllSteps(BeanRecipeInformation recipeInformation) throws BaseException{
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -268,35 +314,5 @@ public class RecipeManager {
 		}
 		
 		return evaluations;
-	}
-	
-	public BeanRecipeStep addRecipeStep(BeanRecipeInformation recipeInformation,
-			int step_number, String description) throws BaseException {
-		Session session = HibernateUtil.getSession();
-		org.hibernate.Transaction transaction = session.beginTransaction();
-		
-		BeanRecipeStep step = new BeanRecipeStep();
-		try {
-			step.setRecipe_number(recipeInformation.getRecipe_number());
-			step.setStep_number(step_number);
-			step.setStep_description(description);
-			
-			session.save(step);
-			transaction.commit();
-		}catch (SessionException e) {
-			throw new BusinessException("添加菜谱步骤失败");
-		}finally {
-			if(session!=null) {
-				try {
-					session.close();
-				} catch (Exception e2) {
-					// TODO: handle exception
-					e2.printStackTrace();
-				}
-			}
-		}
-	
-		return step;
-		
 	}
 }

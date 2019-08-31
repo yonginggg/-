@@ -638,6 +638,21 @@ public class FrmMain extends JFrame implements ActionListener {
 			addStep.setVisible(true);
 			this.reloadStepsTable(this.curRecipes.getRecipe_number()-1);
 		}
-		
+//		删除步骤
+		else if (e.getSource() == this.menuItem_DeleteStep) {
+			int i = FrmMain.this.dataTableSteps.getSelectedRow();
+			if (i < 0) {
+				JOptionPane.showMessageDialog(null, "请选择步骤", "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			try {
+				RecipeManager recipeManager = new RecipeManager();
+				recipeManager.deleteStep(this.allSteps.get(i));
+				this.reloadStepsTable(this.curRecipes.getRecipe_number() - 1);
+			} catch (BaseException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		}
 	}
 }

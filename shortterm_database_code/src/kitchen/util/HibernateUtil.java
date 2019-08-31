@@ -96,9 +96,9 @@ public class HibernateUtil {
 		
 //		userManager.reloadUserPassword();
 		
-		BeanRecipeInformation recipeInformation =recipeManager.searchRecipe("炒蛋").get(0);
-//		System.out.println(recipeInformation.getRecipe_name());
-		recipeManager.addRecipeStep(recipeInformation, 2, "2")
+//		BeanRecipeInformation recipeInformation =recipeManager.searchRecipe("炒蛋").get(0);
+////		System.out.println(recipeInformation.getRecipe_name());
+//		recipeManager.addRecipeStep(recipeInformation, 2, "2");
 	}
 	
 

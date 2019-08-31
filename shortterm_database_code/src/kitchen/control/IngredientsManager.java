@@ -71,11 +71,11 @@ public class IngredientsManager {
 				throw new BusinessException("该食材类别下有食材信息存在,无法删除");
 			}
 
-			hql = "delete BeanIngredientsCategory i where i.category_number =:category_number";
-			query = session.createQuery(hql);
-			query.setInteger("category_number", ingredientsCategory.getCategory_number());
-			query.executeUpdate();
-
+//			hql = "delete BeanIngredientsCategory i where i.category_number =:category_number";
+//			query = session.createQuery(hql);
+//			query.setInteger("category_number", ingredientsCategory.getCategory_number());
+//			query.executeUpdate();
+			session.delete(informations);
 			transaction.commit();
 		} catch (SessionException e) {
 			// TODO: handle exception

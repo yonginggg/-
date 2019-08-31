@@ -158,11 +158,11 @@ public class UserManager {
 		
 		try {
 			//删除语句
-			String hql = "delete BeanUser u where u.user_id =:user_id";
-			org.hibernate.query.Query query = session.createQuery(hql);
-			query.setString("user_id", user.getUser_id());
-			query.executeUpdate();
-			
+//			String hql = "delete BeanUser u where u.user_id =:user_id";
+//			org.hibernate.query.Query query = session.createQuery(hql);
+//			query.setString("user_id", user.getUser_id());
+//			query.executeUpdate();
+			session.delete(user);
 			transaction.commit();
 		} catch (SessionException e) {
 			// TODO: handle exception
