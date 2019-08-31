@@ -82,6 +82,14 @@ public class FrmMain extends JFrame implements ActionListener {
 	private JMenuItem menuItem_AddMaterial = new JMenuItem("添加食材");
 	private JMenuItem menuItem_DeleteMaterial = new JMenuItem("删除食材");
 
+	private JMenuItem menuItem_changePwd = new JMenuItem("修改密码");
+
+	private JMenuItem menuItem_allRecipe = new JMenuItem("查看所有菜谱");
+
+	private JMenuItem menuItem_OrderStatic = new JMenuItem("订单统计");
+//	private JMenuItem menuItem_allRecipe = new JMenuItem("查看所有菜谱");
+//	private JMenuItem menuItem_allRecipe = new JMenuItem("查看所有菜谱");
+
 //	登录界面
 	private FrmLogin dlgLogin = null;
 
@@ -127,7 +135,7 @@ public class FrmMain extends JFrame implements ActionListener {
 	private JTable dataTableSteps = new JTable(tabStepsModel);
 	private BeanRecipeStep curStep = null;
 	List<BeanRecipeStep> allSteps = null;
-	
+
 //	菜谱用料
 	private Object tblMaterialsTitle[] = BeanRecipeMaterial.tblMaterialsTitle;
 	private Object tblMaterialsData[][];
@@ -143,7 +151,7 @@ public class FrmMain extends JFrame implements ActionListener {
 	private JTable dataTableEvaluations = new JTable(tabEvaluationsModel);
 	private BeanRecipeEvaluation curEvaluation = null;
 	List<BeanRecipeEvaluation> allEvaluations = null;
-	
+
 //	刷新用户
 	private void reloadUserTable() {// 这是测试数据，需要用实际数替换
 		UserManager userManager = new UserManager();
@@ -245,7 +253,7 @@ public class FrmMain extends JFrame implements ActionListener {
 		this.dataTableSteps.validate();
 		this.dataTableSteps.repaint();
 	}
-	
+
 //	刷新菜谱用料信息-用户
 	private void reloadMaterialsTable(int recipe_number) {// 这是测试数据，需要用实际数替换
 		RecipeManager recipeManager = new RecipeManager();
@@ -266,7 +274,7 @@ public class FrmMain extends JFrame implements ActionListener {
 		this.dataTableMaterials.validate();
 		this.dataTableMaterials.repaint();
 	}
-	
+
 //	刷新菜谱评价信息-用户
 	private void reloadEvaluationsTable(int recipe_number) {// 这是测试数据，需要用实际数替换
 		RecipeManager recipeManager = new RecipeManager();
@@ -287,7 +295,7 @@ public class FrmMain extends JFrame implements ActionListener {
 		this.dataTableEvaluations.validate();
 		this.dataTableEvaluations.repaint();
 	}
-	
+
 //	主函数
 	public FrmMain() {
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -352,9 +360,21 @@ public class FrmMain extends JFrame implements ActionListener {
 			menu_Material.add(menuItem_DeleteMaterial);
 			menuItem_DeleteMaterial.addActionListener(this);
 
+			menu_Information.add(menuItem_changePwd);
+			menuItem_changePwd.addActionListener(this);
+
+			menu_AllRecipe.add(menuItem_allRecipe);
+			menuItem_allRecipe.addActionListener(this);
+
+			menu_Order.add(menuItem_OrderStatic);
+			menuItem_OrderStatic.addActionListener(this);
+
+			menubar.add(menu_Information);
 			menubar.add(menu_Recipe);
 			menubar.add(menu_Step);
 			menubar.add(menu_Material);
+			menubar.add(menu_Order);
+			menubar.add(menu_AllRecipe);
 		}
 
 //		管理员界面 布局
@@ -446,12 +466,12 @@ public class FrmMain extends JFrame implements ActionListener {
 			JScrollPane paneMaterial = new JScrollPane(this.dataTableMaterials);
 //			paneMaterial.setPreferredSize(new Dimension(0, 0));
 			this.getContentPane().add(paneMaterial, BorderLayout.EAST);
-			
+
 //			评价
 			JScrollPane paneEvaluations = new JScrollPane(this.dataTableEvaluations);
 			paneEvaluations.setPreferredSize(new Dimension(1920, 300));
 			this.getContentPane().add(paneEvaluations, BorderLayout.SOUTH);
-			
+
 //			// 状态栏
 			this.setJMenuBar(menubar);
 
@@ -608,7 +628,7 @@ public class FrmMain extends JFrame implements ActionListener {
 			changeIngredients.setVisible(true);
 			this.reloadIngredientsTable(this.curCategory.getCategory_number() - 1);
 		}
-		
+
 //		新建菜谱
 		else if (e.getSource() == this.menuItem_AddRecipe) {
 			FrmAddRecipe addRecipe = new FrmAddRecipe(this, "添加菜谱", true);
@@ -636,7 +656,7 @@ public class FrmMain extends JFrame implements ActionListener {
 			FrmAddStep addStep = new FrmAddStep(this, "添加步骤信息", true);
 			addStep.curRecipe = this.curRecipes;
 			addStep.setVisible(true);
-			this.reloadStepsTable(this.curRecipes.getRecipe_number()-1);
+			this.reloadStepsTable(this.curRecipes.getRecipe_number() - 1);
 		}
 //		删除步骤
 		else if (e.getSource() == this.menuItem_DeleteStep) {
@@ -659,9 +679,9 @@ public class FrmMain extends JFrame implements ActionListener {
 			FrmAddMaterial addMaterial = new FrmAddMaterial(this, "添加食材信息", true);
 			addMaterial.curRecipe = this.curRecipes;
 			addMaterial.setVisible(true);
-			this.reloadMaterialsTable(this.curRecipes.getRecipe_number()-1);
+			this.reloadMaterialsTable(this.curRecipes.getRecipe_number() - 1);
 		}
-		
+
 //		删除菜谱用料
 		else if (e.getSource() == this.menuItem_DeleteMaterial) {
 			int i = FrmMain.this.dataTableMaterials.getSelectedRow();
@@ -677,6 +697,19 @@ public class FrmMain extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+		}
+//		修改用户个人信息
+		else if (e.getSource() == this.menuItem_changePwd) {
+			FrmChangeUserPwd changePwd = new FrmChangeUserPwd(this, "修改密码", true);
+			changePwd.currentUser = BeanUser.currentUser;
+			
+			changePwd.setVisible(true);
+		}
+
+//		查看所有菜谱
+		else if (e.getSource() == this.menuItem_allRecipe) {
+			FrmAllRecipe allRecipe = new FrmAllRecipe(this, "所有菜谱", true);
+			allRecipe.setVisible(true);
 		}
 	}
 }
