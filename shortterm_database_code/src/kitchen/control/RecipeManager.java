@@ -177,7 +177,27 @@ public class RecipeManager {
 	
 		return recipeMaterial;
 	}
-
+	
+	public void deleteMaterial(BeanRecipeMaterial material) throws BaseException {
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			session.delete(material);
+			transaction.commit();
+		} catch (SessionException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+	} 
 	
 	public List<BeanRecipeMaterial> loadAllMaterials(BeanRecipeInformation recipeInformation) throws BaseException{
 		Session session = HibernateUtil.getSession();

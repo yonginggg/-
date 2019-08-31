@@ -661,5 +661,22 @@ public class FrmMain extends JFrame implements ActionListener {
 			addMaterial.setVisible(true);
 			this.reloadMaterialsTable(this.curRecipes.getRecipe_number()-1);
 		}
+		
+//		删除菜谱用料
+		else if (e.getSource() == this.menuItem_DeleteMaterial) {
+			int i = FrmMain.this.dataTableMaterials.getSelectedRow();
+			if (i < 0) {
+				JOptionPane.showMessageDialog(null, "请选择食材", "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			try {
+				RecipeManager recipeManager = new RecipeManager();
+				recipeManager.deleteMaterial(this.allMaterials.get(i));
+				this.reloadMaterialsTable(this.curRecipes.getRecipe_number() - 1);
+			} catch (BaseException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		}
 	}
 }
