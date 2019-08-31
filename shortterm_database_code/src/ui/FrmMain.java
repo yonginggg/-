@@ -583,7 +583,7 @@ public class FrmMain extends JFrame implements ActionListener {
 			changeAdminPwd.currentAdministrator = BeanAdministratorInformation.currentAdministrator;
 			changeAdminPwd.setVisible(true);
 		}
-		// 修改食材类别描述
+//		修改食材类别描述
 		else if (e.getSource() == this.menuItem_ChangeIngredientsCategories) {
 			int i = FrmMain.this.dataTableCategory.getSelectedRow();
 			if (i < 0) {
@@ -608,5 +608,36 @@ public class FrmMain extends JFrame implements ActionListener {
 			changeIngredients.setVisible(true);
 			this.reloadIngredientsTable(this.curCategory.getCategory_number() - 1);
 		}
+		
+//		新建菜谱
+		else if (e.getSource() == this.menuItem_AddRecipe) {
+			FrmAddRecipe addRecipe = new FrmAddRecipe(this, "添加菜谱", true);
+			addRecipe.setVisible(true);
+			this.reloadRecipesTable();
+		}
+//		删除菜谱
+		else if (e.getSource() == this.menuItem_DeleteRecipe) {
+			int i = FrmMain.this.dataTableRecipes.getSelectedRow();
+			if (i < 0) {
+				JOptionPane.showMessageDialog(null, "请选择菜谱", "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			try {
+				RecipeManager recipeManager = new RecipeManager();
+				recipeManager.deleRecipe(this.allRecipes.get(i));
+				this.reloadRecipesTable();
+			} catch (BaseException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		}
+//		添加步骤
+		else if (e.getSource() == this.menuItem_AddStep) {
+			FrmAddStep addStep = new FrmAddStep(this, "添加食材信息", true);
+			addStep.curRecipe = this.curRecipes;
+			addStep.setVisible(true);
+			this.reloadStepsTable(this.curRecipes.getRecipe_number()-1);
+		}
+		
 	}
 }

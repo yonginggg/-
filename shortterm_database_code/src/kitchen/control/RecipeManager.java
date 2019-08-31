@@ -84,27 +84,7 @@ public class RecipeManager {
 			}
 		}
 	}
-	
-	public List<BeanRecipeInformation> searchRecipe(String recipe_name) throws BaseException {
-		Session session = HibernateUtil.getSession();
-		Transaction transaction = session.beginTransaction();
-		
-		List<BeanRecipeInformation> recipeInformations = new ArrayList<BeanRecipeInformation>();
-		try {
-			String hql = "from BeanRecipeInformation r where r.recipe_name like '%"+recipe_name+"%'";
-			Query query = session.createQuery(hql);
-//			query.setString("recipe_name","'%"+recipe_name+"%'");
-			recipeInformations = query.list();
-		}catch (SessionException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		
-		return recipeInformations;
-	}
-	
+
 	public List<BeanRecipeInformation> loadAllRecipe()throws BaseException{
 		List<BeanRecipeInformation> recipeInformations=new ArrayList<BeanRecipeInformation>();
 		Session session = HibernateUtil.getSession();
@@ -127,7 +107,7 @@ public class RecipeManager {
 		}
 		return recipeInformations;
 	}
-	
+
 	public List<BeanRecipeInformation> loadAllRecipe(BeanUser user)throws BaseException{
 		List<BeanRecipeInformation> recipeInformations=new ArrayList<BeanRecipeInformation>();
 		Session session = HibernateUtil.getSession();
@@ -151,10 +131,30 @@ public class RecipeManager {
 		}
 		return recipeInformations;
 	}
-	
+
+	public List<BeanRecipeInformation> searchRecipe(String recipe_name) throws BaseException {
+			Session session = HibernateUtil.getSession();
+			Transaction transaction = session.beginTransaction();
+			
+			List<BeanRecipeInformation> recipeInformations = new ArrayList<BeanRecipeInformation>();
+			try {
+				String hql = "from BeanRecipeInformation r where r.recipe_name like '%"+recipe_name+"%'";
+				Query query = session.createQuery(hql);
+	//			query.setString("recipe_name","'%"+recipe_name+"%'");
+				recipeInformations = query.list();
+			}catch (SessionException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			} finally {
+				session.close();
+			}
+			
+			return recipeInformations;
+		}
+
 	public BeanRecipeMaterial addRecipeMaterial(BeanRecipeInformation recipeInformation, 
 			int ingredients_number, int quantity, String unit) throws BaseException {
-
+	
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		
@@ -182,7 +182,36 @@ public class RecipeManager {
 	
 		return recipeMaterial;
 	}
-	
+
+	public List<BeanRecipeMaterial> loadAllMaterials(BeanRecipeInformation recipeInformation) throws BaseException{
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		List<BeanRecipeMaterial> materials = new ArrayList<BeanRecipeMaterial>();
+		try {
+			String hql ="from BeanRecipeMaterial where recipe_number=:num";
+			Query query = session.createQuery(hql);
+			query.setInteger("num", recipeInformation.getRecipe_number());
+			
+			materials = query.getResultList();
+			transaction.commit();
+			
+		}catch (SessionException e) {
+			throw new BusinessException("查找原料失败");
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		
+		return materials;
+	}
+
 	public List<BeanRecipeStep> loadAllSteps(BeanRecipeInformation recipeInformation) throws BaseException{
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -212,35 +241,6 @@ public class RecipeManager {
 		return steps;
 	}
 	
-	public List<BeanRecipeMaterial> loadAllMaterials(BeanRecipeInformation recipeInformation) throws BaseException{
-		Session session = HibernateUtil.getSession();
-		org.hibernate.Transaction transaction = session.beginTransaction();
-		
-		List<BeanRecipeMaterial> materials = new ArrayList<BeanRecipeMaterial>();
-		try {
-			String hql ="from BeanRecipeMaterial where recipe_number=:num";
-			Query query = session.createQuery(hql);
-			query.setInteger("num", recipeInformation.getRecipe_number());
-			
-			materials = query.getResultList();
-			transaction.commit();
-			
-		}catch (SessionException e) {
-			throw new BusinessException("查找原料失败");
-		}finally {
-			if(session!=null) {
-				try {
-					session.close();
-				} catch (Exception e2) {
-					// TODO: handle exception
-					e2.printStackTrace();
-				}
-			}
-		}
-		
-		return materials;
-	}
-	
 	public List<BeanRecipeEvaluation> loadAllEvaluations(BeanRecipeInformation recipeInformation) throws BaseException{
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -268,5 +268,35 @@ public class RecipeManager {
 		}
 		
 		return evaluations;
+	}
+	
+	public BeanRecipeStep addRecipeStep(BeanRecipeInformation recipeInformation,
+			int step_number, String description) throws BaseException {
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		BeanRecipeStep step = new BeanRecipeStep();
+		try {
+			step.setRecipe_number(recipeInformation.getRecipe_number());
+			step.setStep_number(step_number);
+			step.setStep_description(description);
+			
+			session.save(step);
+			transaction.commit();
+		}catch (SessionException e) {
+			throw new BusinessException("添加菜谱步骤失败");
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+	
+		return step;
+		
 	}
 }

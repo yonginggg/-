@@ -94,7 +94,11 @@ public class HibernateUtil {
 //		AdministratorManager administratorManager = new AdministratorManager();
 //		System.out.println(administratorManager.loadAll());
 		
-		userManager.reloadUserPassword();
+//		userManager.reloadUserPassword();
+		
+		BeanRecipeInformation recipeInformation =recipeManager.searchRecipe("炒蛋").get(0);
+//		System.out.println(recipeInformation.getRecipe_name());
+		recipeManager.addRecipeStep(recipeInformation, 2, "2")
 	}
 	
 
