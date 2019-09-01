@@ -87,9 +87,9 @@ public class FrmOrderStatic extends JFrame implements ActionListener {
 	}
 
 //	刷新订单详情
-	private void reloadDetailsTable(int recipe_number) {// 这是测试数据，需要用实际数替换
+	private void reloadDetailsTable(int order_number) {// 这是测试数据，需要用实际数替换
 		IngredientsOrderManager orderManager = new IngredientsOrderManager();
-
+		curOrder = allOrders.get(order_number);
 		try {
 			allDetails = orderManager.loadAllDetails(curOrder);
 		} catch (BaseException e) {
