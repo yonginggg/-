@@ -66,7 +66,7 @@ public class HibernateUtil {
 //		System.out.println(ingredientsManager.loadAll());
 		
 		IngredientsOrderManager ingredientsOrderManager = new IngredientsOrderManager();
-//		ingredientsOrderManager.addIngredientsOrder(beanUser, "2019-2-3 12:30:00", "zucc", 123456789);
+//		ingredientsOrderManager.addIngredientsOrder(beanUser, "2019-02-03 12:30:00", "zucc", 123456789);
 		
 //		BeanIngredientsOrder ingredientsOrder = new BeanIngredientsOrder();
 //		ingredientsOrder.setOrder_number(1);

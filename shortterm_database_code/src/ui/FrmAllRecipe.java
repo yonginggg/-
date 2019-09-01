@@ -100,20 +100,21 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 		this.dataTableRecipes.repaint();
 	}
 
-	private void reloadTable(){
+	// 模糊查询后 刷新界面
+	private void reloadTable() {
 		try {
-			allRecipes=(new RecipeManager()).searchRecipe(this.edtKeyword.getText());
-			tblRecipesData =new Object[allRecipes.size()][6];
-			for(int i=0;i<allRecipes.size();i++){
-				tblRecipesData[i][0]=allRecipes.get(i).getRecipe_number();
-				tblRecipesData[i][1]=allRecipes.get(i).getRecipe_name();
-				tblRecipesData[i][2]=allRecipes.get(i).getRecipe_description();
-				tblRecipesData[i][3]=allRecipes.get(i).getRecipe_overall_rating();
-				tblRecipesData[i][4]=allRecipes.get(i).getRecipe_collection_number();
-				tblRecipesData[i][5]=allRecipes.get(i).getRecipe_views_number();
-				
+			allRecipes = (new RecipeManager()).searchRecipe(this.edtKeyword.getText());
+			tblRecipesData = new Object[allRecipes.size()][6];
+			for (int i = 0; i < allRecipes.size(); i++) {
+				tblRecipesData[i][0] = allRecipes.get(i).getRecipe_number();
+				tblRecipesData[i][1] = allRecipes.get(i).getRecipe_name();
+				tblRecipesData[i][2] = allRecipes.get(i).getRecipe_description();
+				tblRecipesData[i][3] = allRecipes.get(i).getRecipe_overall_rating();
+				tblRecipesData[i][4] = allRecipes.get(i).getRecipe_collection_number();
+				tblRecipesData[i][5] = allRecipes.get(i).getRecipe_views_number();
+
 			}
-			tabRecipesModel.setDataVector(tblRecipesData,tblRecipesTitle);
+			tabRecipesModel.setDataVector(tblRecipesData, tblRecipesTitle);
 			this.dataTableRecipes.validate();
 			this.dataTableRecipes.repaint();
 		} catch (BaseException e) {
@@ -121,7 +122,7 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-	
+
 //	刷新步骤信息-用户
 	private void reloadStepsTable(int recipe_number) {// 这是测试数据，需要用实际数替换
 		RecipeManager recipeManager = new RecipeManager();
@@ -186,19 +187,19 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 	}
 
 	public FrmAllRecipe(JFrame f, String s, boolean b) {
-		
+
 		super();
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		toolBar.add(btnOrder);
 		toolBar.add(btnEvaluation);
 		toolBar.add(edtKeyword);
 		toolBar.add(btnSearch);
-		
+
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		this.setTitle("所有菜谱");
-		
+
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
-		
+
 //		菜谱
 		JScrollPane paneRecipe = new JScrollPane(this.dataTableRecipes);
 		paneRecipe.setPreferredSize(new Dimension(1100, 10));
@@ -238,7 +239,7 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 		this.btnOrder.addActionListener(this);
 		this.btnEvaluation.addActionListener(this);
 		this.btnSearch.addActionListener(this);
-		
+
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 //				System.exit(0);
@@ -247,9 +248,20 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.reloadTable();
+//		this.reloadTable();
+		if (e.getSource() == this.btnSearch) {
+			this.reloadTable();
+		} else if (e.getSource() == this.btnEvaluation) {
+			FrmAddEvaluation addEvaluation = new FrmAddEvaluation(this, "添加评价", true);
+			addEvaluation.curRecipe = this.curRecipes;
+			addEvaluation.setVisible(true);
+			this.reloadEvaluationsTable(this.curRecipes.getRecipe_number() - 1);
+		}else if (e.getSource() == this.btnOrder) {
+			FrmAddOrder addOrder = new FrmAddOrder(this, "添加评价", true);
+			addOrder.setVisible(true);
+//			this.reloadEvaluationsTable(this.curRecipes.getRecipe_number() - 1);
+		}
 	}
 }

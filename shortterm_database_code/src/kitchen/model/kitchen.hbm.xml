@@ -104,7 +104,7 @@
         <property name="user_number" type="int" column="user_number" />  
         <property name="evaluation_conten" type="string" column="evaluation_conten" />  
         <property name="evaluation_browse_sign" type="int" column="evaluation_browse_sign" />  
-        <property name="evaluation_collection_sign" type="int" column="evaluation_collection_sign" />  
+        <property name="evaluation_collection_sign" type="string" column="evaluation_collection_sign" />  
         <property name="evaluation_grade" type="double" column="evaluation_grade" />  
     </class> 
     

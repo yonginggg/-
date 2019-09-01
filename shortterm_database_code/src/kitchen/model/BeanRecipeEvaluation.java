@@ -20,7 +20,7 @@ public class BeanRecipeEvaluation {
 		else if (col == 2)
 			return String.valueOf(getEvaluation_browse_sign());
 		else if(col == 3)
-			return String.valueOf(getEvaluation_collection_sign());
+			return getEvaluation_collection_sign();
 		else if (col == 4) {
 			return String.valueOf(getEvaluation_grade());
 		}
@@ -33,7 +33,7 @@ public class BeanRecipeEvaluation {
 	private int user_number;
 	private String evaluation_conten;
 	private int evaluation_browse_sign;
-	private int evaluation_collection_sign;
+	private String evaluation_collection_sign;
 	private double evaluation_grade;
 	
 	public int getRecipe_evaluation_number() {
@@ -66,10 +66,10 @@ public class BeanRecipeEvaluation {
 	public void setEvaluation_browse_sign(int evaluation_browse_sign) {
 		this.evaluation_browse_sign = evaluation_browse_sign;
 	}
-	public int getEvaluation_collection_sign() {
+	public String getEvaluation_collection_sign() {
 		return evaluation_collection_sign;
 	}
-	public void setEvaluation_collection_sign(int evaluation_collection_sign) {
+	public void setEvaluation_collection_sign(String evaluation_collection_sign) {
 		this.evaluation_collection_sign = evaluation_collection_sign;
 	}
 	public double getEvaluation_grade() {

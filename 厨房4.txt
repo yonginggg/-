@@ -79,12 +79,14 @@ CREATE TABLE `tbl_recipe_evaluation` (
   `user_number` int(11) NOT NULL COMMENT '用户编号',
   `evaluation_conten` varchar(50) NOT NULL COMMENT '评价内容',
   `evaluation_browse_sign` int(11) NOT NULL COMMENT '浏览标志',
-  `evaluation_collection_sign` int(11) NOT NULL COMMENT '收藏标志',
+  `evaluation_collection_sign` varchar(11) NOT NULL COMMENT '收藏标志',
   `evaluation_grade` double NOT NULL COMMENT '评分',
-  INDEX (`recipe_number`), 
   PRIMARY KEY (`recipe_evaluation_number`),
-  FOREIGN KEY (recipe_number) REFERENCES tbl_recipe_information(recipe_number) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `recipe_number` (`recipe_number`),
+  CONSTRAINT `tbl_recipe_evaluation_ibfk_1` FOREIGN KEY (`recipe_number`) REFERENCES `tbl_recipe_information` (`recipe_number`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+
 
 
 
