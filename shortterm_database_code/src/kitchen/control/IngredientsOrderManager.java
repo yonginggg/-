@@ -11,8 +11,12 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+import kitchen.model.BeanDiscount;
 import kitchen.model.BeanIngredientsCategory;
+import kitchen.model.BeanIngredientsInformation;
 import kitchen.model.BeanIngredientsOrder;
+import kitchen.model.BeanOrderDetail;
+import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
 import kitchen.util.BusinessException;
@@ -91,7 +95,7 @@ public class IngredientsOrderManager {
 		}
 	}
 	
-	public List<BeanIngredientsOrder> loadAll()throws BaseException{
+	public List<BeanIngredientsOrder> loadAllOrders()throws BaseException{
 		List<BeanIngredientsOrder> ingredientsOrders=new ArrayList<BeanIngredientsOrder>();
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -113,5 +117,63 @@ public class IngredientsOrderManager {
 			}
 		}
 		return ingredientsOrders;
+	}
+	
+	public BeanOrderDetail addDeatil(BeanIngredientsOrder order,  
+			BeanRecipeMaterial material, double discount) throws BaseException{
+		
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		BeanOrderDetail orderDetail = new BeanOrderDetail();
+		
+		BeanIngredientsInformation information = (BeanIngredientsInformation)session.get(BeanIngredientsInformation.class, material.getIngredients_number());
+		try {
+			orderDetail.setOrder_number(order.getOrder_number());
+			orderDetail.setIngredients_number(material.getIngredients_number());
+			orderDetail.setQuantity(material.getQuantity());
+			orderDetail.setPrice(information.getIngredients_price());
+			orderDetail.setOrder_discount(discount);
+			session.save(orderDetail);
+			transaction.commit();
+		}catch (SessionException e) {
+			throw new BusinessException("下单失败");
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+	
+		return orderDetail;
+	}
+	
+	public List<BeanOrderDetail> loadAllDetails(BeanIngredientsOrder order)throws BaseException{
+		List<BeanOrderDetail> orderderDetails=new ArrayList<BeanOrderDetail>();
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		try {
+			String hql ="from BeanOrderDetail where order_number=:num";
+			Query query = session.createQuery(hql);
+			query.setInteger("num", order.getOrder_number());
+			orderderDetails = query.list();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return orderderDetails;
 	}
 }

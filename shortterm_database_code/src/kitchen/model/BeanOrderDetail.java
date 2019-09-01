@@ -8,6 +8,20 @@ public class BeanOrderDetail {
 //	  `price` double NOT NULL COMMENT '价格',
 //	  `order_discount` double NOT NULL COMMENT '折扣',
 	
+	public static BeanOrderDetail currentDetail = null;
+	public static final String[] tblDetailTitle = { "食材编号", "数量","价格","折扣"};
+	public String getCell(int col) {
+		if (col == 0)
+			return String.valueOf(getIngredients_number());
+		else if (col == 1)
+			return String.valueOf(getQuantity());
+		else if (col == 2)
+			return String.valueOf(getPrice());
+		else if (col == 3)
+			return String.valueOf(getOrder_discount());
+		else
+			return "";
+	}
 	private int order_detail_number;
 	private int order_number;
 	private int ingredients_number;

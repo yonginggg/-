@@ -711,5 +711,11 @@ public class FrmMain extends JFrame implements ActionListener {
 			FrmAllRecipe allRecipe = new FrmAllRecipe(this, "所有菜谱", true);
 			allRecipe.setVisible(true);
 		}
+//		订单统计
+		else if (e.getSource() == this.menuItem_OrderStatic) {
+			FrmOrderStatic orderStatic = new FrmOrderStatic(this, "所有菜谱", true);
+			orderStatic.setVisible(true);
+		}
+		
 	}
 }

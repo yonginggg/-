@@ -135,4 +135,8 @@ CREATE TABLE `tbl_ingredients_procurement` (
   FOREIGN KEY (ingredients_number) REFERENCES tbl_ingredients_information(ingredients_number) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `tbl_discount` (
+  `discount` double NOT NULL COMMENT '折扣',
+  PRIMARY KEY (discount)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

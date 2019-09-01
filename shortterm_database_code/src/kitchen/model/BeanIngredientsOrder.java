@@ -9,6 +9,22 @@ public class BeanIngredientsOrder {
 //	  `order_delivery_address` varchar(50) NOT NULL COMMENT '配送地址',
 //	  `user_phone_number` int(11) NOT NULL COMMENT '联系电话',
 //	  `order_status` varchar(50) NOT NULL COMMENT '订单状态',
+	public static BeanIngredientsOrder currentOrder = null;
+	public static final String[] tblOrderTitle = { "订单编号", "预计送达时间","订单地址","用户手机","订单状态"};
+	public String getCell(int col) {
+		if (col == 0)
+			return String.valueOf(getOrder_number());
+		else if (col == 1)
+			return String.valueOf(getOrder_required_time());
+		else if (col == 2)
+			return getOrder_delivery_address();
+		else if (col == 3)
+			return String.valueOf(getUser_phone_number());
+		else if (col == 4)
+			return String.valueOf(getOrder_status());
+		else
+			return "";
+	}
 	
 	private int order_number;
 	private int user_number;

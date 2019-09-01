@@ -1,168 +1,217 @@
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
-<hibernate-mapping package="kitchen.model">  
-    <!-- 标识一个类的xml映射,name为类名,table为表名 -->  
-     
-     <!-- BeanUser -->  
-    <class name="BeanUser" table="tbl_user_information">  
-        <!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->  
-        <id name="user_number" type="int">  
-            <column name="user_number"/>  
-            <generator class="assigned"/>  
-        </id>  
-        <!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->  
-        <property name="user_id" type="string" column="user_id" />  
-        <property name="user_name" type="string" column="user_name" />  
-        <property name="user_sex" type="string" column="user_sex" />  
-        <property name="user_password" type="string" column="user_password" /> 
-        <property name="user_phone_number" type="int" column="user_phone_number" />  
-        <property name="user_email" type="string" column="user_email" />  
-        <property name="user_city" type="string" column="user_city" />  
-        <property name="user_register" type="timestamp" column="user_register" />  
-    </class>  
-    
-     <!-- BeanIngredientsCategory -->  
-    <class name="BeanIngredientsCategory" table="tbl_ingredients_category">  
-        <!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->  
-        <id name="category_number" type="int">  
-            <column name="category_number"/>  
-            <generator class="assigned"/>  
-        </id>  
-        <!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->  
-		<property name="category_name" type="string" column="category_name"/>
-        <property name="category_description" type="string" column="category_description" />  
-    </class>  
-    
-        
-    <!-- BeanIngredientsInformation -->  
-    <class name="BeanIngredientsInformation" table="tbl_ingredients_information">  
-        <!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->  
-        <id name="ingredients_number" type="int">  
-            <column name="ingredients_number"/>  
-            <generator class="assigned"/>  
-        </id>  
-        <!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->  
-        <property name="ingredients_name" type="string" column="ingredients_name"/> 
-        <property name="ingredients_price" type="double" column="ingredients_price" />  
-        <property name="ingredients_quantity" type="int" column="ingredients_quantity" />  
-        <property name="ingredients_description" type="string" column="ingredients_description" />  
-        <property name="ingredients_specification" type="string" column="ingredients_specification" />  
-        <property name="category_number" type="int" column="category_number" />  
-    </class>  
-    
-    <!-- BeanRecipeInformation -->  
-    <class name="BeanRecipeInformation" table="tbl_recipe_information">  
-        <!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->  
-        <id name="recipe_number" type="int">  
-            <column name="recipe_number"/>  
-            <generator class="assigned"/>  
-        </id>  
-        <!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->  
-        <property name="recipe_name" type="string" column="recipe_name"/> 
-        <property name="user_number" type="int" column="user_number" />  
-        <property name="recipe_description" type="string" column="recipe_description" />  
-        <property name="recipe_overall_rating" type="double" column="recipe_overall_rating" />  
-        <property name="recipe_collection_number" type="int" column="recipe_collection_number" />  
-        <property name="recipe_views_number" type="int" column="recipe_views_number" />  
-    </class>  
-    
-    <!-- BeanRecipeMaterial -->  
-    <class name="BeanRecipeMaterial" table="tbl_recipe_material">  
-        <!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->  
-        <id name="recipe_material_number" type="int">  
-            <column name="recipe_material_number"/>  
-            <generator class="assigned"/>  
-        </id>  
-        <!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->  
-        <property name="recipe_number" type="int" column="recipe_number"/> 
-        <property name="ingredients_number" type="int" column="ingredients_number" />  
-        <property name="quantity" type="int" column="quantity" />  
-        <property name="unit" type="string" column="unit" />  
-    </class>  
-    
-    <!-- BeanRecipeStep -->  
-    <class name="BeanRecipeStep" table="tbl_recipe_step">  
-        <!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->  
-        <id name="recipe_step_number" type="int">  
-            <column name="recipe_step_number"/>  
-            <generator class="assigned"/>  
-        </id>  
-        <!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->  
-        <property name="recipe_number" type="int" column="recipe_number"/> 
-        <property name="step_number" type="int" column="step_number" />  
-        <property name="step_description" type="string" column="step_description" />  
-    </class> 
-    
-    <!-- BeanRecipeEvaluation -->  
-    <class name="BeanRecipeEvaluation" table="tbl_recipe_evaluation">  
-        <!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->  
-        <id name="recipe_evaluation_number" type="int">  
-            <column name="recipe_evaluation_number"/>  
-            <generator class="assigned"/>  
-        </id>  
-        <!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->  
-        <property name="recipe_number" type="int" column="recipe_number"/> 
-        <property name="user_number" type="int" column="user_number" />  
-        <property name="evaluation_conten" type="string" column="evaluation_conten" />  
-        <property name="evaluation_browse_sign" type="int" column="evaluation_browse_sign" />  
-        <property name="evaluation_collection_sign" type="string" column="evaluation_collection_sign" />  
-        <property name="evaluation_grade" type="double" column="evaluation_grade" />  
-    </class> 
-    
-    <!-- BeanIngredientsOrder -->  
-    <class name="BeanIngredientsOrder" table="tbl_ingredients_order">  
-        <!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->  
-        <id name="order_number" type="int">  
-            <column name="order_number"/>  
-            <generator class="assigned"/>  
-        </id>  
-        <!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->  
-        <property name="user_number" type="int" column="user_number"/> 
-        <property name="order_required_time" type="timestamp" column="order_required_time" />  
-        <property name="order_delivery_address" type="string" column="order_delivery_address" />  
-        <property name="user_phone_number" type="int" column="user_phone_number" />  
-        <property name="order_status" type="string" column="order_status" />  
-    </class> 
-    
-    <!-- BeanOrderDetail -->  
-    <class name="BeanOrderDetail" table="tbl_order_detail">  
-        <!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->  
-        <id name="order_detail_number" type="int">  
-            <column name="order_detail_number"/>  
-            <generator class="assigned"/>  
-        </id>  
-        <!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->  
-        <property name="order_number" type="int" column="order_number"/> 
-        <property name="ingredients_number" type="int" column="ingredients_number" />  
-        <property name="quantity" type="int" column="quantity" />  
-        <property name="price" type="double" column="price" />  
-        <property name="order_discount" type="double" column="order_discount" />  
-    </class> 
-    
-    <!-- BeanAdministratorInformation -->  
-    <class name="BeanAdministratorInformation" table="tbl_administrator_information">  
-        <!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->  
-        <id name="administrator_number" type="int">  
-            <column name="administrator_number"/>  
-            <generator class="assigned"/>  
-        </id>  
-        <!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->  
-        <property name="administrator_name" type="string" column="administrator_name"/> 
-        <property name="administrator_password" type="string" column="administrator_password" />  
-    </class> 
-    
-    <!-- BeanAdministratorInformation -->  
-    <class name="BeanIngredientsProcurement" table="tbl_ingredients_procurement">  
-        <!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->  
-        <id name="procurement_number" type="int">  
-            <column name="procurement_number"/>  
-            <generator class="assigned"/>  
-        </id>  
-        <!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->  
-        <property name="ingredients_number" type="int" column="ingredients_number"/> 
-        <property name="quantity" type="int" column="quantity" />  
-        <property name="procurement_status" type="string" column="procurement_status" />  
-        <property name="administrator_number" type="int" column="administrator_number" />  
-    </class> 
-    
-     
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="kitchen.model">
+	<!-- 标识一个类的xml映射,name为类名,table为表名 -->
+
+	<!-- BeanUser -->
+	<class name="BeanUser" table="tbl_user_information">
+		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
+		<id name="user_number" type="int">
+			<column name="user_number" />
+			<generator class="assigned" />
+		</id>
+		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
+		<property name="user_id" type="string" column="user_id" />
+		<property name="user_name" type="string" column="user_name" />
+		<property name="user_sex" type="string" column="user_sex" />
+		<property name="user_password" type="string"
+			column="user_password" />
+		<property name="user_phone_number" type="int"
+			column="user_phone_number" />
+		<property name="user_email" type="string" column="user_email" />
+		<property name="user_city" type="string" column="user_city" />
+		<property name="user_register" type="timestamp"
+			column="user_register" />
+	</class>
+
+	<!-- BeanIngredientsCategory -->
+	<class name="BeanIngredientsCategory"
+		table="tbl_ingredients_category">
+		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
+		<id name="category_number" type="int">
+			<column name="category_number" />
+			<generator class="assigned" />
+		</id>
+		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
+		<property name="category_name" type="string"
+			column="category_name" />
+		<property name="category_description" type="string"
+			column="category_description" />
+	</class>
+
+
+	<!-- BeanIngredientsInformation -->
+	<class name="BeanIngredientsInformation"
+		table="tbl_ingredients_information">
+		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
+		<id name="ingredients_number" type="int">
+			<column name="ingredients_number" />
+			<generator class="assigned" />
+		</id>
+		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
+		<property name="ingredients_name" type="string"
+			column="ingredients_name" />
+		<property name="ingredients_price" type="double"
+			column="ingredients_price" />
+		<property name="ingredients_quantity" type="int"
+			column="ingredients_quantity" />
+		<property name="ingredients_description" type="string"
+			column="ingredients_description" />
+		<property name="ingredients_specification" type="string"
+			column="ingredients_specification" />
+		<property name="category_number" type="int"
+			column="category_number" />
+	</class>
+
+	<!-- BeanRecipeInformation -->
+	<class name="BeanRecipeInformation"
+		table="tbl_recipe_information">
+		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
+		<id name="recipe_number" type="int">
+			<column name="recipe_number" />
+			<generator class="assigned" />
+		</id>
+		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
+		<property name="recipe_name" type="string"
+			column="recipe_name" />
+		<property name="user_number" type="int" column="user_number" />
+		<property name="recipe_description" type="string"
+			column="recipe_description" />
+		<property name="recipe_overall_rating" type="double"
+			column="recipe_overall_rating" />
+		<property name="recipe_collection_number" type="int"
+			column="recipe_collection_number" />
+		<property name="recipe_views_number" type="int"
+			column="recipe_views_number" />
+	</class>
+
+	<!-- BeanRecipeMaterial -->
+	<class name="BeanRecipeMaterial" table="tbl_recipe_material">
+		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
+		<id name="recipe_material_number" type="int">
+			<column name="recipe_material_number" />
+			<generator class="assigned" />
+		</id>
+		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
+		<property name="recipe_number" type="int"
+			column="recipe_number" />
+		<property name="ingredients_number" type="int"
+			column="ingredients_number" />
+		<property name="quantity" type="int" column="quantity" />
+		<property name="unit" type="string" column="unit" />
+	</class>
+
+	<!-- BeanRecipeStep -->
+	<class name="BeanRecipeStep" table="tbl_recipe_step">
+		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
+		<id name="recipe_step_number" type="int">
+			<column name="recipe_step_number" />
+			<generator class="assigned" />
+		</id>
+		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
+		<property name="recipe_number" type="int"
+			column="recipe_number" />
+		<property name="step_number" type="int" column="step_number" />
+		<property name="step_description" type="string"
+			column="step_description" />
+	</class>
+
+	<!-- BeanRecipeEvaluation -->
+	<class name="BeanRecipeEvaluation" table="tbl_recipe_evaluation">
+		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
+		<id name="recipe_evaluation_number" type="int">
+			<column name="recipe_evaluation_number" />
+			<generator class="assigned" />
+		</id>
+		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
+		<property name="recipe_number" type="int"
+			column="recipe_number" />
+		<property name="user_number" type="int" column="user_number" />
+		<property name="evaluation_conten" type="string"
+			column="evaluation_conten" />
+		<property name="evaluation_browse_sign" type="int"
+			column="evaluation_browse_sign" />
+		<property name="evaluation_collection_sign" type="string"
+			column="evaluation_collection_sign" />
+		<property name="evaluation_grade" type="double"
+			column="evaluation_grade" />
+	</class>
+
+	<!-- BeanIngredientsOrder -->
+	<class name="BeanIngredientsOrder" table="tbl_ingredients_order">
+		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
+		<id name="order_number" type="int">
+			<column name="order_number" />
+			<generator class="assigned" />
+		</id>
+		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
+		<property name="user_number" type="int" column="user_number" />
+		<property name="order_required_time" type="timestamp"
+			column="order_required_time" />
+		<property name="order_delivery_address" type="string"
+			column="order_delivery_address" />
+		<property name="user_phone_number" type="int"
+			column="user_phone_number" />
+		<property name="order_status" type="string"
+			column="order_status" />
+	</class>
+
+	<!-- BeanOrderDetail -->
+	<class name="BeanOrderDetail" table="tbl_order_detail">
+		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
+		<id name="order_detail_number" type="int">
+			<column name="order_detail_number" />
+			<generator class="assigned" />
+		</id>
+		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
+		<property name="order_number" type="int"
+			column="order_number" />
+		<property name="ingredients_number" type="int"
+			column="ingredients_number" />
+		<property name="quantity" type="int" column="quantity" />
+		<property name="price" type="double" column="price" />
+		<property name="order_discount" type="double"
+			column="order_discount" />
+	</class>
+
+	<!-- BeanAdministratorInformation -->
+	<class name="BeanAdministratorInformation"
+		table="tbl_administrator_information">
+		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
+		<id name="administrator_number" type="int">
+			<column name="administrator_number" />
+			<generator class="assigned" />
+		</id>
+		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
+		<property name="administrator_name" type="string"
+			column="administrator_name" />
+		<property name="administrator_password" type="string"
+			column="administrator_password" />
+	</class>
+
+	<!-- BeanAdministratorInformation -->
+	<class name="BeanIngredientsProcurement"
+		table="tbl_ingredients_procurement">
+		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
+		<id name="procurement_number" type="int">
+			<column name="procurement_number" />
+			<generator class="assigned" />
+		</id>
+		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
+		<property name="ingredients_number" type="int"
+			column="ingredients_number" />
+		<property name="quantity" type="int" column="quantity" />
+		<property name="procurement_status" type="string"
+			column="procurement_status" />
+		<property name="administrator_number" type="int"
+			column="administrator_number" />
+	</class>
+
+	<!-- BeanDiscount -->
+	<class name="BeanDiscount" table="tbl_discount">
+		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
+		<id name="discount" type="double">
+			<column name="discount" />
+			<generator class="assigned" />
+		</id>
+	</class>
 </hibernate-mapping>  
