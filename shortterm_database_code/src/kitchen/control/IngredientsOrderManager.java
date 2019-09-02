@@ -119,7 +119,7 @@ public class IngredientsOrderManager {
 		return ingredientsOrders;
 	}
 	
-	public BeanOrderDetail addDeatil(BeanIngredientsOrder order,  
+	public BeanOrderDetail addDeatil(int order_number,  
 			BeanRecipeMaterial material, double discount) throws BaseException{
 		
 		Session session = HibernateUtil.getSession();
@@ -129,7 +129,7 @@ public class IngredientsOrderManager {
 		
 		BeanIngredientsInformation information = (BeanIngredientsInformation)session.get(BeanIngredientsInformation.class, material.getIngredients_number());
 		try {
-			orderDetail.setOrder_number(order.getOrder_number());
+			orderDetail.setOrder_number(order_number);
 			orderDetail.setIngredients_number(material.getIngredients_number());
 			orderDetail.setQuantity(material.getQuantity());
 			orderDetail.setPrice(information.getIngredients_price());

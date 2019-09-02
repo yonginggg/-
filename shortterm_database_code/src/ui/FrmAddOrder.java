@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -20,11 +21,17 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import kitchen.control.IngredientsOrderManager;
+import kitchen.control.RecipeManager;
 import kitchen.model.BeanIngredientsOrder;
+import kitchen.model.BeanRecipeInformation;
+import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
 
 public class FrmAddOrder extends JDialog implements ActionListener {
+	static int order_num = 3;//全局常量
+	BeanRecipeInformation currentRecipe = null;
+	
 	private JPanel toolBar = new JPanel();
 	private JPanel workPane = new JPanel();
 	private JButton btnOk = new JButton("确定");
@@ -76,18 +83,25 @@ public class FrmAddOrder extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.btnOk) {
+			order_num++;
 			IngredientsOrderManager orderManager = new IngredientsOrderManager();
 			String address = this.edtAddress.getText();
 			String time = this.edtTime.getText();
 			int phone = Integer.parseInt(this.edtPhone.getText());
-//			BeanIngredientsOrder order = new BeanIngredientsOrder();
+			RecipeManager recipeManager = new RecipeManager();
 			try {
 				orderManager.addIngredientsOrder(BeanUser.currentUser, time, address, phone);
+				
+				List<BeanRecipeMaterial> materials = recipeManager.loadAllMaterials(currentRecipe);
+				for(int i=0; i<materials.size(); i++) {
+					orderManager.addDeatil(order_num, materials.get(i), 0.9);
+				}
 				this.setVisible(false);
 			} catch (BaseException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+			
 
 			
 		} else if (e.getSource() == this.btnCancel) {
