@@ -164,7 +164,7 @@ public class FrmOrderStatic extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-////		this.reloadTable();
+//		修改订单状态, 当订单送达时, 将食材的数量减去订单的食材数量
 		if (e.getSource() == this.btnChangeStatus) {
 			int i=this.dataTableOrder.getSelectedRow();
 			if(i<0) {
@@ -175,6 +175,7 @@ public class FrmOrderStatic extends JFrame implements ActionListener {
 			curOrder = allOrders.get(i);
 			try {
 				orderManager.changeIngredientsOrderStatus(curOrder, this.cmbOrderStatus.getSelectedItem().toString());
+				
 			} catch (BaseException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

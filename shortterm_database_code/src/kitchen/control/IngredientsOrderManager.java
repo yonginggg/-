@@ -16,6 +16,7 @@ import kitchen.model.BeanIngredientsCategory;
 import kitchen.model.BeanIngredientsInformation;
 import kitchen.model.BeanIngredientsOrder;
 import kitchen.model.BeanOrderDetail;
+import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
@@ -162,7 +163,7 @@ public class IngredientsOrderManager {
 			Query query = session.createQuery(hql);
 			query.setInteger("num", order.getOrder_number());
 			orderderDetails = query.list();
-		} catch (Exception e) {
+		} catch (SessionException e) {
 			// TODO: handle exception
 		}finally {
 			if(session!=null) {
@@ -175,5 +176,26 @@ public class IngredientsOrderManager {
 			}
 		}
 		return orderderDetails;
+	}
+	
+//	判断菜谱食材数量是否小于总食材数量,用于添加订单
+	public void judgeQuantity(BeanRecipeInformation recipe) throws BaseException {
+//		Session session = HibernateUtil.getSession();
+//		org.hibernate.Transaction transaction = session.beginTransaction();
+		List<BeanRecipeMaterial> materials = new RecipeManager().loadAllMaterials(recipe);
+		for(int i=0; i<materials.size();i++) {
+			BeanIngredientsInformation ingredientsInformation = new IngredientsManager().loadIngredient(materials.get(i).getIngredients_number());
+			if(ingredientsInformation.getIngredients_quantity()<materials.get(i).getQuantity()) {
+				throw new BusinessException("食材数量不够,无法创建订单");
+			}
+		}
+	}
+//	查询最大order值,用于添加订单
+	public int maxOrder() {
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		int maxOrderNumber = (Integer)session.createQuery("select max(o.order_number) from BeanIngredientsOrder o " ).uniqueResult();
+		return maxOrderNumber;
+		
 	}
 }

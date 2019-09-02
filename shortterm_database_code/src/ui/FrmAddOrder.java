@@ -29,7 +29,7 @@ import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
 
 public class FrmAddOrder extends JDialog implements ActionListener {
-	static int order_num = 3;//全局常量
+//	static int order_num = 3;//全局常量
 	BeanRecipeInformation currentRecipe = null;
 	
 	private JPanel toolBar = new JPanel();
@@ -83,18 +83,20 @@ public class FrmAddOrder extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.btnOk) {
-			order_num++;
+//			order_num++;
 			IngredientsOrderManager orderManager = new IngredientsOrderManager();
 			String address = this.edtAddress.getText();
 			String time = this.edtTime.getText();
 			int phone = Integer.parseInt(this.edtPhone.getText());
 			RecipeManager recipeManager = new RecipeManager();
 			try {
+//				添加订单
 				orderManager.addIngredientsOrder(BeanUser.currentUser, time, address, phone);
-				
+//				添加订单详情
+				int maxOrderNumber = orderManager.maxOrder();
 				List<BeanRecipeMaterial> materials = recipeManager.loadAllMaterials(currentRecipe);
 				for(int i=0; i<materials.size(); i++) {
-					orderManager.addDeatil(order_num, materials.get(i), 0.9);
+					orderManager.addDeatil(maxOrderNumber, materials.get(i), 0.9);
 				}
 				this.setVisible(false);
 			} catch (BaseException e1) {

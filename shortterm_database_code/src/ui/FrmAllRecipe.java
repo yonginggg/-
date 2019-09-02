@@ -24,6 +24,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import kitchen.control.IngredientsOrderManager;
 import kitchen.control.RecipeManager;
 import kitchen.model.BeanRecipeEvaluation;
 import kitchen.model.BeanRecipeInformation;
@@ -31,6 +32,7 @@ import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanRecipeStep;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
+import kitchen.util.DbException;
 
 public class FrmAllRecipe extends JFrame implements ActionListener {
 	private JPanel toolBar = new JPanel();
@@ -264,7 +266,6 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "请选择菜谱", "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-
 			FrmAddOrder addOrder = new FrmAddOrder(this, "生成订单", true);
 			addOrder.currentRecipe = allRecipes.get(i);
 			addOrder.setVisible(true);

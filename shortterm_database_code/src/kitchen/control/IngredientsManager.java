@@ -12,6 +12,7 @@ import org.hibernate.query.Query;
 import javafx.collections.ListChangeListener.Change;
 import kitchen.model.BeanIngredientsCategory;
 import kitchen.model.BeanIngredientsInformation;
+import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
 import kitchen.util.BusinessException;
@@ -226,6 +227,7 @@ public class IngredientsManager {
 		}
 	}
 
+	
 	public BeanIngredientsInformation changIngredients(BeanIngredientsInformation information, String newDescription) {
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
