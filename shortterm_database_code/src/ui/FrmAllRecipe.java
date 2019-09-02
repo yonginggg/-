@@ -24,14 +24,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import kitchen.control.IngredientsManager;
 import kitchen.control.IngredientsOrderManager;
 import kitchen.control.RecipeManager;
+import kitchen.model.BeanIngredientsInformation;
 import kitchen.model.BeanRecipeEvaluation;
 import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanRecipeStep;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
+import kitchen.util.BusinessException;
 import kitchen.util.DbException;
 
 public class FrmAllRecipe extends JFrame implements ActionListener {
@@ -266,6 +269,21 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "请选择菜谱", "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+//			判断菜谱食材数量是否小于总食材数量,用于添加订单 
+			try {
+				List<BeanRecipeMaterial> materials = new RecipeManager().loadAllMaterials(allRecipes.get(i));
+				for(int j=0; j<materials.size();j++) {
+					BeanIngredientsInformation ingredientsInformation = new IngredientsManager().loadIngredient(materials.get(i).getIngredients_number());
+					if(ingredientsInformation.getIngredients_quantity()<materials.get(j).getQuantity()) {
+						throw new BusinessException("食材数量不够,无法创建订单");
+					}
+				}
+			}catch (BaseException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
+//			添加订单
 			FrmAddOrder addOrder = new FrmAddOrder(this, "生成订单", true);
 			addOrder.currentRecipe = allRecipes.get(i);
 			addOrder.setVisible(true);

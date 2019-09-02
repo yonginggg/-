@@ -190,6 +190,7 @@ public class IngredientsOrderManager {
 			}
 		}
 	}
+	
 //	查询最大order值,用于添加订单
 	public int maxOrder() {
 		Session session = HibernateUtil.getSession();
