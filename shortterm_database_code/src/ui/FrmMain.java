@@ -236,7 +236,6 @@ public class FrmMain extends JFrame implements ActionListener {
 //	刷新步骤信息-用户
 	private void reloadStepsTable(int recipe_number) {// 这是测试数据，需要用实际数替换
 		RecipeManager recipeManager = new RecipeManager();
-		curRecipes = allRecipes.get(recipe_number);
 
 		try {
 			allSteps = recipeManager.loadAllSteps(curRecipes);
@@ -257,7 +256,6 @@ public class FrmMain extends JFrame implements ActionListener {
 //	刷新菜谱用料信息-用户
 	private void reloadMaterialsTable(int recipe_number) {// 这是测试数据，需要用实际数替换
 		RecipeManager recipeManager = new RecipeManager();
-		curRecipes = allRecipes.get(recipe_number);
 
 		try {
 			allMaterials = recipeManager.loadAllMaterials(curRecipes);
@@ -449,6 +447,7 @@ public class FrmMain extends JFrame implements ActionListener {
 					if (i < 0) {
 						return;
 					}
+					curRecipes = allRecipes.get(i);
 					FrmMain.this.reloadStepsTable(i);
 					FrmMain.this.reloadMaterialsTable(i);
 					FrmMain.this.reloadEvaluationsTable(i);
@@ -501,7 +500,12 @@ public class FrmMain extends JFrame implements ActionListener {
 		}
 //		删除食材类别
 		if (e.getSource() == this.menuItem_DeleteIngredientsCategories) {
-			if (this.curCategory == null) {
+//			if (this.curCategory == null) {
+//				JOptionPane.showMessageDialog(null, "请选择食材类别", "错误", JOptionPane.ERROR_MESSAGE);
+//				return;
+//			}
+			int i = FrmMain.this.dataTableCategory.getSelectedRow();
+			if (i < 0) {
 				JOptionPane.showMessageDialog(null, "请选择食材类别", "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -564,11 +568,14 @@ public class FrmMain extends JFrame implements ActionListener {
 		else if (e.getSource() == this.menuItem_ProcurementStatic) {
 			FrmProcurementStatistics procurementStatistics = new FrmProcurementStatistics(this, "采购管理", true);
 			procurementStatistics.setVisible(true);
+			this.reloadIngredientsTable(this.curCategory.getCategory_number() - 1);
+			
 		}
 //		添加用户
 		else if (e.getSource() == this.menuItem_AddUser) {
 			FramAddUser addUser = new FramAddUser(this, "注册", true);
 			addUser.setVisible(true);
+			this.reloadUserTable();
 		}
 //		删除用户
 		else if (e.getSource() == this.menuItem_DeleteUser) {
@@ -607,7 +614,7 @@ public class FrmMain extends JFrame implements ActionListener {
 		else if (e.getSource() == this.menuItem_ChangeIngredientsCategories) {
 			int i = FrmMain.this.dataTableCategory.getSelectedRow();
 			if (i < 0) {
-				JOptionPane.showMessageDialog(null, "请选择用户", "错误", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "请选择食材类别", "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			FrmChangeCategory changeCategory = new FrmChangeCategory(this, "修改食材类别描述", true);
@@ -620,7 +627,7 @@ public class FrmMain extends JFrame implements ActionListener {
 		else if (e.getSource() == this.menuItem_ChangeIngredientsInformation) {
 			int i = FrmMain.this.dataTableIngredients.getSelectedRow();
 			if (i < 0) {
-				JOptionPane.showMessageDialog(null, "请选择用户", "错误", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "请选择食材类别", "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			FrmChangeIngredients changeIngredients = new FrmChangeIngredients(this, "修改食材类别描述", true);
@@ -656,7 +663,7 @@ public class FrmMain extends JFrame implements ActionListener {
 			FrmAddStep addStep = new FrmAddStep(this, "添加步骤信息", true);
 			addStep.curRecipe = this.curRecipes;
 			addStep.setVisible(true);
-			this.reloadStepsTable(this.curRecipes.getRecipe_number() - 1);
+			this.reloadStepsTable(this.curRecipes.getRecipe_number()-1);
 		}
 //		删除步骤
 		else if (e.getSource() == this.menuItem_DeleteStep) {

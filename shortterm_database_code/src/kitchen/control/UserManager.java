@@ -31,9 +31,6 @@ public class UserManager {
 		else if (user_password1==null||"".equals(user_password1)) {
 			throw new BusinessException("密码不能为空");
 		}
-		else if (user_sex!="men"&&user_sex!="women") {
-			throw new BusinessException("性别只能为men或women");
-		}
 		Session session = getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		

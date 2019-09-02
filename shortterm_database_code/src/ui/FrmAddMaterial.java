@@ -27,31 +27,24 @@ import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeStep;
 import kitchen.util.*;
 
-public class FrmAddMaterial extends JDialog implements ActionListener{
-	
+public class FrmAddMaterial extends JDialog implements ActionListener {
+
 	public BeanRecipeInformation curRecipe = null;
-	
+
 	private JPanel toolBar = new JPanel();
 	private JPanel workPane = new JPanel();
 	private JButton btnOk = new JButton("确定");
 	private JButton btnCancel = new JButton("取消");
-//	private JLabel labelNumber = new JLabel("序号：");
-//	private JLabel labelDescription = new JLabel("描述：");
 	private JLabel labelName = new JLabel("食材");
 	private JLabel labelquantity = new JLabel("数量");
-	private JLabel labelUnit = new JLabel("单位");
-	
+
 	List<String> ingredientsInformations = new IngredientsManager().loadAllIngredientsName();
 	String[] ingredientName = ingredientsInformations.toArray(new String[ingredientsInformations.size()]);
-//	Object[] ingredientName = ingredientsInformations.toArray();
-	
 	private JComboBox cmbMaterial = new JComboBox(ingredientName);
-	
-//	private JComboBox cmbMaterial = new JComboBox(new String[] {"西瓜","冬瓜"});
+
 	
 	private JTextField edtQuantity = new JTextField(20);
-	private JTextField edtUnit = new JTextField(20);
-	
+
 	public FrmAddMaterial(JFrame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -62,15 +55,18 @@ public class FrmAddMaterial extends JDialog implements ActionListener{
 		labelName.setBounds(14, 8, 30, 18);
 		workPane.add(labelName);
 		cmbMaterial.setBounds(109, 5, 166, 24);
-		workPane.add(cmbMaterial);	
+		workPane.add(cmbMaterial);
 		labelquantity.setBounds(14, 46, 30, 18);
 		workPane.add(labelquantity);
 		edtQuantity.setBounds(109, 43, 166, 24);
 		workPane.add(edtQuantity);
-		labelUnit.setBounds(14, 83, 30, 18);
-		workPane.add(labelUnit);
-		edtUnit.setBounds(109, 80, 166, 24);
-		workPane.add(edtUnit);
+		String ingredientUnit=null;
+		try {
+			ingredientUnit = new IngredientsManager().loadIngredient(this.cmbMaterial.getSelectedItem().toString()).getIngredients_specification();
+		} catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
 		this.setSize(336, 198);
 		// 屏幕居中显示
@@ -82,7 +78,7 @@ public class FrmAddMaterial extends JDialog implements ActionListener{
 		this.btnOk.addActionListener(this);
 		this.btnCancel.addActionListener(this);
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
@@ -92,12 +88,19 @@ public class FrmAddMaterial extends JDialog implements ActionListener{
 		} else if (e.getSource() == this.btnOk) {
 			String name = this.cmbMaterial.getSelectedItem().toString();
 			int quantity = Integer.parseInt(this.edtQuantity.getText());
-			String unit = this.edtUnit.getText();
-			
+			String unit = null;
+			try {
+				unit = new IngredientsManager().loadIngredient(name).getIngredients_specification();
+			} catch (BaseException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+
 			RecipeManager recipeManager = new RecipeManager();
 			IngredientsManager ingredientsManager = new IngredientsManager();
 			try {
-				recipeManager.addRecipeMaterial(curRecipe, ingredientsManager.loadIngredient(name).getIngredients_number(), quantity, unit);
+				recipeManager.addRecipeMaterial(curRecipe,
+						ingredientsManager.loadIngredient(name).getIngredients_number(), quantity, unit);
 				this.setVisible(false);
 			} catch (BaseException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
@@ -107,4 +110,3 @@ public class FrmAddMaterial extends JDialog implements ActionListener{
 
 	}
 }
-

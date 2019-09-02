@@ -131,7 +131,7 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 //	刷新步骤信息-用户
 	private void reloadStepsTable(int recipe_number) {// 这是测试数据，需要用实际数替换
 		RecipeManager recipeManager = new RecipeManager();
-		curRecipes = allRecipes.get(recipe_number);
+//		curRecipes = allRecipes.get(recipe_number);
 
 		try {
 			allSteps = recipeManager.loadAllSteps(curRecipes);
@@ -173,7 +173,7 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 //	刷新菜谱评价信息-用户
 	private void reloadEvaluationsTable(int recipe_number) {// 这是测试数据，需要用实际数替换
 		RecipeManager recipeManager = new RecipeManager();
-		curRecipes = allRecipes.get(recipe_number);
+//		curRecipes = allRecipes.get(recipe_number);
 
 		try {
 			allEvaluations = recipeManager.loadAllEvaluations(curRecipes);
@@ -218,6 +218,7 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 				if (i < 0) {
 					return;
 				}
+				curRecipes = allRecipes.get(i);
 				FrmAllRecipe.this.reloadStepsTable(i);
 				FrmAllRecipe.this.reloadMaterialsTable(i);
 				FrmAllRecipe.this.reloadEvaluationsTable(i);

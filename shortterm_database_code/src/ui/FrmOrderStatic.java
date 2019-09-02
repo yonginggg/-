@@ -41,7 +41,7 @@ import kitchen.util.BaseException;
 public class FrmOrderStatic extends JFrame implements ActionListener {
 	private JPanel toolBar = new JPanel();
 	private JButton btnChangeStatus = new JButton("修改状态");
-	private JComboBox cmbOrderStatus = new JComboBox(new String[] { "下单", "在途", "送达" });
+	private JComboBox cmbOrderStatus = new JComboBox(new String[] { "下单", "配送", "送达","退货" });
 
 //	用户
 	private Object tblUserTitle[] = BeanUser.tblUserTitle;

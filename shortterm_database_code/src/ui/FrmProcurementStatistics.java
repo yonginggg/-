@@ -24,8 +24,12 @@ import javax.swing.table.DefaultTableModel;
 
 import com.mysql.fabric.xmlrpc.base.Array;
 
+import kitchen.control.IngredientsManager;
 import kitchen.control.IngredientsProcurementManager;
+import kitchen.model.BeanIngredientsCategory;
+import kitchen.model.BeanIngredientsInformation;
 import kitchen.model.BeanIngredientsProcurement;
+import kitchen.model.BeanRecipeInformation;
 import kitchen.util.*;
 
 public class FrmProcurementStatistics  extends JDialog implements ActionListener{
@@ -56,6 +60,8 @@ public class FrmProcurementStatistics  extends JDialog implements ActionListener
 			e.printStackTrace();
 		}
 	}
+
+	
 	public FrmProcurementStatistics(JFrame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -88,10 +94,12 @@ public class FrmProcurementStatistics  extends JDialog implements ActionListener
 			if(i<0) {
 				JOptionPane.showMessageDialog(null,  "请选择采购单","提示",JOptionPane.ERROR_MESSAGE);
 				return;
-			}BeanIngredientsProcurement.currentProcurement = this.records.get(i);
+			}
+			BeanIngredientsProcurement.currentProcurement = this.records.get(i);
 			FrmChangeProcurementStatus changeProcurementStatus = new FrmChangeProcurementStatus(this, "修改状态",true);
 			changeProcurementStatus.setVisible(true);
 			this.reloadTable();
+			
 		}
 	}
 } 

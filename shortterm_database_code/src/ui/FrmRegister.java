@@ -46,7 +46,7 @@ public class FrmRegister extends JDialog implements ActionListener {
 	private JPasswordField edtPwd2 = new JPasswordField(20);
 	private JTextField edtUserName = new JTextField(20);
 //	private JTextField edtUserSex = new JTextField(20);
-	private JComboBox cmbUserSex = new JComboBox(new String[] { "men", "women" });
+	private JComboBox cmbUserSex = new JComboBox(new String[] { "男", "女" });
 	private JTextField edtUserPhoneNumber = new JTextField(20);
 	private JTextField edtUserEmail = new JTextField(20);
 	private JTextField edtUserCity = new JTextField(20);

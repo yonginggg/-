@@ -99,7 +99,7 @@ public class IngredientsProcurementManager {
 		} catch (SessionException e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			throw new BaseException("查询失败");
+			throw new BaseException("修改失败");
 		}finally {
 			if(session!=null) {
 				try {

@@ -76,7 +76,7 @@ public class IngredientsManager {
 //			query = session.createQuery(hql);
 //			query.setInteger("category_number", ingredientsCategory.getCategory_number());
 //			query.executeUpdate();
-			session.delete(informations);
+			session.delete(ingredientsCategory);
 			transaction.commit();
 		} catch (SessionException e) {
 			// TODO: handle exception
@@ -375,4 +375,6 @@ public class IngredientsManager {
 		}
 		return ingredientsInformation;
 	}
+	
+	
 }

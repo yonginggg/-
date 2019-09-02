@@ -6,6 +6,7 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,7 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import kitchen.control.AdministratorManager;
 import kitchen.control.IngredientsManager;
@@ -35,8 +38,44 @@ public class FrmChangeProcurementStatus extends JDialog implements ActionListene
 
 	private JLabel labelDescription = new JLabel("状态");
 //	private JTextField edtDescription = new JTextField();
-	
+
 	private JComboBox cmbStauts = new JComboBox(new String[] { "下单", "途中", "入库" });
+
+////	食材类别
+//	private Object tblCategoryTitle[] = BeanIngredientsCategory.tblCategoryTitle;
+//	private Object tblCategoryData[][];
+//	DefaultTableModel tabCategoryModel = new DefaultTableModel();
+//	private JTable dataTableCategory = new JTable(tabCategoryModel);
+//	private BeanIngredientsCategory curCategory = null;
+//	List<BeanIngredientsCategory> allCategorys = null;
+////	食材信息
+//	private Object tblIngredientsTitle[] = BeanIngredientsInformation.tblIngredientsTitle;
+//	private Object tblIngredientsData[][];
+//	DefaultTableModel tabIngredientsModel = new DefaultTableModel();
+//	private JTable dataTableIngredients = new JTable(tabIngredientsModel);
+//	private BeanIngredientsInformation curIngredients = null;
+//	List<BeanIngredientsInformation> allIngredients = null;
+//
+////	刷新食材信息-管理员
+//	private void reloadIngredientsTable(int ingredients_number) throws BaseException {// 这是测试数据，需要用实际数替换
+//		IngredientsManager ingredientsManager = new IngredientsManager();
+//		curIngredients = new IngredientsManager().loadIngredient(ingredients_number);
+//		curCategory = new IngredientsManager().loadCategory(curIngredients.getCategory_number());
+//		try {
+//			allIngredients = ingredientsManager.loadAllIngredients(curCategory);
+//		} catch (BaseException e) {
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+//			return;
+//		}
+//		tblIngredientsData = new Object[allIngredients.size()][BeanIngredientsInformation.tblIngredientsTitle.length];
+//		for (int i = 0; i < allIngredients.size(); i++) {
+//			for (int j = 0; j < BeanIngredientsInformation.tblIngredientsTitle.length; j++)
+//				tblIngredientsData[i][j] = allIngredients.get(i).getCell(j);
+//		}
+//		tabIngredientsModel.setDataVector(tblIngredientsData, tblIngredientsTitle);
+//		this.dataTableIngredients.validate();
+//		this.dataTableIngredients.repaint();
+//	}
 
 	public FrmChangeProcurementStatus(FrmProcurementStatistics frmProcurementStatistics, String s, boolean b) {
 		super(frmProcurementStatistics, s, b);
@@ -68,13 +107,24 @@ public class FrmChangeProcurementStatus extends JDialog implements ActionListene
 			JOptionPane.showMessageDialog(null, "请选择状态", "提示", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		
+
 		if (e.getSource() == this.btnCancel)
 			this.setVisible(false);
 		else if (e.getSource() == this.btnOk) {
 			IngredientsProcurementManager procurementManager = new IngredientsProcurementManager();
 			try {
-				procurementManager.changeStatus(BeanIngredientsProcurement.currentProcurement, this.cmbStauts.getSelectedItem().toString());
+				procurementManager.changeStatus(BeanIngredientsProcurement.currentProcurement,
+						this.cmbStauts.getSelectedItem().toString());
+				if (this.cmbStauts.getSelectedItem().toString() == "入库") {
+					new IngredientsManager().addBeanIngredientsQuantity(
+							new IngredientsManager().loadIngredient(
+									BeanIngredientsProcurement.currentProcurement.getIngredients_number()),
+							BeanIngredientsProcurement.currentProcurement.getQuantity());
+
+//					FrmMain.this.reloadIngredientsTable(BeanIngredientsProcurement.currentProcurement.getIngredients_number());
+				}
+			
+
 			} catch (BaseException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
