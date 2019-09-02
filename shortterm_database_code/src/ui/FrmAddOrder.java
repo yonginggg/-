@@ -20,6 +20,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import kitchen.control.IngredientsOrderManager;
+import kitchen.model.BeanIngredientsOrder;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
 
@@ -79,7 +80,7 @@ public class FrmAddOrder extends JDialog implements ActionListener {
 			String address = this.edtAddress.getText();
 			String time = this.edtTime.getText();
 			int phone = Integer.parseInt(this.edtPhone.getText());
-
+//			BeanIngredientsOrder order = new BeanIngredientsOrder();
 			try {
 				orderManager.addIngredientsOrder(BeanUser.currentUser, time, address, phone);
 				this.setVisible(false);
@@ -88,6 +89,7 @@ public class FrmAddOrder extends JDialog implements ActionListener {
 				return;
 			}
 
+			
 		} else if (e.getSource() == this.btnCancel) {
 			System.exit(0);
 		}

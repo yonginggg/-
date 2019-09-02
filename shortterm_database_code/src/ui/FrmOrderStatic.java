@@ -26,8 +26,10 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import kitchen.control.IngredientsOrderManager;
+import kitchen.control.IngredientsProcurementManager;
 import kitchen.control.RecipeManager;
 import kitchen.model.BeanIngredientsOrder;
+import kitchen.model.BeanIngredientsProcurement;
 import kitchen.model.BeanOrderDetail;
 import kitchen.model.BeanRecipeEvaluation;
 import kitchen.model.BeanRecipeInformation;
@@ -163,17 +165,22 @@ public class FrmOrderStatic extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 ////		this.reloadTable();
-//		if (e.getSource() == this.btnSearch) {
-//			this.reloadTable();
-//		} else if (e.getSource() == this.btnEvaluation) {
-//			FrmAddEvaluation addEvaluation = new FrmAddEvaluation(this, "添加评价", true);
-//			addEvaluation.curRecipe = this.curRecipes;
-//			addEvaluation.setVisible(true);
-//			this.reloadEvaluationsTable(this.curRecipes.getRecipe_number() - 1);
-//		}else if (e.getSource() == this.btnOrder) {
-//			FrmAddOrder addOrder = new FrmAddOrder(this, "添加评价", true);
-//			addOrder.setVisible(true);
-////			this.reloadEvaluationsTable(this.curRecipes.getRecipe_number() - 1);
-//		}
+		if (e.getSource() == this.btnChangeStatus) {
+			int i=this.dataTableOrder.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择订单","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			IngredientsOrderManager orderManager = new IngredientsOrderManager();
+			curOrder = allOrders.get(i);
+			try {
+				orderManager.changeIngredientsOrderStatus(curOrder, this.cmbOrderStatus.getSelectedItem().toString());
+			} catch (BaseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			this.reloadOrdersTable();
+//			this.setVisible(false);
+		} 
 	}
 }

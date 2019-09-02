@@ -65,7 +65,7 @@ public class FrmChangeProcurementStatus extends JDialog implements ActionListene
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (this.cmbStauts.getSelectedIndex() < 0) {
-			JOptionPane.showMessageDialog(null, "请选择账号类别", "提示", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "请选择状态", "提示", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		
