@@ -112,8 +112,12 @@ public class HibernateUtil {
 //		System.out.println(recipeInformation.getRecipe_number());
 //		recipeManager.addRecipeMaterial(recipeInformation, information.getIngredients_number(), 2, "2");
 		
-		BeanIngredientsInformation information2 = (BeanIngredientsInformation)session.get(BeanIngredientsInformation.class, information.getIngredients_number());
-		System.out.println(information2.getIngredients_name());
+//		BeanIngredientsInformation information2 = (BeanIngredientsInformation)session.get(BeanIngredientsInformation.class, information.getIngredients_number());
+//		System.out.println(information2.getIngredients_name());
+		
+		BeanRecipeInformation recipeInformation = new RecipeManager().searchRecipe("番茄炒蛋").get(0);
+//		System.out.println(recipeInformation.getRecipe_name());
+		new RecipeManager().addRecipeView(recipeInformation);
 	}
 	
 

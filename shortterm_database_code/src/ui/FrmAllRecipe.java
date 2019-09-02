@@ -219,6 +219,14 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 					return;
 				}
 				curRecipes = allRecipes.get(i);
+				try {
+					new RecipeManager().addRecipeView(curRecipes);
+					
+				} catch (BaseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				FrmAllRecipe.this.reloadTable();
 				FrmAllRecipe.this.reloadStepsTable(i);
 				FrmAllRecipe.this.reloadMaterialsTable(i);
 				FrmAllRecipe.this.reloadEvaluationsTable(i);

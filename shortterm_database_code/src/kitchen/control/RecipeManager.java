@@ -376,4 +376,28 @@ public class RecipeManager {
 
 		return evaluation;
 	}
+	
+//	查看所有菜谱时,点击菜谱, 浏览+1
+	public void addRecipeView(BeanRecipeInformation recipeInformation) throws BaseException{
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			int num = recipeInformation.getRecipe_views_number();
+			recipeInformation.setRecipe_views_number(num+1);
+			
+			session.update(recipeInformation);
+			transaction.commit();
+		} catch (SessionException e) {
+			throw new BusinessException("浏览次数+1失败");
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+	}
 }
