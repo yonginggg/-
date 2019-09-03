@@ -48,7 +48,8 @@ public class FrmMain extends JFrame implements ActionListener {
 	private JMenu menu_Manager = new JMenu("用户管理");
 	private JMenu menu_Ingredients = new JMenu("食材管理");
 	private JMenu menu_Procurement = new JMenu("采购管理");
-
+	private JMenu menu_AllRecipeAdmin = new JMenu("所有菜谱");
+	
 	private JMenuItem menuItem_AddIngredientsCategories = new JMenuItem("添加食材类别");
 	private JMenuItem menuItem_DeleteIngredientsCategories = new JMenuItem("删除食材类别");
 	private JMenuItem menuItem_ChangeIngredientsCategories = new JMenuItem("修改食材类别描述");
@@ -64,6 +65,8 @@ public class FrmMain extends JFrame implements ActionListener {
 	private JMenuItem menuItem_ReloadUserPwd = new JMenuItem("重置用户密码");
 	private JMenuItem menuItem_ChangeAdminPwd = new JMenuItem("修改管理员密码");
 
+	private JMenuItem menuItem_allRecipeAdmin = new JMenuItem("查看所有菜谱");
+	
 //	用户界面信息
 
 	private JMenu menu_AllRecipe = new JMenu("所有菜谱");
@@ -332,9 +335,13 @@ public class FrmMain extends JFrame implements ActionListener {
 			menu_Procurement.add(menuItem_ProcurementStatic);
 			menuItem_ProcurementStatic.addActionListener(this);
 
+			menu_AllRecipeAdmin.add(menuItem_allRecipeAdmin);
+			menuItem_allRecipeAdmin.addActionListener(this);
+			
 			menubar.add(menu_Manager);
 			menubar.add(menu_Ingredients);
 			menubar.add(menu_Procurement);
+			menubar.add(menu_AllRecipeAdmin);
 
 		}
 //		用户界面按钮
@@ -713,14 +720,20 @@ public class FrmMain extends JFrame implements ActionListener {
 			changePwd.setVisible(true);
 		}
 
-//		查看所有菜谱
+//		查看所有菜谱-user
 		else if (e.getSource() == this.menuItem_allRecipe) {
 			FrmAllRecipe allRecipe = new FrmAllRecipe(this, "所有菜谱", true);
 			allRecipe.setVisible(true);
 		}
+//		查看所有菜谱-admin
+		else if (e.getSource() == this.menuItem_allRecipeAdmin) {
+			FrmAllRecipeAdmin allRecipeAdmin= new FrmAllRecipeAdmin(this, "所有菜谱", true);
+			allRecipeAdmin.curRecipes = this.curRecipes;
+			allRecipeAdmin.setVisible(true);
+		}
 //		订单统计
 		else if (e.getSource() == this.menuItem_OrderStatic) {
-			FrmOrderStatic orderStatic = new FrmOrderStatic(this, "所有菜谱", true);
+			FrmOrderStatic orderStatic = new FrmOrderStatic(this, "订单统计", true);
 			orderStatic.setVisible(true);
 		}
 		

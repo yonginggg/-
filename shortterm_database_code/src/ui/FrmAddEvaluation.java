@@ -37,8 +37,8 @@ public class FrmAddEvaluation extends JDialog implements ActionListener{
 	private JButton btnOk = new JButton("确定");
 	private JButton btnCancel = new JButton("取消");
 	
-	private JLabel labelMark = new JLabel("评分");
-	private JLabel labelContent = new JLabel("内容");
+	private JLabel labelMark = new JLabel("评分(满分10):");
+	private JLabel labelContent = new JLabel("内容:");
 	private JComboBox cmbCollection = new JComboBox(new String[] { "收藏", "不收藏" });	
 	List<String> ingredientsInformations = new IngredientsManager().loadAllIngredientsName();
 	
@@ -52,18 +52,18 @@ public class FrmAddEvaluation extends JDialog implements ActionListener{
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		workPane.setLayout(null);
-		labelMark.setBounds(8, 8, 45, 18);
+		labelMark.setBounds(8, 8, 114, 18);
 		workPane.add(labelMark);
-		edtMark.setBounds(108, 5, 166, 24);
+		edtMark.setBounds(136, 5, 224, 21);
 		workPane.add(edtMark);
 		labelContent.setBounds(8, 88, 45, 18);
 		workPane.add(labelContent);
-		edtContent.setBounds(108, 85, 166, 94);
+		edtContent.setBounds(139, 88, 221, 99);
 		workPane.add(edtContent);
-		cmbCollection.setBounds(108, 50, 166, 24);
+		cmbCollection.setBounds(136, 39, 224, 24);
 		workPane.add(cmbCollection);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
-		this.setSize(343, 287);
+		this.setSize(459, 284);
 		// 屏幕居中显示
 		double width = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		double height = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
