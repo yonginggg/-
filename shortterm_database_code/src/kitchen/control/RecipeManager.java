@@ -377,6 +377,47 @@ public class RecipeManager {
 		return evaluation;
 	}
 	
+	public void changeRecipeOverallRating(BeanRecipeInformation recipe, double mark) throws BaseException {
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		RecipeManager recipeManager = new RecipeManager();
+		try {
+			List<BeanRecipeEvaluation> recipeEvaluations =recipeManager.loadAllEvaluations(recipe);
+			int num = recipeEvaluations.size();
+			if(num==0) {
+				num=1;
+			}else {
+				num++;
+			}
+			
+			double allGrade = 0;
+			if(recipeEvaluations!=null&&!recipeEvaluations.isEmpty()) {
+				for(int i = 0; i<recipeEvaluations.size(); i++) {
+					allGrade+=recipeEvaluations.get(i).getEvaluation_grade();
+				}
+				allGrade+=mark;
+			}else {
+				allGrade = mark;
+			}
+			recipe.setRecipe_overall_rating(allGrade/num);
+			
+			session.saveOrUpdate(recipe);
+			transaction.commit();
+		} catch (SessionException e) {
+			throw new BusinessException("综合评分失败");
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+	}
+	
 //	有人收藏菜谱时，菜谱收藏数量+1；
 	public void addRecipeCollection(BeanRecipeInformation recipeInformation) throws BaseException{
 		Session session = HibernateUtil.getSession();

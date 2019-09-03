@@ -94,7 +94,15 @@ public class FrmAddEvaluation extends JDialog implements ActionListener{
 					e1.printStackTrace();
 				}
 			}
+//			用户评分后,修改菜谱综合评分
+			try {
+				recipeManager.changeRecipeOverallRating(curRecipe, mark);
+			} catch (BaseException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 			
+//			评价
 			try {
 				recipeManager.addEvaluation(curRecipe, BeanUser.currentUser, content, collection, mark);
 				this.setVisible(false);
