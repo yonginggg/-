@@ -12,6 +12,8 @@ import org.hibernate.query.Query;
 import javafx.collections.ListChangeListener.Change;
 import kitchen.model.BeanIngredientsCategory;
 import kitchen.model.BeanIngredientsInformation;
+import kitchen.model.BeanIngredientsOrder;
+import kitchen.model.BeanOrderDetail;
 import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
@@ -227,6 +229,36 @@ public class IngredientsManager {
 		}
 	}
 
+	public void deleteIngredientsQuantityByOrder(BeanIngredientsOrder order) throws BaseException{
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		List<BeanOrderDetail> orderDetails = new IngredientsOrderManager().loadAllDetails(order);
+		try {
+			for(int i=0; i<orderDetails.size();i++) {
+				BeanIngredientsInformation information = new IngredientsManager().loadIngredient(orderDetails.get(i).getIngredients_number());
+				double quantity = orderDetails.get(i).getQuantity();
+				double oldQuantity = information.getIngredients_quantity();
+				information.setIngredients_quantity(oldQuantity-quantity);
+				
+				session.update(information);
+				
+			}
+			transaction.commit();
+		}catch (SessionException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		
+	}
 	
 	public BeanIngredientsInformation changIngredients(BeanIngredientsInformation information, String newDescription) {
 		Session session = HibernateUtil.getSession();

@@ -25,6 +25,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import kitchen.control.IngredientsManager;
 import kitchen.control.IngredientsOrderManager;
 import kitchen.control.IngredientsProcurementManager;
 import kitchen.control.RecipeManager;
@@ -41,7 +42,7 @@ import kitchen.util.BaseException;
 public class FrmOrderStatic extends JFrame implements ActionListener {
 	private JPanel toolBar = new JPanel();
 	private JButton btnChangeStatus = new JButton("修改状态");
-	private JComboBox cmbOrderStatus = new JComboBox(new String[] { "下单", "配送", "送达","退货" });
+	private JComboBox cmbOrderStatus = new JComboBox(new String[] { "下单", "配送", "送达", "退货" });
 
 //	用户
 	private Object tblUserTitle[] = BeanUser.tblUserTitle;
@@ -134,6 +135,7 @@ public class FrmOrderStatic extends JFrame implements ActionListener {
 				if (i < 0) {
 					return;
 				}
+				curOrder = allOrders.get(i);
 				FrmOrderStatic.this.reloadDetailsTable(i);
 			}
 
@@ -166,15 +168,22 @@ public class FrmOrderStatic extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 //		修改订单状态, 当订单送达时, 将食材的数量减去订单的食材数量
 		if (e.getSource() == this.btnChangeStatus) {
-			int i=this.dataTableOrder.getSelectedRow();
-			if(i<0) {
-				JOptionPane.showMessageDialog(null,  "请选择订单","提示",JOptionPane.ERROR_MESSAGE);
+//			int i = this.dataTableOrder.getSelectedRow();
+			if (curOrder==null) {
+				JOptionPane.showMessageDialog(null, "请选择订单", "提示", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			IngredientsOrderManager orderManager = new IngredientsOrderManager();
-			curOrder = allOrders.get(i);
+//			curOrder = allOrders.get(i);
 			try {
+//				修改状态
 				orderManager.changeIngredientsOrderStatus(curOrder, this.cmbOrderStatus.getSelectedItem().toString());
+//				如果配送中,数量减去
+				if (this.cmbOrderStatus.getSelectedItem().toString() == "配送") {
+					IngredientsManager ingredientsManager = new IngredientsManager();
+					ingredientsManager.deleteIngredientsQuantityByOrder(curOrder);
+//					FrmMain.this.reloadIngredientsTable(BeanIngredientsProcurement.currentProcurement.getIngredients_number());
+				}
 				
 			} catch (BaseException e1) {
 				// TODO Auto-generated catch block
@@ -182,6 +191,6 @@ public class FrmOrderStatic extends JFrame implements ActionListener {
 			}
 			this.reloadOrdersTable();
 //			this.setVisible(false);
-		} 
+		}
 	}
 }

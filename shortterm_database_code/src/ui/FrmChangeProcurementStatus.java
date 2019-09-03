@@ -113,8 +113,10 @@ public class FrmChangeProcurementStatus extends JDialog implements ActionListene
 		else if (e.getSource() == this.btnOk) {
 			IngredientsProcurementManager procurementManager = new IngredientsProcurementManager();
 			try {
+//				修改状态
 				procurementManager.changeStatus(BeanIngredientsProcurement.currentProcurement,
 						this.cmbStauts.getSelectedItem().toString());
+//				如果入库,食材数量增加
 				if (this.cmbStauts.getSelectedItem().toString() == "入库") {
 					new IngredientsManager().addBeanIngredientsQuantity(
 							new IngredientsManager().loadIngredient(
