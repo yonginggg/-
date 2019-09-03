@@ -254,13 +254,23 @@ public class RecipeManager {
 		return materials;
 	}
 
-	public BeanRecipeStep addRecipeStep(BeanRecipeInformation recipeInformation, int step_number, String description)
+	public BeanRecipeStep addRecipeStep(BeanRecipeInformation recipeInformation,String description)
 			throws BaseException {
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 
 		BeanRecipeStep step = new BeanRecipeStep();
+		int step_number=1;
 		try {
+			
+			//查找某用户最大plan_order
+			String hql = "select max(p.step_number) from BeanRecipeStep p where p.recipe_number=:recipe_number";
+			Query query = session.createQuery(hql);
+			query.setInteger("recipe_number", recipeInformation.getRecipe_number());
+			if(query.uniqueResult()!=null) {
+				step_number = (Integer)query.uniqueResult()+1;
+			}
+			
 			step.setRecipe_number(recipeInformation.getRecipe_number());
 			step.setStep_number(step_number);
 			step.setStep_description(description);
@@ -289,6 +299,15 @@ public class RecipeManager {
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
 			session.delete(step);
+			
+			//更新剩余的步骤序号
+			String hql="update BeanRecipeStep p set p.step_number=p.step_number-1 where p.step_number>:step_number and p.recipe_number=:recipe_number";
+//			hql="update BeanPlan p set p.planOrder=p.planOrder-1 where p.planOrder>:planorder and p.userId=:userid";
+			Query query=session.createQuery(hql);
+			query.setInteger("step_number", step.getStep_number());
+			query.setInteger("recipe_number", step.getRecipe_number());
+			query.executeUpdate();
+			
 			transaction.commit();
 		} catch (SessionException e) {
 			// TODO: handle exception

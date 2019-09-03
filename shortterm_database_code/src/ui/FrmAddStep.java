@@ -30,10 +30,10 @@ public class FrmAddStep extends JDialog implements ActionListener {
 	private JPanel workPane = new JPanel();
 	private JButton btnOk = new JButton("确定");
 	private JButton btnCancel = new JButton("取消");
-	private JLabel labelNumber = new JLabel("序号：");
+//	private JLabel labelNumber = new JLabel("序号：");
 	private JLabel labelDescription = new JLabel("描述：");
 
-	private JTextField edtNumber = new JTextField(20);
+//	private JTextField edtNumber = new JTextField(20);
 	private JTextField edtDescription = new JTextField(20);
 
 	public FrmAddStep(JFrame f, String s, boolean b) {
@@ -42,8 +42,8 @@ public class FrmAddStep extends JDialog implements ActionListener {
 		toolBar.add(btnOk);
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
-		workPane.add(labelNumber);
-		workPane.add(edtNumber);
+//		workPane.add(labelNumber);
+//		workPane.add(edtNumber);
 		workPane.add(labelDescription);
 		workPane.add(edtDescription);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
@@ -71,12 +71,13 @@ public class FrmAddStep extends JDialog implements ActionListener {
 		} else if (e.getSource() == this.btnOk) {
 			if (JOptionPane.showConfirmDialog(this, "是否确认添加步骤?", "确认",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-				int number = Integer.parseInt(this.edtNumber.getText());
+//				int number = Integer.parseInt(this.edtNumber.getText());
 				String description = this.edtDescription.getText();
 
 				RecipeManager recipeManager = new RecipeManager();
 				try {
-					recipeManager.addRecipeStep(curRecipe, number, description);
+//					recipeManager.addRecipeStep(curRecipe, number, description);
+					recipeManager.addRecipeStep(curRecipe, description);
 					this.setVisible(false);
 				} catch (BaseException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
