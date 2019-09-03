@@ -69,15 +69,20 @@ public class FrmChangeAdminPwd extends JDialog implements ActionListener {
 		if (e.getSource() == this.btnCancel)
 			this.setVisible(false);
 		else if (e.getSource() == this.btnOk) {
-			try {
-				AdministratorManager administratorManager = new AdministratorManager();
-				administratorManager.changAdministratorPwd(currentAdministrator, new String(edtPwdOld.getPassword()),
-						new String(edtPwd.getPassword()), new String(edtPwd2.getPassword()));
-				this.setVisible(false);
-			} catch (BaseException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
-				return;
+			if (JOptionPane.showConfirmDialog(this, "是否确认修改管理员密码", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				try {
+					AdministratorManager administratorManager = new AdministratorManager();
+					administratorManager.changAdministratorPwd(currentAdministrator,
+							new String(edtPwdOld.getPassword()), new String(edtPwd.getPassword()),
+							new String(edtPwd2.getPassword()));
+					this.setVisible(false);
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 			}
+
 		}
 
 	}

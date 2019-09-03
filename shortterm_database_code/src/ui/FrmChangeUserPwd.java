@@ -66,18 +66,27 @@ public class FrmChangeUserPwd extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == this.btnCancel)
-			this.setVisible(false);
-		else if (e.getSource() == this.btnOk) {
-			try {
-				UserManager userManager = new UserManager();
-				userManager.changePwd(currentUser, new String(edtPwdOld.getPassword()),
-						new String(edtPwd.getPassword()), new String(edtPwd2.getPassword()));
+		if (e.getSource() == this.btnCancel) {
+			if (JOptionPane.showConfirmDialog(this, "是否确认取消?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				this.setVisible(false);
-			} catch (BaseException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
-				return;
 			}
+		}
+
+		else if (e.getSource() == this.btnOk) {
+			if (JOptionPane.showConfirmDialog(this, "是否确认修改用户密码?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				try {
+					UserManager userManager = new UserManager();
+					userManager.changePwd(currentUser, new String(edtPwdOld.getPassword()),
+							new String(edtPwd.getPassword()), new String(edtPwd2.getPassword()));
+					this.setVisible(false);
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			}
+
 		}
 
 	}

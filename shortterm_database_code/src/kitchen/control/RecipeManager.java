@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+import kitchen.model.BeanIngredientsCategory;
 import kitchen.model.BeanRecipeEvaluation;
 import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeMaterial;
@@ -81,6 +82,30 @@ public class RecipeManager {
 		}
 	}
 
+//	修改菜谱
+	public BeanRecipeInformation changRecipe(BeanRecipeInformation recipe,
+			String newDescription) {
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			recipe.setRecipe_description(newDescription);
+			session.update(recipe);
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return recipe;
+	}
+	
 	public List<BeanRecipeInformation> loadAllRecipe() throws BaseException {
 		List<BeanRecipeInformation> recipeInformations = new ArrayList<BeanRecipeInformation>();
 		Session session = HibernateUtil.getSession();
@@ -280,6 +305,30 @@ public class RecipeManager {
 		}
 	}
 
+//	修改步骤
+	public BeanRecipeStep changeStep(BeanRecipeStep step,
+			String newDescription) {
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			step.setStep_description(newDescription);
+			session.update(step);
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return step;
+	}
+	
 	public List<BeanRecipeStep> loadAllSteps(BeanRecipeInformation recipeInformation) throws BaseException {
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();

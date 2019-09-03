@@ -223,7 +223,7 @@ public class FrmAllRecipeAdmin extends JFrame implements ActionListener {
 				curRecipes = allRecipes.get(i);
 				try {
 					new RecipeManager().addRecipeView(curRecipes);
-					
+
 				} catch (BaseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -263,7 +263,7 @@ public class FrmAllRecipeAdmin extends JFrame implements ActionListener {
 				curEvaluation = allEvaluations.get(i);
 				try {
 					new RecipeManager().addEvaluationView(curEvaluation);
-					
+
 				} catch (BaseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -277,7 +277,6 @@ public class FrmAllRecipeAdmin extends JFrame implements ActionListener {
 		});
 		this.reloadRecipesTable();
 
-		
 //		this.btnOrder.addActionListener(this);
 //		this.btnEvaluation.addActionListener(this);
 		this.btnDeleteRecipe.addActionListener(this);
@@ -297,18 +296,22 @@ public class FrmAllRecipeAdmin extends JFrame implements ActionListener {
 		if (e.getSource() == this.btnSearch) {
 			this.reloadTable();
 		} else if (e.getSource() == this.btnDeleteRecipe) {
-			if (curRecipes==null) {
+			if (curRecipes == null) {
 				JOptionPane.showMessageDialog(null, "请选择菜谱", "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			try {
-				RecipeManager recipeManager = new RecipeManager();
-				recipeManager.deleRecipe(curRecipes);
-				this.reloadRecipesTable();
-			} catch (BaseException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
-				return;
+			if (JOptionPane.showConfirmDialog(this, "是否确认删除菜谱?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				try {
+					RecipeManager recipeManager = new RecipeManager();
+					recipeManager.deleRecipe(curRecipes);
+					this.reloadRecipesTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 			}
+
 		}
 	}
 }

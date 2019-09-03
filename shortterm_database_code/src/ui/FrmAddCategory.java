@@ -61,7 +61,9 @@ public class FrmAddCategory extends JDialog implements ActionListener {
 			this.setVisible(false);
 			return;
 		} else if (e.getSource() == this.btnOk) {
-			String name = this.edtName.getText();
+			if (JOptionPane.showConfirmDialog(this, "是否确认增加食材类别?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				String name = this.edtName.getText();
 			String description = this.edtDescription.getText();
 			IngredientsManager ingredientsManager = new IngredientsManager();
 			try {
@@ -71,6 +73,8 @@ public class FrmAddCategory extends JDialog implements ActionListener {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+			}
+			
 		}
 
 	}

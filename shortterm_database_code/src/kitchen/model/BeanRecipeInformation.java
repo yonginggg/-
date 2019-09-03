@@ -10,7 +10,7 @@ public class BeanRecipeInformation {
 //	  `recipe_views_number` int(11) NOT NULL COMMENT '浏览次数',
 	
 	public static BeanRecipeInformation currentRecipe= null;
-	public static final String[] tblRecipeTitle = { "类别编号", "菜谱名称", "菜谱描述",
+	public static final String[] tblRecipeTitle = { "菜谱编号", "菜谱名称", "菜谱描述",
 			"综合评分","收藏数量","浏览次数"};
 	public String getCell(int col) {
 		if (col == 0)

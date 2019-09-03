@@ -61,9 +61,13 @@ public class FrmChangeIngredients extends JDialog implements ActionListener {
 		if (e.getSource() == this.btnCancel)
 			this.setVisible(false);
 		else if (e.getSource() == this.btnOk) {
-			IngredientsManager ingredientsManager = new IngredientsManager();
-			ingredientsManager.changIngredients(currentIngredient, edtDescription.getText());
-			this.setVisible(false);
+			if (JOptionPane.showConfirmDialog(this, "是否确认修改食材描述?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				IngredientsManager ingredientsManager = new IngredientsManager();
+				ingredientsManager.changIngredients(currentIngredient, edtDescription.getText());
+				this.setVisible(false);
+			}
+
 		}
 
 	}

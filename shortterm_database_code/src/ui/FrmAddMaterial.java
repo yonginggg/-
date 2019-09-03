@@ -42,7 +42,6 @@ public class FrmAddMaterial extends JDialog implements ActionListener {
 	String[] ingredientName = ingredientsInformations.toArray(new String[ingredientsInformations.size()]);
 	private JComboBox cmbMaterial = new JComboBox(ingredientName);
 
-	
 	private JTextField edtQuantity = new JTextField(20);
 
 	public FrmAddMaterial(JFrame f, String s, boolean b) {
@@ -60,9 +59,10 @@ public class FrmAddMaterial extends JDialog implements ActionListener {
 		workPane.add(labelquantity);
 		edtQuantity.setBounds(109, 43, 166, 24);
 		workPane.add(edtQuantity);
-		String ingredientUnit=null;
+		String ingredientUnit = null;
 		try {
-			ingredientUnit = new IngredientsManager().loadIngredient(this.cmbMaterial.getSelectedItem().toString()).getIngredients_specification();
+			ingredientUnit = new IngredientsManager().loadIngredient(this.cmbMaterial.getSelectedItem().toString())
+					.getIngredients_specification();
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,29 +83,37 @@ public class FrmAddMaterial extends JDialog implements ActionListener {
 		// TODO Auto-generated method stub
 
 		if (e.getSource() == this.btnCancel) {
-			this.setVisible(false);
-			return;
-		} else if (e.getSource() == this.btnOk) {
-			String name = this.cmbMaterial.getSelectedItem().toString();
-			double quantity = Double.parseDouble(this.edtQuantity.getText());
-			String unit = null;
-			try {
-				unit = new IngredientsManager().loadIngredient(name).getIngredients_specification();
-			} catch (BaseException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-
-			RecipeManager recipeManager = new RecipeManager();
-			IngredientsManager ingredientsManager = new IngredientsManager();
-			try {
-				recipeManager.addRecipeMaterial(curRecipe,
-						ingredientsManager.loadIngredient(name).getIngredients_number(), quantity, unit);
+			if (JOptionPane.showConfirmDialog(this, "是否确认取消?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				this.setVisible(false);
-			} catch (BaseException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+
+		} else if (e.getSource() == this.btnOk) {
+			if (JOptionPane.showConfirmDialog(this, "是否确认添加食材?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				String name = this.cmbMaterial.getSelectedItem().toString();
+				double quantity = Double.parseDouble(this.edtQuantity.getText());
+				String unit = null;
+				try {
+					unit = new IngredientsManager().loadIngredient(name).getIngredients_specification();
+				} catch (BaseException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+
+				RecipeManager recipeManager = new RecipeManager();
+				IngredientsManager ingredientsManager = new IngredientsManager();
+				try {
+					recipeManager.addRecipeMaterial(curRecipe,
+							ingredientsManager.loadIngredient(name).getIngredients_number(), quantity, unit);
+					this.setVisible(false);
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			}
+
 		}
 
 	}

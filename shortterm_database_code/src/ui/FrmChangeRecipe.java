@@ -17,11 +17,13 @@ import javax.swing.JTextField;
 
 import kitchen.control.AdministratorManager;
 import kitchen.control.IngredientsManager;
+import kitchen.control.RecipeManager;
 import kitchen.model.BeanAdministratorInformation;
 import kitchen.model.BeanIngredientsCategory;
+import kitchen.model.BeanRecipeInformation;
 import kitchen.util.BaseException;
 
-public class FrmChangeCategory extends JDialog implements ActionListener {
+public class FrmChangeRecipe extends JDialog implements ActionListener {
 
 	private JPanel toolBar = new JPanel();
 	private JPanel workPane = new JPanel();
@@ -31,9 +33,9 @@ public class FrmChangeCategory extends JDialog implements ActionListener {
 	private JLabel labelDescription = new JLabel("新的描述");
 	private JTextField edtDescription = new JTextField();
 
-	public BeanIngredientsCategory currentIngredientCategory = null;
+	public BeanRecipeInformation currentRecipe = null;
 
-	public FrmChangeCategory(Frame f, String s, boolean b) {
+	public FrmChangeRecipe(Frame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(this.btnOk);
@@ -57,16 +59,21 @@ public class FrmChangeCategory extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == this.btnCancel)
-			this.setVisible(false);
-		else if (e.getSource() == this.btnOk) {
-			if (JOptionPane.showConfirmDialog(this, "是否确认修改食材类别的描述?", "确认",
+		if (e.getSource() == this.btnCancel) {
+			if (JOptionPane.showConfirmDialog(this, "是否确认取消?", "确认",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-				IngredientsManager ingredientsManager = new IngredientsManager();
-				ingredientsManager.changIngredientsCategory(currentIngredientCategory, edtDescription.getText());
 				this.setVisible(false);
 			}
-
+		}
+			
+		else if (e.getSource() == this.btnOk) {
+			if (JOptionPane.showConfirmDialog(this, "是否确认修改菜谱描述?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				RecipeManager recipeManager = new RecipeManager();
+			recipeManager.changRecipe(currentRecipe, edtDescription.getText());
+			this.setVisible(false);
+			}
+			
 		}
 
 	}

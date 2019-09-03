@@ -83,7 +83,9 @@ public class FrmAddOrder extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.btnOk) {
-//			order_num++;
+			if (JOptionPane.showConfirmDialog(this, "是否确认创建订单?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				//			order_num++;
 			IngredientsOrderManager orderManager = new IngredientsOrderManager();
 			String address = this.edtAddress.getText();
 			String time = this.edtTime.getText();
@@ -103,10 +105,13 @@ public class FrmAddOrder extends JDialog implements ActionListener {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+			}
+
 			
 
 			
 		} else if (e.getSource() == this.btnCancel) {
+			
 			System.exit(0);
 		}
 	}

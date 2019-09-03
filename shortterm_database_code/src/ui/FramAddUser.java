@@ -29,7 +29,7 @@ public class FramAddUser extends JDialog implements ActionListener {
 	private JPanel workPane = new JPanel();
 	private JButton btnOk = new JButton("注册");
 	private JButton btnCancel = new JButton("取消");
-	
+
 	private JLabel labelUser = new JLabel("用户名：");
 	private JLabel labelPwd = new JLabel("密码1：");
 	private JLabel labelPwd2 = new JLabel("密码2：");
@@ -39,7 +39,7 @@ public class FramAddUser extends JDialog implements ActionListener {
 	private JLabel labelPhoneNumber = new JLabel("手机：");
 	private JLabel labelEmail = new JLabel("邮箱：");
 	private JLabel labelCity = new JLabel("城市：");
-	
+
 //	private JLabel labelUserType = new JLabel("是否为管理员(yes/no):");// (是/否)
 	private JTextField edtUserId = new JTextField(20);
 	private JPasswordField edtPwd = new JPasswordField(20);
@@ -50,7 +50,7 @@ public class FramAddUser extends JDialog implements ActionListener {
 	private JTextField edtUserPhoneNumber = new JTextField(20);
 	private JTextField edtUserEmail = new JTextField(20);
 	private JTextField edtUserCity = new JTextField(20);
-	
+
 //	private JPasswordField edtUserType = new JPasswordField(20);// 是否管理员
 
 	public FramAddUser(FrmMain frmMain, String s, boolean b) {
@@ -112,21 +112,25 @@ public class FramAddUser extends JDialog implements ActionListener {
 		if (e.getSource() == this.btnCancel)
 			this.setVisible(false);
 		else if (e.getSource() == this.btnOk) {
-			String user_id = this.edtUserId.getText();
-			String pwd1 = new String(this.edtPwd.getPassword());
-			String pwd2 = new String(this.edtPwd2.getPassword());
-			String user_name = this.edtUserName.getText();
-			String user_sex = this.cmbUserSex.getSelectedItem().toString();
-			int user_phone_number = new Integer(this.edtUserPhoneNumber.getText());
-			String user_email = this.edtUserEmail.getText();
-			String user_city = this.edtUserCity.getText();
-			try {
-				UserManager userManager = new UserManager();
-				BeanUser user = userManager.reg(user_name, user_sex, user_id, pwd1 , pwd2, user_phone_number, user_email, user_city);
-				this.setVisible(false);
-			} catch (BaseException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
-				return;
+			if (JOptionPane.showConfirmDialog(this, "是否确认添加用户?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				String user_id = this.edtUserId.getText();
+				String pwd1 = new String(this.edtPwd.getPassword());
+				String pwd2 = new String(this.edtPwd2.getPassword());
+				String user_name = this.edtUserName.getText();
+				String user_sex = this.cmbUserSex.getSelectedItem().toString();
+				int user_phone_number = new Integer(this.edtUserPhoneNumber.getText());
+				String user_email = this.edtUserEmail.getText();
+				String user_city = this.edtUserCity.getText();
+				try {
+					UserManager userManager = new UserManager();
+					BeanUser user = userManager.reg(user_name, user_sex, user_id, pwd1, pwd2, user_phone_number,
+							user_email, user_city);
+					this.setVisible(false);
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 			}
 
 		}

@@ -63,7 +63,9 @@ public class FrmAddProcurement extends JDialog implements ActionListener{
 			this.setVisible(false);
 			return;
 		} else if (e.getSource() == this.btnOk) {
-			double quantity = Double.parseDouble(this.edtQuantity.getText());
+			if (JOptionPane.showConfirmDialog(this, "是否确认采购食材类别?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				double quantity = Double.parseDouble(this.edtQuantity.getText());
 			IngredientsProcurementManager ingredientsProcurementManager = new IngredientsProcurementManager();
 			try {
 				ingredientsProcurementManager.addIngredientsProcurement(currentIngredients, quantity, currentAdministrator);
@@ -73,6 +75,8 @@ public class FrmAddProcurement extends JDialog implements ActionListener{
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+			}
+			
 
 		}
 

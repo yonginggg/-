@@ -27,7 +27,7 @@ public class FrmAddRecipe extends JDialog implements ActionListener {
 	private JButton btnCancel = new JButton("取消");
 	private JLabel labelName = new JLabel("名称：");
 	private JLabel labelDescription = new JLabel("描述：");
-	
+
 	private JTextField edtName = new JTextField(20);
 	private JTextField edtDescription = new JTextField(20);
 
@@ -59,19 +59,27 @@ public class FrmAddRecipe extends JDialog implements ActionListener {
 		// TODO Auto-generated method stub
 
 		if (e.getSource() == this.btnCancel) {
-			this.setVisible(false);
-			return;
-		} else if (e.getSource() == this.btnOk) {
-			String name = this.edtName.getText();
-			String description = this.edtDescription.getText();
-			RecipeManager recipeManager = new RecipeManager();
-			try {
-				recipeManager.addRecipe(name, BeanUser.currentUser,description);
+			if (JOptionPane.showConfirmDialog(this, "是否确认退出?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				this.setVisible(false);
-			} catch (BaseException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+
+		} else if (e.getSource() == this.btnOk) {
+			if (JOptionPane.showConfirmDialog(this, "是否确认添加菜谱?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				String name = this.edtName.getText();
+				String description = this.edtDescription.getText();
+				RecipeManager recipeManager = new RecipeManager();
+				try {
+					recipeManager.addRecipe(name, BeanUser.currentUser, description);
+					this.setVisible(false);
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			}
+
 		}
 
 	}

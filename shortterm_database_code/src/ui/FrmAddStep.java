@@ -22,10 +22,10 @@ import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeStep;
 import kitchen.util.*;
 
-public class FrmAddStep extends JDialog implements ActionListener{
-	
+public class FrmAddStep extends JDialog implements ActionListener {
+
 	public BeanRecipeInformation curRecipe = null;
-	
+
 	private JPanel toolBar = new JPanel();
 	private JPanel workPane = new JPanel();
 	private JButton btnOk = new JButton("确定");
@@ -33,10 +33,9 @@ public class FrmAddStep extends JDialog implements ActionListener{
 	private JLabel labelNumber = new JLabel("序号：");
 	private JLabel labelDescription = new JLabel("描述：");
 
-
 	private JTextField edtNumber = new JTextField(20);
 	private JTextField edtDescription = new JTextField(20);
-	
+
 	public FrmAddStep(JFrame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -44,7 +43,7 @@ public class FrmAddStep extends JDialog implements ActionListener{
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		workPane.add(labelNumber);
-		workPane.add(edtNumber);	
+		workPane.add(edtNumber);
 		workPane.add(labelDescription);
 		workPane.add(edtDescription);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
@@ -58,27 +57,34 @@ public class FrmAddStep extends JDialog implements ActionListener{
 		this.btnOk.addActionListener(this);
 		this.btnCancel.addActionListener(this);
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
 		if (e.getSource() == this.btnCancel) {
-			this.setVisible(false);
-			return;
-		} else if (e.getSource() == this.btnOk) {
-			int number = Integer.parseInt(this.edtNumber.getText());
-			String description = this.edtDescription.getText();
-			
-			RecipeManager recipeManager = new RecipeManager();
-			try {
-				recipeManager.addRecipeStep(curRecipe, number, description);
+			if (JOptionPane.showConfirmDialog(this, "是否确认取消?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				this.setVisible(false);
-			} catch (BaseException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+
+		} else if (e.getSource() == this.btnOk) {
+			if (JOptionPane.showConfirmDialog(this, "是否确认添加步骤?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				int number = Integer.parseInt(this.edtNumber.getText());
+				String description = this.edtDescription.getText();
+
+				RecipeManager recipeManager = new RecipeManager();
+				try {
+					recipeManager.addRecipeStep(curRecipe, number, description);
+					this.setVisible(false);
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			}
+
 		}
 
 	}
 }
-

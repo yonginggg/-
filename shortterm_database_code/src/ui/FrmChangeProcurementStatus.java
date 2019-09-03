@@ -112,7 +112,9 @@ public class FrmChangeProcurementStatus extends JDialog implements ActionListene
 			this.setVisible(false);
 		else if (e.getSource() == this.btnOk) {
 			IngredientsProcurementManager procurementManager = new IngredientsProcurementManager();
-			try {
+			if (JOptionPane.showConfirmDialog(this, "是否确认修改状态?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				try {
 //				修改状态
 				procurementManager.changeStatus(BeanIngredientsProcurement.currentProcurement,
 						this.cmbStauts.getSelectedItem().toString());
@@ -132,6 +134,8 @@ public class FrmChangeProcurementStatus extends JDialog implements ActionListene
 				e1.printStackTrace();
 			}
 			this.setVisible(false);
+			}
+			
 		}
 
 	}

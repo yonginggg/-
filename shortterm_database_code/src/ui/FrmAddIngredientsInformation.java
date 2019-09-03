@@ -19,10 +19,10 @@ import kitchen.control.IngredientsManager;
 import kitchen.model.BeanIngredientsCategory;
 import kitchen.util.*;
 
-public class FrmAddIngredientsInformation extends JDialog implements ActionListener{
-	
+public class FrmAddIngredientsInformation extends JDialog implements ActionListener {
+
 	public BeanIngredientsCategory ingredientsCategory = null;
-	
+
 	private JPanel toolBar = new JPanel();
 	private JPanel workPane = new JPanel();
 	private JButton btnOk = new JButton("确定");
@@ -36,7 +36,7 @@ public class FrmAddIngredientsInformation extends JDialog implements ActionListe
 	private JTextField edtPrice = new JTextField(20);
 	private JTextField edtDescription = new JTextField(20);
 	private JTextField edtSpecification = new JTextField(20);
-	
+
 	public FrmAddIngredientsInformation(JFrame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -46,7 +46,7 @@ public class FrmAddIngredientsInformation extends JDialog implements ActionListe
 		workPane.add(labelName);
 		workPane.add(edtName);
 		workPane.add(labelPrice);
-		workPane.add(edtPrice);	
+		workPane.add(edtPrice);
 		workPane.add(labelDescription);
 		workPane.add(edtDescription);
 		workPane.add(labelSpecification);
@@ -62,7 +62,7 @@ public class FrmAddIngredientsInformation extends JDialog implements ActionListe
 		this.btnOk.addActionListener(this);
 		this.btnCancel.addActionListener(this);
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
@@ -70,22 +70,26 @@ public class FrmAddIngredientsInformation extends JDialog implements ActionListe
 			this.setVisible(false);
 			return;
 		} else if (e.getSource() == this.btnOk) {
-			String name = this.edtName.getText();
-			double price = Double.parseDouble(this.edtPrice.getText());
-			String description = this.edtDescription.getText();
-			String specification = this.edtSpecification.getText();
-			
-			IngredientsManager ingredientsManager = new IngredientsManager();
-			
-			try {
-				ingredientsManager.addIngredientsInformation(name, price, description, specification, ingredientsCategory);
-				this.setVisible(false);
-			} catch (BaseException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
-				return;
+			if (JOptionPane.showConfirmDialog(this, "是否确认增加食材信息?", "确认",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				String name = this.edtName.getText();
+				double price = Double.parseDouble(this.edtPrice.getText());
+				String description = this.edtDescription.getText();
+				String specification = this.edtSpecification.getText();
+
+				IngredientsManager ingredientsManager = new IngredientsManager();
+
+				try {
+					ingredientsManager.addIngredientsInformation(name, price, description, specification,
+							ingredientsCategory);
+					this.setVisible(false);
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 			}
+
 		}
 
 	}
 }
-

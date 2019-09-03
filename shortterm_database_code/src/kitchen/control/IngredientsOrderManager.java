@@ -96,6 +96,7 @@ public class IngredientsOrderManager {
 		}
 	}
 	
+//	显示所有订单
 	public List<BeanIngredientsOrder> loadAllOrders()throws BaseException{
 		List<BeanIngredientsOrder> ingredientsOrders=new ArrayList<BeanIngredientsOrder>();
 		Session session = HibernateUtil.getSession();
@@ -104,6 +105,32 @@ public class IngredientsOrderManager {
 		try {
 			String hql ="from BeanIngredientsOrder";
 			org.hibernate.query.Query query = session.createQuery(hql);
+			ingredientsOrders = query.list();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			if(session!=null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		return ingredientsOrders;
+	}
+	
+//	根据用户显示各自的订单
+	public List<BeanIngredientsOrder> loadAllOrdersByUser(BeanUser beanUser)throws BaseException{
+		List<BeanIngredientsOrder> ingredientsOrders=new ArrayList<BeanIngredientsOrder>();
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		
+		try {
+			String hql ="from BeanIngredientsOrder where user_number=:num";
+			org.hibernate.query.Query query = session.createQuery(hql);
+			query.setInteger("num", beanUser.getUser_number());
 			ingredientsOrders = query.list();
 		} catch (Exception e) {
 			// TODO: handle exception
