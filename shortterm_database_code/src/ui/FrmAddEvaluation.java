@@ -84,8 +84,17 @@ public class FrmAddEvaluation extends JDialog implements ActionListener{
 			String collection = this.cmbCollection.getSelectedItem().toString();
 			double mark = Double.parseDouble(this.edtMark.getText());
 			String content = this.edtContent.getText();
-			
 			RecipeManager recipeManager = new RecipeManager();
+//			收藏后,菜谱的收藏数量+1;
+			if(collection.equals("收藏")){
+				try {
+					recipeManager.addRecipeCollection(curRecipe);
+				} catch (BaseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
 			try {
 				recipeManager.addEvaluation(curRecipe, BeanUser.currentUser, content, collection, mark);
 				this.setVisible(false);

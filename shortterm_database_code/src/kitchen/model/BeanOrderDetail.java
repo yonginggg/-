@@ -25,7 +25,7 @@ public class BeanOrderDetail {
 	private int order_detail_number;
 	private int order_number;
 	private int ingredients_number;
-	private int quantity;
+	private double quantity;
 	private double price;
 	private double order_discount;
 	
@@ -47,10 +47,10 @@ public class BeanOrderDetail {
 	public void setIngredients_number(int ingredients_number) {
 		this.ingredients_number = ingredients_number;
 	}
-	public int getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(int quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 	public double getPrice() {

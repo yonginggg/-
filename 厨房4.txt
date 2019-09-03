@@ -23,7 +23,7 @@ CREATE TABLE `tbl_ingredients_information` (
   `ingredients_number` int(50) NOT NULL AUTO_INCREMENT COMMENT '食材编号', 
   `ingredients_name` varchar(255) NOT NULL COMMENT '食材名称',
   `ingredients_price` double NOT NULL COMMENT '价格',
-  `ingredients_quantity` int(50) NOT NULL COMMENT '数量',
+  `ingredients_quantity` double NOT NULL COMMENT '数量',
   `ingredients_description` varchar(50) NOT NULL COMMENT '描述',
   `ingredients_specification` varchar(50) NOT NULL COMMENT '规格',
   `category_number` int(11) NOT NULL COMMENT '类别编号',

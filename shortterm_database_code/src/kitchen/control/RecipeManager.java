@@ -149,7 +149,7 @@ public class RecipeManager {
 	}
 
 	public BeanRecipeMaterial addRecipeMaterial(BeanRecipeInformation recipeInformation, int ingredients_number,
-			int quantity, String unit) throws BaseException {
+			double quantity, String unit) throws BaseException {
 
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -352,7 +352,7 @@ public class RecipeManager {
 			if(query.uniqueResult()!=null) {
 				throw new BusinessException("不能重复评论");
 			}
-			evaluation.setEvaluation_browse_sign(1);
+			evaluation.setEvaluation_browse_sign(0);
 			evaluation.setEvaluation_collection_sign(collection);
 			evaluation.setEvaluation_conten(content);
 			evaluation.setEvaluation_grade(mark);
@@ -377,6 +377,30 @@ public class RecipeManager {
 		return evaluation;
 	}
 	
+//	有人收藏菜谱时，菜谱收藏数量+1；
+	public void addRecipeCollection(BeanRecipeInformation recipeInformation) throws BaseException{
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			int num = recipeInformation.getRecipe_collection_number();
+			recipeInformation.setRecipe_collection_number(num+1);
+			
+			session.update(recipeInformation);
+			transaction.commit();
+		} catch (SessionException e) {
+			throw new BusinessException("收藏次数+1失败");
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+	}
+	
 //	查看所有菜谱时,点击菜谱, 浏览+1
 	public void addRecipeView(BeanRecipeInformation recipeInformation) throws BaseException{
 		Session session = HibernateUtil.getSession();
@@ -386,6 +410,30 @@ public class RecipeManager {
 			recipeInformation.setRecipe_views_number(num+1);
 			
 			session.update(recipeInformation);
+			transaction.commit();
+		} catch (SessionException e) {
+			throw new BusinessException("浏览次数+1失败");
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+	}
+	
+//	查看所有菜谱时,点击评价, 浏览+1
+	public void addEvaluationView(BeanRecipeEvaluation evaluation) throws BaseException{
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			int num = evaluation.getEvaluation_browse_sign();
+			evaluation.setEvaluation_browse_sign(num+1);
+			
+			session.update(evaluation);
 			transaction.commit();
 		} catch (SessionException e) {
 			throw new BusinessException("浏览次数+1失败");

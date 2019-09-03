@@ -27,7 +27,7 @@ public class BeanRecipeMaterial {
 	private int recipe_material_number;
 	private int recipe_number;
 	private int ingredients_number;
-	private int quantity;
+	private double quantity;
 	private String unit;
 	
 	public int getRecipe_material_number() {
@@ -48,10 +48,10 @@ public class BeanRecipeMaterial {
 	public void setIngredients_number(int ingredients_number) {
 		this.ingredients_number = ingredients_number;
 	}
-	public int getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(int quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 	public String getUnit() {

@@ -52,7 +52,7 @@
 			column="ingredients_name" />
 		<property name="ingredients_price" type="double"
 			column="ingredients_price" />
-		<property name="ingredients_quantity" type="int"
+		<property name="ingredients_quantity" type="double"
 			column="ingredients_quantity" />
 		<property name="ingredients_description" type="string"
 			column="ingredients_description" />
@@ -96,7 +96,7 @@
 			column="recipe_number" />
 		<property name="ingredients_number" type="int"
 			column="ingredients_number" />
-		<property name="quantity" type="int" column="quantity" />
+		<property name="quantity" type="double" column="quantity" />
 		<property name="unit" type="string" column="unit" />
 	</class>
 
@@ -167,7 +167,7 @@
 			column="order_number" />
 		<property name="ingredients_number" type="int"
 			column="ingredients_number" />
-		<property name="quantity" type="int" column="quantity" />
+		<property name="quantity" type="double" column="quantity" />
 		<property name="price" type="double" column="price" />
 		<property name="order_discount" type="double"
 			column="order_discount" />
@@ -199,7 +199,7 @@
 		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
 		<property name="ingredients_number" type="int"
 			column="ingredients_number" />
-		<property name="quantity" type="int" column="quantity" />
+		<property name="quantity" type="double" column="quantity" />
 		<property name="procurement_status" type="string"
 			column="procurement_status" />
 		<property name="administrator_number" type="int"

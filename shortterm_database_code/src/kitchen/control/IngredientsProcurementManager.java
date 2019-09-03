@@ -27,7 +27,7 @@ public class IngredientsProcurementManager {
 	}
 	
 	public BeanIngredientsProcurement addIngredientsProcurement(BeanIngredientsInformation ingredientsInformation,
-			int quantity, BeanAdministratorInformation administratorInformation) throws BaseException {
+			double quantity, BeanAdministratorInformation administratorInformation) throws BaseException {
 
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();

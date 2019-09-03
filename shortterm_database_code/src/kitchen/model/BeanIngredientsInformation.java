@@ -23,7 +23,7 @@ public class BeanIngredientsInformation {
 	private int ingredients_number;
 	private String ingredients_name;
 	private double ingredients_price;
-	private int ingredients_quantity;
+	private double ingredients_quantity;
 	private String ingredients_description;
 	private String ingredients_specification;
 	private int category_number;
@@ -46,10 +46,10 @@ public class BeanIngredientsInformation {
 	public void setIngredients_price(double ingredients_price) {
 		this.ingredients_price = ingredients_price;
 	}
-	public int getIngredients_quantity() {
+	public double getIngredients_quantity() {
 		return ingredients_quantity;
 	}
-	public void setIngredients_quantity(int ingredients_quantity) {
+	public void setIngredients_quantity(double ingredients_quantity) {
 		this.ingredients_quantity = ingredients_quantity;
 	}
 	public String getIngredients_description() {

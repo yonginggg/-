@@ -353,7 +353,7 @@ public class IngredientsManager {
 	}
 
 	public BeanIngredientsInformation addBeanIngredientsQuantity(BeanIngredientsInformation ingredientsInformation,
-			int quantity) {
+			double quantity) {
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {

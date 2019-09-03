@@ -63,7 +63,7 @@ public class FrmAddProcurement extends JDialog implements ActionListener{
 			this.setVisible(false);
 			return;
 		} else if (e.getSource() == this.btnOk) {
-			int quantity = Integer.parseInt(this.edtQuantity.getText());
+			double quantity = Double.parseDouble(this.edtQuantity.getText());
 			IngredientsProcurementManager ingredientsProcurementManager = new IngredientsProcurementManager();
 			try {
 				ingredientsProcurementManager.addIngredientsProcurement(currentIngredients, quantity, currentAdministrator);

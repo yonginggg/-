@@ -250,6 +250,32 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 		paneEvaluations.setPreferredSize(new Dimension(1920, 300));
 		this.getContentPane().add(paneEvaluations, BorderLayout.SOUTH);
 
+//		鼠标点击 刷新界面 评价 , 点击评价, 浏览+1
+		this.dataTableEvaluations.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int i = FrmAllRecipe.this.dataTableEvaluations.getSelectedRow();
+				if (i < 0) {
+					return;
+				}
+				curEvaluation = allEvaluations.get(i);
+				try {
+					new RecipeManager().addEvaluationView(curEvaluation);
+					
+				} catch (BaseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+//				FrmAllRecipe.this.reloadTable();
+//				FrmAllRecipe.this.reloadStepsTable(i);
+//				FrmAllRecipe.this.reloadMaterialsTable(i);
+				FrmAllRecipe.this.reloadEvaluationsTable(i);
+			}
+
+		});
+		this.reloadRecipesTable();
+
+		
 		this.btnOrder.addActionListener(this);
 		this.btnEvaluation.addActionListener(this);
 		this.btnSearch.addActionListener(this);
@@ -271,18 +297,20 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 			FrmAddEvaluation addEvaluation = new FrmAddEvaluation(this, "添加评价", true);
 			addEvaluation.curRecipe = this.curRecipes;
 			addEvaluation.setVisible(true);
+			this.reloadRecipesTable();
+			this.reloadTable();
 			this.reloadEvaluationsTable(this.curRecipes.getRecipe_number() - 1);
 		} else if (e.getSource() == this.btnOrder) {
-			int i = FrmAllRecipe.this.dataTableRecipes.getSelectedRow();
-			if (i < 0) {
+//			int i = FrmAllRecipe.this.dataTableRecipes.getSelectedRow();
+			if (this.curRecipes==null) {
 				JOptionPane.showMessageDialog(null, "请选择菜谱", "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 //			判断菜谱食材数量是否小于总食材数量,用于添加订单 
 			try {
-				List<BeanRecipeMaterial> materials = new RecipeManager().loadAllMaterials(allRecipes.get(i));
+				List<BeanRecipeMaterial> materials = new RecipeManager().loadAllMaterials(this.curRecipes);
 				for(int j=0; j<materials.size();j++) {
-					BeanIngredientsInformation ingredientsInformation = new IngredientsManager().loadIngredient(materials.get(i).getIngredients_number());
+					BeanIngredientsInformation ingredientsInformation = new IngredientsManager().loadIngredient(materials.get(j).getIngredients_number());
 					if(ingredientsInformation.getIngredients_quantity()<materials.get(j).getQuantity()) {
 						throw new BusinessException("食材数量不够,无法创建订单");
 					}
@@ -294,7 +322,7 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 			
 //			添加订单
 			FrmAddOrder addOrder = new FrmAddOrder(this, "生成订单", true);
-			addOrder.currentRecipe = allRecipes.get(i);
+			addOrder.currentRecipe = this.curRecipes;
 			addOrder.setVisible(true);
 //			this.reloadEvaluationsTable(this.curRecipes.getRecipe_number() - 1);
 		}

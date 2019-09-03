@@ -9,7 +9,7 @@ public class BeanIngredientsProcurement {
 	public static BeanIngredientsProcurement currentProcurement = null;
 	private int procurement_number;
 	private int ingredients_number;
-	private int quantity;
+	private double quantity;
 	private String procurement_status;
 	private int administrator_number;
 	
@@ -25,10 +25,10 @@ public class BeanIngredientsProcurement {
 	public void setIngredients_number(int ingredients_number) {
 		this.ingredients_number = ingredients_number;
 	}
-	public int getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(int quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 	public String getProcurement_status() {

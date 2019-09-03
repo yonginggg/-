@@ -87,7 +87,7 @@ public class FrmAddMaterial extends JDialog implements ActionListener {
 			return;
 		} else if (e.getSource() == this.btnOk) {
 			String name = this.cmbMaterial.getSelectedItem().toString();
-			int quantity = Integer.parseInt(this.edtQuantity.getText());
+			double quantity = Double.parseDouble(this.edtQuantity.getText());
 			String unit = null;
 			try {
 				unit = new IngredientsManager().loadIngredient(name).getIngredients_specification();
