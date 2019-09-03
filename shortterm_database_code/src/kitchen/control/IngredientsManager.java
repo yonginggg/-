@@ -229,6 +229,7 @@ public class IngredientsManager {
 		}
 	}
 
+//	根据订单状态减去食材, 配送
 	public void deleteIngredientsQuantityByOrder(BeanIngredientsOrder order) throws BaseException{
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -239,6 +240,38 @@ public class IngredientsManager {
 				double quantity = orderDetails.get(i).getQuantity();
 				double oldQuantity = information.getIngredients_quantity();
 				information.setIngredients_quantity(oldQuantity-quantity);
+				
+				session.update(information);
+				
+			}
+			transaction.commit();
+		}catch (SessionException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		}
+		
+	}
+
+//	根据订单状态加上食材, 退货
+	public void addIngredientsQuantityByOrder(BeanIngredientsOrder order) throws BaseException{
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		List<BeanOrderDetail> orderDetails = new IngredientsOrderManager().loadAllDetails(order);
+		try {
+			for(int i=0; i<orderDetails.size();i++) {
+				BeanIngredientsInformation information = new IngredientsManager().loadIngredient(orderDetails.get(i).getIngredients_number());
+				double quantity = orderDetails.get(i).getQuantity();
+				double oldQuantity = information.getIngredients_quantity();
+				information.setIngredients_quantity(oldQuantity+quantity);
 				
 				session.update(information);
 				

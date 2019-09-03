@@ -184,7 +184,10 @@ public class FrmOrderStatic extends JFrame implements ActionListener {
 					ingredientsManager.deleteIngredientsQuantityByOrder(curOrder);
 //					FrmMain.this.reloadIngredientsTable(BeanIngredientsProcurement.currentProcurement.getIngredients_number());
 				}
-				
+				else if(this.cmbOrderStatus.getSelectedItem().toString() == "退货") {
+					IngredientsManager ingredientsManager = new IngredientsManager();
+					ingredientsManager.addIngredientsQuantityByOrder(curOrder);
+				}
 			} catch (BaseException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
