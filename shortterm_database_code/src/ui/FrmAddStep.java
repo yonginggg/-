@@ -21,6 +21,7 @@ import kitchen.model.BeanIngredientsCategory;
 import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeStep;
 import kitchen.util.*;
+import java.awt.Font;
 
 public class FrmAddStep extends JDialog implements ActionListener {
 
@@ -39,9 +40,12 @@ public class FrmAddStep extends JDialog implements ActionListener {
 	public FrmAddStep(JFrame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnOk.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnOk);
+		btnCancel.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
+		labelDescription.setFont(new Font("宋体", Font.BOLD, 20));
 //		workPane.add(labelNumber);
 //		workPane.add(edtNumber);
 		workPane.add(labelDescription);

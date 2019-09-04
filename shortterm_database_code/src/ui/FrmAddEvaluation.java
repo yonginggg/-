@@ -27,6 +27,7 @@ import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeStep;
 import kitchen.model.BeanUser;
 import kitchen.util.*;
+import java.awt.Font;
 
 public class FrmAddEvaluation extends JDialog implements ActionListener {
 
@@ -48,19 +49,24 @@ public class FrmAddEvaluation extends JDialog implements ActionListener {
 	public FrmAddEvaluation(JFrame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnOk.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnOk);
+		btnCancel.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		workPane.setLayout(null);
-		labelMark.setBounds(8, 8, 114, 18);
+		labelMark.setFont(new Font("宋体", Font.BOLD, 20));
+		labelMark.setBounds(8, 8, 142, 18);
 		workPane.add(labelMark);
-		edtMark.setBounds(136, 5, 224, 21);
+		edtMark.setBounds(164, 8, 224, 21);
 		workPane.add(edtMark);
-		labelContent.setBounds(8, 88, 45, 18);
+		labelContent.setFont(new Font("宋体", Font.BOLD, 20));
+		labelContent.setBounds(8, 88, 85, 18);
 		workPane.add(labelContent);
-		edtContent.setBounds(139, 88, 221, 99);
+		edtContent.setBounds(167, 91, 221, 99);
 		workPane.add(edtContent);
-		cmbCollection.setBounds(136, 39, 224, 24);
+		cmbCollection.setFont(new Font("宋体", Font.BOLD, 20));
+		cmbCollection.setBounds(164, 42, 224, 24);
 		workPane.add(cmbCollection);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
 		this.setSize(459, 284);

@@ -23,6 +23,7 @@ import kitchen.util.*;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Font;
 
 public class FramAddUser extends JDialog implements ActionListener {
 	private JPanel toolBar = new JPanel();
@@ -56,47 +57,58 @@ public class FramAddUser extends JDialog implements ActionListener {
 	public FramAddUser(FrmMain frmMain, String s, boolean b) {
 		super(frmMain, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnOk.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(this.btnOk);
+		btnCancel.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 //		workPane.add(labelUserType);// 新增按钮
 //		workPane.add(edtUserType);// 新增按钮
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
 		workPane.setLayout(null);
-		labelName.setBounds(6, 103, 45, 18);
+		labelName.setFont(new Font("宋体", Font.BOLD, 20));
+		labelName.setBounds(6, 103, 79, 18);
 		workPane.add(labelName);
 		edtUserName.setBounds(119, 100, 166, 24);
 		workPane.add(edtUserName);
-		labelPwd2.setBounds(6, 72, 53, 18);
+		labelPwd2.setFont(new Font("宋体", Font.BOLD, 20));
+		labelPwd2.setBounds(6, 72, 79, 18);
 		workPane.add(labelPwd2);
 		edtPwd2.setBounds(119, 69, 166, 24);
 		workPane.add(edtPwd2);
-		labelCity.setBounds(6, 227, 45, 18);
+		labelCity.setFont(new Font("宋体", Font.BOLD, 20));
+		labelCity.setBounds(6, 227, 79, 18);
 		workPane.add(labelCity);
 		edtUserCity.setBounds(119, 224, 166, 24);
 		workPane.add(edtUserCity);
-		labelEmail.setBounds(6, 196, 45, 18);
+		labelEmail.setFont(new Font("宋体", Font.BOLD, 20));
+		labelEmail.setBounds(6, 196, 79, 18);
 		workPane.add(labelEmail);
 		edtUserEmail.setBounds(119, 193, 166, 24);
 		workPane.add(edtUserEmail);
-		labelPhoneNumber.setBounds(6, 165, 45, 18);
+		labelPhoneNumber.setFont(new Font("宋体", Font.BOLD, 20));
+		labelPhoneNumber.setBounds(6, 165, 79, 18);
 		workPane.add(labelPhoneNumber);
-		labelSex.setBounds(6, 134, 45, 18);
+		labelSex.setFont(new Font("宋体", Font.BOLD, 20));
+		labelSex.setBounds(6, 134, 79, 18);
 		workPane.add(labelSex);
+		cmbUserSex.setFont(new Font("宋体", Font.BOLD, 20));
 		cmbUserSex.setBounds(119, 131, 166, 24);
 		workPane.add(cmbUserSex);
 		edtUserPhoneNumber.setBounds(119, 162, 166, 24);
 		workPane.add(edtUserPhoneNumber);
-		labelPwd.setBounds(6, 43, 53, 18);
+		labelPwd.setFont(new Font("宋体", Font.BOLD, 20));
+		labelPwd.setBounds(6, 43, 79, 18);
 		workPane.add(labelPwd);
 		edtPwd.setBounds(119, 40, 166, 24);
 		workPane.add(edtPwd);
-		labelUser.setBounds(6, 11, 60, 18);
+		labelUser.setFont(new Font("宋体", Font.BOLD, 20));
+		labelUser.setBounds(6, 11, 99, 18);
 		workPane.add(labelUser);
 		edtUserId.setBounds(119, 8, 166, 24);
 		workPane.add(edtUserId);
 //		this.setSize(300, 180);
-		this.setSize(367, 350);
+		this.setSize(371, 380);
 		this.btnCancel.addActionListener(this);
 		this.btnOk.addActionListener(this);
 

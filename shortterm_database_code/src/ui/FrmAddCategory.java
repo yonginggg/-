@@ -17,6 +17,7 @@ import javax.swing.JDialog;
 
 import kitchen.control.IngredientsManager;
 import kitchen.util.*;
+import java.awt.Font;
 
 public class FrmAddCategory extends JDialog implements ActionListener {
 
@@ -33,15 +34,24 @@ public class FrmAddCategory extends JDialog implements ActionListener {
 	public FrmAddCategory(JFrame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnOk.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnOk);
+		btnCancel.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
+		workPane.setLayout(null);
+		labelName.setFont(new Font("宋体", Font.BOLD, 20));
+		labelName.setBounds(27, 8, 70, 18);
 		workPane.add(labelName);
+		edtName.setBounds(140, 2, 166, 24);
 		workPane.add(edtName);
+		labelDescription.setFont(new Font("宋体", Font.BOLD, 20));
+		labelDescription.setBounds(27, 67, 70, 18);
 		workPane.add(labelDescription);
+		edtDescription.setBounds(140, 61, 166, 24);
 		workPane.add(edtDescription);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
-		this.setSize(320, 180);
+		this.setSize(338, 236);
 		// 屏幕居中显示
 		double width = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		double height = Toolkit.getDefaultToolkit().getScreenSize().getHeight();

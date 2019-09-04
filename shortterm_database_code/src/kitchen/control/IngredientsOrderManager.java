@@ -42,7 +42,7 @@ public class IngredientsOrderManager {
 			ingredientsOrder.setUser_number(user.getUser_number());
 			ingredientsOrder.setOrder_required_time(Timestamp.valueOf(order_required_time) );
 			ingredientsOrder.setOrder_delivery_address(order_delivery_address);
-			ingredientsOrder.setUser_phone_number(user.getUser_phone_number());
+			ingredientsOrder.setUser_phone_number(user_phone_number);
 			ingredientsOrder.setOrder_status("下单");
 			session.save(ingredientsOrder);
 			transaction.commit();
@@ -160,7 +160,7 @@ public class IngredientsOrderManager {
 			orderDetail.setOrder_number(order_number);
 			orderDetail.setIngredients_number(material.getIngredients_number());
 			orderDetail.setQuantity(material.getQuantity());
-			orderDetail.setPrice(information.getIngredients_price());
+			orderDetail.setPrice(material.getQuantity()*information.getIngredients_price()*discount/10);
 			orderDetail.setOrder_discount(discount);
 			session.save(orderDetail);
 			transaction.commit();

@@ -17,6 +17,7 @@ import javax.swing.JPasswordField;
 import kitchen.util.*;
 import kitchen.model.*;
 import kitchen.control.*;
+import java.awt.Font;
 
 public class FrmChangeAdminPwd extends JDialog implements ActionListener {
 
@@ -37,24 +38,29 @@ public class FrmChangeAdminPwd extends JDialog implements ActionListener {
 	public FrmChangeAdminPwd(Frame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnOk.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(this.btnOk);
+		btnCancel.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		workPane.setLayout(null);
-		labelPwdOld.setBounds(25, 40, 60, 18);
+		labelPwdOld.setFont(new Font("宋体", Font.BOLD, 20));
+		labelPwdOld.setBounds(25, 40, 98, 18);
 		workPane.add(labelPwdOld);
-		edtPwdOld.setBounds(90, 37, 166, 24);
+		edtPwdOld.setBounds(155, 40, 166, 24);
 		workPane.add(edtPwdOld);
-		labelPwd.setBounds(25, 88, 60, 18);
+		labelPwd.setFont(new Font("宋体", Font.BOLD, 20));
+		labelPwd.setBounds(25, 88, 98, 18);
 		workPane.add(labelPwd);
-		edtPwd.setBounds(90, 85, 166, 24);
+		edtPwd.setBounds(155, 88, 166, 24);
 		workPane.add(edtPwd);
-		labelPwd2.setBounds(25, 144, 60, 18);
+		labelPwd2.setFont(new Font("宋体", Font.BOLD, 20));
+		labelPwd2.setBounds(25, 144, 98, 18);
 		workPane.add(labelPwd2);
-		edtPwd2.setBounds(90, 141, 166, 24);
+		edtPwd2.setBounds(155, 144, 166, 24);
 		workPane.add(edtPwd2);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
-		this.setSize(300, 300);
+		this.setSize(366, 332);
 		this.btnCancel.addActionListener(this);
 		this.btnOk.addActionListener(this);
 

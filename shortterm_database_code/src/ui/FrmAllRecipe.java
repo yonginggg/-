@@ -36,6 +36,7 @@ import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
 import kitchen.util.BusinessException;
 import kitchen.util.DbException;
+import java.awt.Font;
 
 public class FrmAllRecipe extends JFrame implements ActionListener {
 	private JPanel toolBar = new JPanel();
@@ -43,6 +44,9 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 	private JButton btnEvaluation = new JButton("评价");
 	private JTextField edtKeyword = new JTextField(10);
 	private JButton btnSearch = new JButton("查询");
+	private JButton btnColletion= new JButton("收藏夹");
+	private JButton btnreload= new JButton("刷新");
+	
 
 //	用户
 	private Object tblUserTitle[] = BeanUser.tblUserTitle;
@@ -128,6 +132,28 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 		}
 	}
 
+	// 收藏夹
+	private void reloadCollection() {
+		try {
+			allRecipes = (new RecipeManager()).loadAllRecipeCollection(curUser);
+			tblRecipesData = new Object[allRecipes.size()][6];
+			for (int i = 0; i < allRecipes.size(); i++) {
+				tblRecipesData[i][0] = allRecipes.get(i).getRecipe_number();
+				tblRecipesData[i][1] = allRecipes.get(i).getRecipe_name();
+				tblRecipesData[i][2] = allRecipes.get(i).getRecipe_description();
+				tblRecipesData[i][3] = allRecipes.get(i).getRecipe_overall_rating();
+				tblRecipesData[i][4] = allRecipes.get(i).getRecipe_collection_number();
+				tblRecipesData[i][5] = allRecipes.get(i).getRecipe_views_number();
+
+			}
+			tabRecipesModel.setDataVector(tblRecipesData, tblRecipesTitle);
+			this.dataTableRecipes.validate();
+			this.dataTableRecipes.repaint();
+		} catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 //	刷新步骤信息-用户
 	private void reloadStepsTable(int recipe_number) {// 这是测试数据，需要用实际数替换
 		RecipeManager recipeManager = new RecipeManager();
@@ -195,10 +221,17 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 
 		super();
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+		btnOrder.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnOrder);
+		btnEvaluation.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnEvaluation);
 		toolBar.add(edtKeyword);
+		btnSearch.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnSearch);
+		btnColletion.setFont(new Font("宋体", Font.BOLD, 20));
+		toolBar.add(btnColletion);
+		btnreload.setFont(new Font("宋体", Font.BOLD, 20));
+		toolBar.add(btnreload);
 
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		this.setTitle("所有菜谱");
@@ -279,6 +312,8 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 		this.btnOrder.addActionListener(this);
 		this.btnEvaluation.addActionListener(this);
 		this.btnSearch.addActionListener(this);
+		this.btnColletion.addActionListener(this);
+		this.btnreload.addActionListener(this);
 
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -325,6 +360,10 @@ public class FrmAllRecipe extends JFrame implements ActionListener {
 			addOrder.currentRecipe = this.curRecipes;
 			addOrder.setVisible(true);
 //			this.reloadEvaluationsTable(this.curRecipes.getRecipe_number() - 1);
+		}else if (e.getSource() == this.btnColletion){
+			this.reloadCollection();
+		}else if (e.getSource() == this.btnreload){
+			this.reloadTable();
 		}
 	}
 }

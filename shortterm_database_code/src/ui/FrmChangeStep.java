@@ -23,6 +23,7 @@ import kitchen.model.BeanIngredientsCategory;
 import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeStep;
 import kitchen.util.BaseException;
+import java.awt.Font;
 
 public class FrmChangeStep extends JDialog implements ActionListener {
 
@@ -39,10 +40,13 @@ public class FrmChangeStep extends JDialog implements ActionListener {
 	public FrmChangeStep(Frame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnOk.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(this.btnOk);
+		btnCancel.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		workPane.setLayout(null);
+		labelDescription.setFont(new Font("宋体", Font.BOLD, 20));
 		labelDescription.setBounds(14, 36, 87, 34);
 		workPane.add(labelDescription);
 		edtDescription.setBounds(115, 41, 116, 24);

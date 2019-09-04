@@ -28,6 +28,7 @@ import kitchen.model.BeanIngredientsCategory;
 import kitchen.model.BeanIngredientsInformation;
 import kitchen.model.BeanIngredientsProcurement;
 import kitchen.util.BaseException;
+import java.awt.Font;
 
 public class FrmChangeProcurementStatus extends JDialog implements ActionListener {
 
@@ -80,12 +81,16 @@ public class FrmChangeProcurementStatus extends JDialog implements ActionListene
 	public FrmChangeProcurementStatus(FrmProcurementStatistics frmProcurementStatistics, String s, boolean b) {
 		super(frmProcurementStatistics, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnOk.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(this.btnOk);
+		btnCancel.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		workPane.setLayout(null);
+		labelDescription.setFont(new Font("宋体", Font.BOLD, 20));
 		labelDescription.setBounds(14, 36, 87, 34);
 		workPane.add(labelDescription);
+		cmbStauts.setFont(new Font("宋体", Font.BOLD, 20));
 //		edtDescription.setBounds(115, 41, 116, 24);
 //		workPane.add(edtDescription);
 		cmbStauts.setBounds(92, 41, 166, 24);

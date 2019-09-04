@@ -211,6 +211,10 @@ public class IngredientsManager {
 				throw new BusinessException("该食材还有余量,无法删除");
 			}
 
+			List<BeanRecipeMaterial> materials = new RecipeManager().loadAllMaterials(ingredientsInformation);
+			if(!materials.isEmpty()) {
+				throw new BusinessException("有菜谱使用了改食材,无法删除");
+			}
 			session.delete(ingredientsInformation);
 
 			transaction.commit();
@@ -293,11 +297,12 @@ public class IngredientsManager {
 		
 	}
 	
-	public BeanIngredientsInformation changIngredients(BeanIngredientsInformation information, String newDescription) {
+	public BeanIngredientsInformation changIngredients(BeanIngredientsInformation information, Double price, String newDescription) {
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
 			information.setIngredients_description(newDescription);
+			information.setIngredients_price(price);
 			session.update(information);
 			transaction.commit();
 		} catch (SessionException e) {

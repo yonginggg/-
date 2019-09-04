@@ -38,6 +38,7 @@ import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanRecipeStep;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
+import java.awt.Font;
 
 public class FrmOrderStatic extends JFrame implements ActionListener {
 	private JPanel toolBar = new JPanel();
@@ -114,6 +115,7 @@ public class FrmOrderStatic extends JFrame implements ActionListener {
 
 		super();
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+		btnChangeStatus.setFont(new Font("宋体", Font.BOLD, 20));
 //		toolBar.add(cmbOrderStatus);
 		toolBar.add(btnChangeStatus);
 

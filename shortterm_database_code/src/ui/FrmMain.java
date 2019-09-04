@@ -50,13 +50,14 @@ public class FrmMain extends JFrame implements ActionListener {
 	private JMenu menu_Procurement = new JMenu("采购管理");
 	private JMenu menu_AllRecipeAdmin = new JMenu("所有菜谱");
 	private JMenu menu_OrderAdmin = new JMenu("用户订单");
+	private JMenu menu_Discount = new JMenu("折扣");
 
 	private JMenuItem menuItem_AddIngredientsCategories = new JMenuItem("添加食材类别");
 	private JMenuItem menuItem_DeleteIngredientsCategories = new JMenuItem("删除食材类别");
 	private JMenuItem menuItem_ChangeIngredientsCategories = new JMenuItem("修改食材类别描述");
 	private JMenuItem menuItem_AddIngredientsInformation = new JMenuItem("增加食材信息");
 	private JMenuItem menuItem_DeleteIngredientsInformation = new JMenuItem("删除食材信息");
-	private JMenuItem menuItem_ChangeIngredientsInformation = new JMenuItem("修改食材信息描述");
+	private JMenuItem menuItem_ChangeIngredientsInformation = new JMenuItem("修改食材信息");
 
 	private JMenuItem menuItem_AddProcurement = new JMenuItem("采购食材");
 	private JMenuItem menuItem_ProcurementStatic = new JMenuItem("采购统计");
@@ -69,6 +70,7 @@ public class FrmMain extends JFrame implements ActionListener {
 	private JMenuItem menuItem_allRecipeAdmin = new JMenuItem("查看所有菜谱");
 
 	private JMenuItem menuItem_OrderAdmin = new JMenuItem("订单管理");
+	private JMenuItem menuItem_Discount = new JMenuItem("设置折扣");
 //	用户界面信息
 
 	private JMenu menu_AllRecipe = new JMenu("所有菜谱");
@@ -86,6 +88,7 @@ public class FrmMain extends JFrame implements ActionListener {
 	private JMenuItem menuItem_ChangeStep = new JMenuItem("修改菜谱步骤");
 	private JMenuItem menuItem_AddMaterial = new JMenuItem("添加食材");
 	private JMenuItem menuItem_DeleteMaterial = new JMenuItem("删除食材");
+	private JMenuItem menuItem_ChangeMaterial = new JMenuItem("修改食材");
 
 	private JMenuItem menuItem_changePwd = new JMenuItem("修改密码");
 
@@ -343,11 +346,15 @@ public class FrmMain extends JFrame implements ActionListener {
 			menu_OrderAdmin.add(menuItem_OrderAdmin);
 			menuItem_OrderAdmin.addActionListener(this);
 
+			menu_Discount.add(menuItem_Discount);
+			menuItem_Discount.addActionListener(this);
+
 			menubar.add(menu_Manager);
 			menubar.add(menu_Ingredients);
 			menubar.add(menu_Procurement);
 			menubar.add(menu_AllRecipeAdmin);
 			menubar.add(menu_OrderAdmin);
+			menubar.add(menu_Discount);
 
 		}
 //		用户界面按钮
@@ -370,6 +377,8 @@ public class FrmMain extends JFrame implements ActionListener {
 			menuItem_AddMaterial.addActionListener(this);
 			menu_Material.add(menuItem_DeleteMaterial);
 			menuItem_DeleteMaterial.addActionListener(this);
+			menu_Material.add(menuItem_ChangeMaterial);
+			menuItem_ChangeMaterial.addActionListener(this);
 
 			menu_Information.add(menuItem_changePwd);
 			menuItem_changePwd.addActionListener(this);
@@ -424,6 +433,7 @@ public class FrmMain extends JFrame implements ActionListener {
 						return;
 					}
 					curCategory = allCategorys.get(i);
+//					BeanIngredientsCategory.currentCategory = curCategory;
 					FrmMain.this.reloadIngredientsTable(i);
 				}
 
@@ -439,7 +449,7 @@ public class FrmMain extends JFrame implements ActionListener {
 						return;
 					}
 					curIngredients = allIngredients.get(i);
-
+					BeanIngredientsInformation.currentIngredients = curIngredients;
 				}
 
 			});
@@ -550,6 +560,14 @@ public class FrmMain extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+//		添加食材类别
+		if (e.getSource() == this.menuItem_Discount) {
+			FrmAddDiscount addDiscount = new FrmAddDiscount(this, "设置折扣", true);
+			addDiscount.setVisible(true);
+			this.reloadCategoryTable();
+
+		}
+
 //		添加食材类别
 		if (e.getSource() == this.menuItem_AddIngredientsCategories) {
 
@@ -719,9 +737,9 @@ public class FrmMain extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "请选择食材", "错误", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			FrmChangeIngredients changeIngredients = new FrmChangeIngredients(this, "修改食材类别描述", true);
+			FrmChangeIngredients changeIngredients = new FrmChangeIngredients(this, "修改食材", true);
 //			changeIngredients.currentIngredient = this.allIngredients.get(i);
-			changeIngredients.currentIngredient = this.curIngredients;
+//			changeIngredients.currentIngredient = this.curIngredients;
 			changeIngredients.setVisible(true);
 			this.reloadIngredientsTable(this.curCategory.getCategory_number() - 1);
 		}
@@ -837,6 +855,20 @@ public class FrmMain extends JFrame implements ActionListener {
 
 		}
 
+//		修改食材原料数量
+		else if (e.getSource() == this.menuItem_ChangeMaterial) {
+//			int i = FrmMain.this.dataTableIngredients.getSelectedRow();
+			if (curMaterial == null) {
+				JOptionPane.showMessageDialog(null, "请选择食材", "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			FrmChangeMaterial changeMaterial = new FrmChangeMaterial(this, "修改食材", true);
+//			changeIngredients.currentIngredient = this.allIngredients.get(i);
+			changeMaterial.currentMaterial = this.curMaterial;
+			changeMaterial.setVisible(true);
+			this.reloadMaterialsTable(this.curRecipes.getRecipe_number() - 1);
+		}
+
 //		修改用户个人信息
 		else if (e.getSource() == this.menuItem_changePwd) {
 			FrmChangeUserPwd changePwd = new FrmChangeUserPwd(this, "修改密码", true);
@@ -865,6 +897,7 @@ public class FrmMain extends JFrame implements ActionListener {
 		else if (e.getSource() == this.menuItem_OrderAdmin) {
 			FrmOrderAdmin orderAdmin = new FrmOrderAdmin(this, "订单管理", true);
 			orderAdmin.setVisible(true);
+//			this.reloadIngredientsTable(this.curCategory.getCategory_number() - 1);			
 		}
 	}
 }

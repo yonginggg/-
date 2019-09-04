@@ -26,6 +26,7 @@ import kitchen.model.BeanIngredientsInformation;
 import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeStep;
 import kitchen.util.*;
+import java.awt.Font;
 
 public class FrmAddMaterial extends JDialog implements ActionListener {
 
@@ -47,15 +48,20 @@ public class FrmAddMaterial extends JDialog implements ActionListener {
 	public FrmAddMaterial(JFrame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnOk.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnOk);
+		btnCancel.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		workPane.setLayout(null);
-		labelName.setBounds(14, 8, 30, 18);
+		labelName.setFont(new Font("宋体", Font.BOLD, 20));
+		labelName.setBounds(14, 8, 81, 18);
 		workPane.add(labelName);
+		cmbMaterial.setFont(new Font("宋体", Font.BOLD, 20));
 		cmbMaterial.setBounds(109, 5, 166, 24);
 		workPane.add(cmbMaterial);
-		labelquantity.setBounds(14, 46, 30, 18);
+		labelquantity.setFont(new Font("宋体", Font.BOLD, 20));
+		labelquantity.setBounds(14, 46, 81, 18);
 		workPane.add(labelquantity);
 		edtQuantity.setBounds(109, 43, 166, 24);
 		workPane.add(edtQuantity);

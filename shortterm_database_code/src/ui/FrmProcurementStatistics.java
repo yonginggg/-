@@ -31,6 +31,7 @@ import kitchen.model.BeanIngredientsInformation;
 import kitchen.model.BeanIngredientsProcurement;
 import kitchen.model.BeanRecipeInformation;
 import kitchen.util.*;
+import java.awt.Font;
 
 public class FrmProcurementStatistics  extends JDialog implements ActionListener{
 	private JPanel toolBar = new JPanel();
@@ -65,6 +66,7 @@ public class FrmProcurementStatistics  extends JDialog implements ActionListener
 	public FrmProcurementStatistics(JFrame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+		btnChangeStatus.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnChangeStatus);
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
 		//提取现有数据

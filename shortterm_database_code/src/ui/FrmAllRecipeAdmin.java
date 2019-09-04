@@ -36,6 +36,7 @@ import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
 import kitchen.util.BusinessException;
 import kitchen.util.DbException;
+import java.awt.Font;
 
 public class FrmAllRecipeAdmin extends JFrame implements ActionListener {
 	private JPanel toolBar = new JPanel();
@@ -196,10 +197,12 @@ public class FrmAllRecipeAdmin extends JFrame implements ActionListener {
 
 		super();
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+		btnDeleteRecipe.setFont(new Font("宋体", Font.PLAIN, 20));
 //		toolBar.add(btnOrder);
 //		toolBar.add(btnEvaluation);
 		toolBar.add(btnDeleteRecipe);
 		toolBar.add(edtKeyword);
+		btnSearch.setFont(new Font("宋体", Font.PLAIN, 20));
 		toolBar.add(btnSearch);
 
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);

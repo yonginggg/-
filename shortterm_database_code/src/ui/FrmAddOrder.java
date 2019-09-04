@@ -20,13 +20,16 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import kitchen.control.DiscountManager;
 import kitchen.control.IngredientsOrderManager;
 import kitchen.control.RecipeManager;
+import kitchen.model.BeanDiscount;
 import kitchen.model.BeanIngredientsOrder;
 import kitchen.model.BeanRecipeInformation;
 import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
+import java.awt.Font;
 
 public class FrmAddOrder extends JDialog implements ActionListener {
 //	static int order_num = 3;//全局常量
@@ -46,24 +49,29 @@ public class FrmAddOrder extends JDialog implements ActionListener {
 	public FrmAddOrder(Frame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnOk.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnOk);
+		btnCancel.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		workPane.setLayout(null);
-		labelTime.setBounds(22, 8, 45, 18);
+		labelTime.setFont(new Font("宋体", Font.BOLD, 20));
+		labelTime.setBounds(22, 8, 90, 18);
 		workPane.add(labelTime);
-		edtTime.setBounds(105, 5, 166, 24);
+		edtTime.setBounds(162, 8, 166, 24);
 		workPane.add(edtTime);
-		labelAddress.setBounds(22, 39, 45, 18);
+		labelAddress.setFont(new Font("宋体", Font.BOLD, 20));
+		labelAddress.setBounds(22, 39, 90, 18);
 		workPane.add(labelAddress);
-		edtAddress.setBounds(105, 36, 166, 24);
+		edtAddress.setBounds(162, 39, 166, 24);
 		workPane.add(edtAddress);
-		labelPhone.setBounds(22, 70, 45, 18);
+		labelPhone.setFont(new Font("宋体", Font.BOLD, 20));
+		labelPhone.setBounds(22, 70, 90, 18);
 		workPane.add(labelPhone);
-		edtPhone.setBounds(105, 67, 166, 24);
+		edtPhone.setBounds(162, 70, 166, 24);
 		workPane.add(edtPhone);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
-		this.setSize(329, 193);
+		this.setSize(392, 219);
 		// 屏幕居中显示
 		double width = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		double height = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -91,6 +99,13 @@ public class FrmAddOrder extends JDialog implements ActionListener {
 			String time = this.edtTime.getText();
 			int phone = Integer.parseInt(this.edtPhone.getText());
 			RecipeManager recipeManager = new RecipeManager();
+			BeanDiscount beanDiscount = null;
+			try {
+				beanDiscount = new DiscountManager().load();
+			} catch (BaseException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 			try {
 //				添加订单
 				orderManager.addIngredientsOrder(BeanUser.currentUser, time, address, phone);
@@ -98,7 +113,7 @@ public class FrmAddOrder extends JDialog implements ActionListener {
 				int maxOrderNumber = orderManager.maxOrder();
 				List<BeanRecipeMaterial> materials = recipeManager.loadAllMaterials(currentRecipe);
 				for(int i=0; i<materials.size(); i++) {
-					orderManager.addDeatil(maxOrderNumber, materials.get(i), 0.9);
+					orderManager.addDeatil(maxOrderNumber, materials.get(i), beanDiscount.getDiscount());
 				}
 				this.setVisible(false);
 			} catch (BaseException e1) {

@@ -209,9 +209,11 @@
 	<!-- BeanDiscount -->
 	<class name="BeanDiscount" table="tbl_discount">
 		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以.嘿嘿!你懂的 -->
-		<id name="discount" type="double">
-			<column name="discount" />
+		<id name="discountNumber" type="int">
+			<column name="discountNumber" />
 			<generator class="assigned" />
 		</id>
+		<property name="discount" type="double"
+			column="discount" />
 	</class>
 </hibernate-mapping>  

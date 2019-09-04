@@ -18,6 +18,7 @@ import javax.swing.JDialog;
 import kitchen.control.IngredientsManager;
 import kitchen.model.BeanIngredientsCategory;
 import kitchen.util.*;
+import java.awt.Font;
 
 public class FrmAddIngredientsInformation extends JDialog implements ActionListener {
 
@@ -40,19 +41,34 @@ public class FrmAddIngredientsInformation extends JDialog implements ActionListe
 	public FrmAddIngredientsInformation(JFrame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnOk.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnOk);
+		btnCancel.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
+		workPane.setLayout(null);
+		labelName.setFont(new Font("宋体", Font.BOLD, 20));
+		labelName.setBounds(14, 8, 76, 18);
 		workPane.add(labelName);
+		edtName.setBounds(141, 5, 166, 24);
 		workPane.add(edtName);
+		labelPrice.setFont(new Font("宋体", Font.BOLD, 20));
+		labelPrice.setBounds(14, 39, 76, 18);
 		workPane.add(labelPrice);
+		edtPrice.setBounds(141, 36, 166, 24);
 		workPane.add(edtPrice);
+		labelDescription.setFont(new Font("宋体", Font.BOLD, 20));
+		labelDescription.setBounds(14, 70, 76, 18);
 		workPane.add(labelDescription);
+		edtDescription.setBounds(141, 63, 166, 24);
 		workPane.add(edtDescription);
+		labelSpecification.setFont(new Font("宋体", Font.BOLD, 20));
+		labelSpecification.setBounds(14, 95, 76, 18);
 		workPane.add(labelSpecification);
+		edtSpecification.setBounds(141, 92, 166, 24);
 		workPane.add(edtSpecification);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
-		this.setSize(320, 180);
+		this.setSize(375, 230);
 		// 屏幕居中显示
 		double width = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		double height = Toolkit.getDefaultToolkit().getScreenSize().getHeight();

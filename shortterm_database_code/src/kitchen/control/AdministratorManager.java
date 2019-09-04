@@ -62,6 +62,50 @@ public class AdministratorManager {
 		return administratorInformation;
 	}
 
+	public static BeanAdministratorInformation login(String administrator_number, String administrator_password)
+			throws BaseException {
+		if (administrator_password == null || "".equals(administrator_password)) {
+			throw new BusinessException("密码不能为空");
+		} else if ("".equals(administrator_number)||administrator_password==null) {
+			throw new BusinessException("用户名不能为空");
+		}
+
+		Session session = HibernateUtil.getSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+
+		BeanAdministratorInformation administratorInformation = new BeanAdministratorInformation();
+		try {
+			String hql = "from BeanAdministratorInformation where administrator_number=:num";
+			Query query = session.createQuery(hql);
+			query.setString("num", administrator_number);
+			administratorInformation = (BeanAdministratorInformation) query.uniqueResult();
+			if (administratorInformation == null) {
+				throw new BaseException("管理员不存在");
+			}
+			// 比较密码
+			if (administratorInformation.getAdministrator_password().equals(administrator_password) == false) {
+				throw new BaseException("密码错误");
+			}
+
+			transaction.commit();
+		} catch (SessionException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			throw new BaseException("登录失败");
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (SessionException e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return administratorInformation;
+	}
+	
 //	查询管理员
 	public BeanAdministratorInformation loadAdministrator(int administrator_number) throws BaseException {
 		Session session = HibernateUtil.getSession();
@@ -127,6 +171,9 @@ public class AdministratorManager {
 		Session session = HibernateUtil.getSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
+			if("".equals(oldPwd)||"".equals(newPwd)||"".equals(newPwd2)||oldPwd==null||newPwd==null||newPwd2==null) {
+				throw new BusinessException("输入不能为空");
+			}
 			if (!oldPwd.equals(administratorInformation.getAdministrator_password())) {
 				throw new BusinessException("原始密码错误");
 			}
@@ -138,7 +185,7 @@ public class AdministratorManager {
 			session.update(administratorInformation);
 			transaction.commit();
 
-		} catch (Exception e) {
+		} catch (SessionException e) {
 			// TODO: handle exception
 		} finally {
 			if (session != null) {

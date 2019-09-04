@@ -136,7 +136,10 @@ CREATE TABLE `tbl_ingredients_procurement` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tbl_discount` (
-  `discount` double NOT NULL COMMENT '折扣',
-  PRIMARY KEY (discount)
+  `discountNumber` int(11) NOT NULL COMMENT '折扣',
+  `discount` double DEFAULT NULL,
+  PRIMARY KEY (`discountNumber`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 

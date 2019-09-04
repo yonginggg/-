@@ -29,6 +29,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import kitchen.control.*;
 import kitchen.model.*;
 import kitchen.util.*;
+import java.awt.Font;
 
 public class FrmLogin extends JDialog implements ActionListener {
 	static String userType = "用户属性";// 用户/ 管理员
@@ -51,27 +52,34 @@ public class FrmLogin extends JDialog implements ActionListener {
 	public FrmLogin(Frame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnRegister.setFont(new Font("宋体", Font.BOLD, 18));
 		toolBar.add(this.btnRegister);
+		btnLogin.setFont(new Font("宋体", Font.BOLD, 18));
 		toolBar.add(btnLogin);
+		btnCancel.setFont(new Font("宋体", Font.BOLD, 18));
 		toolBar.add(btnCancel);
 
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		workPane.setLayout(null);
-		labelUser.setBounds(8, 8, 45, 18);
+		labelUser.setFont(new Font("宋体", Font.BOLD, 20));
+		labelUser.setBounds(8, 8, 72, 31);
 		workPane.add(labelUser);
 		edtUserId.setBounds(108, 5, 166, 24);
 		workPane.add(edtUserId);
-		labelPwd.setBounds(8, 52, 45, 18);
+		labelPwd.setFont(new Font("宋体", Font.BOLD, 20));
+		labelPwd.setBounds(8, 52, 72, 31);
 		workPane.add(labelPwd);
 		edtPwd.setBounds(108, 49, 166, 24);
 		workPane.add(edtPwd);
+		cmbUsertype.setFont(new Font("宋体", Font.BOLD, 20));
 		cmbUsertype.setBounds(108, 107, 166, 24);
 		workPane.add(cmbUsertype);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
-		label.setBounds(8, 110, 72, 18);
+		label.setFont(new Font("宋体", Font.BOLD, 20));
+		label.setBounds(8, 104, 72, 31);
 		
 		workPane.add(label);
-		this.setSize(323, 274);
+		this.setSize(387, 392);
 
 		// 屏幕居中显示
 		double width = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -113,13 +121,15 @@ public class FrmLogin extends JDialog implements ActionListener {
 					BeanUser.currentUser = user;
 					setVisible(false);
 				} else if (usertype == "管理员") {
-					BeanAdministratorInformation administratorInformation = administratorManager.login(Integer.parseInt(userid), pwd);
+//					BeanAdministratorInformation administratorInformation = administratorManager.login(Integer.parseInt(userid), pwd);
+					BeanAdministratorInformation administratorInformation = administratorManager.login(userid, pwd);
 //					administratorManager.currentAdministrator = administratorInformation;
 					BeanAdministratorInformation.currentAdministrator = administratorInformation;
 					setVisible(false);
 				}
 			} catch (BaseException e1) {
 				this.user = null;
+				
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
 			}
 

@@ -38,11 +38,12 @@ import kitchen.model.BeanRecipeMaterial;
 import kitchen.model.BeanRecipeStep;
 import kitchen.model.BeanUser;
 import kitchen.util.BaseException;
+import java.awt.Font;
 
 public class FrmOrderAdmin extends JFrame implements ActionListener {
 	private JPanel toolBar = new JPanel();
 	private JButton btnChangeStatus = new JButton("修改状态");
-	private JComboBox cmbOrderStatus = new JComboBox(new String[] { "下单", "配送", "送达"});
+	private JComboBox cmbOrderStatus = new JComboBox(new String[] { "下单", "配送", "送达" });
 
 //	用户
 	private Object tblUserTitle[] = BeanUser.tblUserTitle;
@@ -113,7 +114,9 @@ public class FrmOrderAdmin extends JFrame implements ActionListener {
 
 		super();
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+		cmbOrderStatus.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(cmbOrderStatus);
+		btnChangeStatus.setFont(new Font("宋体", Font.BOLD, 20));
 		toolBar.add(btnChangeStatus);
 
 //		this.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -169,7 +172,7 @@ public class FrmOrderAdmin extends JFrame implements ActionListener {
 //		修改订单状态, 当订单送达时, 将食材的数量减去订单的食材数量
 		if (e.getSource() == this.btnChangeStatus) {
 //			int i = this.dataTableOrder.getSelectedRow();
-			if (curOrder==null) {
+			if (curOrder == null) {
 				JOptionPane.showMessageDialog(null, "请选择订单", "提示", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -177,21 +180,24 @@ public class FrmOrderAdmin extends JFrame implements ActionListener {
 //			curOrder = allOrders.get(i);
 			if (JOptionPane.showConfirmDialog(this, "是否确认修改订单状态?", "确认",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-							try {
+				try {
 //				修改状态
-				orderManager.changeIngredientsOrderStatus(curOrder, this.cmbOrderStatus.getSelectedItem().toString());
+					orderManager.changeIngredientsOrderStatus(curOrder,
+							this.cmbOrderStatus.getSelectedItem().toString());
 //				如果配送中,数量减去
-				if (this.cmbOrderStatus.getSelectedItem().toString() == "配送") {
-					IngredientsManager ingredientsManager = new IngredientsManager();
-					ingredientsManager.deleteIngredientsQuantityByOrder(curOrder);
+					if (this.cmbOrderStatus.getSelectedItem().toString() == "配送") {
+						IngredientsManager ingredientsManager = new IngredientsManager();
+						ingredientsManager.deleteIngredientsQuantityByOrder(curOrder);
 //					FrmMain.this.reloadIngredientsTable(BeanIngredientsProcurement.currentProcurement.getIngredients_number());
+					
+					}
+
+				} catch (BaseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-				
-			} catch (BaseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			this.reloadOrdersTable();
+				this.reloadOrdersTable();
+
 //			this.setVisible(false);
 			}
 
