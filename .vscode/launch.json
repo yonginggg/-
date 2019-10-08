@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - KitchenStarter",
+            "request": "launch",
+            "mainClass": "kitchen.KitchenStarter",
+            "projectName": "shortterm_database_code"
+        }
+    ]
+}
